@@ -7,7 +7,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Hệ thống hỗ trợ đăng nhập cho Khách mua hàng (Home Baker / Chủ tiệm bánh sỉ) và Nhân viên Quản lý (Admin). Có cơ chế giả lập OTP.',
-    verifiedInClient: 'Header > Nút Tài khoản / Đăng nhập (Cho phép chọn Demo Role: Baker hoặc Admin)',
+    verifiedInClient: '/dang-nhap, /dang-ky (OTP), nút chọn vai trò ở DemoWidget',
     status: 'passed'
   },
   {
@@ -16,7 +16,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Hỗ trợ tìm kiếm theo tên nguyên liệu, mã SKU, thương hiệu, hoặc danh mục với độ trễ phản hồi < 300ms và gợi ý tìm kiếm.',
-    verifiedInClient: 'Header > Search Bar có bộ chọn danh mục, phím tắt Ctrl+K và gợi ý từ khóa',
+    verifiedInClient: 'Ô tìm kiếm ở header (chọn danh mục, gợi ý, Ctrl/⌘+K) và /tim-kiem',
     status: 'passed'
   },
   {
@@ -25,7 +25,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Lọc sản phẩm đa chiều theo: Điều kiện bảo quản (Bắt buộc xe lạnh / Nhiệt độ phòng), Thương hiệu, Khoảng giá, và Tình trạng kho.',
-    verifiedInClient: 'Trang Sản Phẩm > Sidebar bộ lọc bên trái với bộ đếm sản phẩm thời gian thực',
+    verifiedInClient: 'Cột lọc ở /san-pham (bảo quản, thương hiệu, giá, tình trạng)',
     status: 'passed'
   },
   {
@@ -34,7 +34,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Hiển thị đầy đủ thông số kỹ thuật, hạn sử dụng theo lô (Expiry Date), điều kiện lưu trữ, công thức làm bánh gợi ý và bảng chiết khấu sỉ.',
-    verifiedInClient: 'Xem nhanh & Modal chi tiết sản phẩm > Bảng giá sỉ bậc thang (Wholesale Tiers) và cảnh báo nhiệt độ',
+    verifiedInClient: '/san-pham/:id — bảng giá sỉ bậc thang, HSD/lô, ghi chú bảo quản',
     status: 'passed'
   },
   {
@@ -43,7 +43,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Should',
     description: 'Tính năng cốt lõi cho tiệm bánh: Chọn món bánh (Tiramisu, Sourdough, Cookies) và thêm toàn bộ nguyên liệu đủ định lượng chỉ với 1 click.',
-    verifiedInClient: 'Section "Combo Làm Bánh Theo Món" > Chọn món > Nút "Thêm các món đã chọn vào giỏ"',
+    verifiedInClient: '/combo, /combo/:id — chọn nguyên liệu, thêm cả combo vào giỏ',
     status: 'passed'
   },
   {
@@ -52,7 +52,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Tính toán tổng trọng lượng đơn hàng (kg), áp dụng giá sỉ tự động khi đạt số lượng, thông báo phí đóng gói thùng cách nhiệt đá gel.',
-    verifiedInClient: 'Drawer giỏ hàng bên phải > Thanh tiến trình miễn phí ship lạnh và bảng tóm tắt chi phí',
+    verifiedInClient: '/gio-hang và giỏ mini — thanh miễn phí vận chuyển, phí đóng gói lạnh',
     status: 'passed'
   },
   {
@@ -61,7 +61,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Hỗ trợ chọn Giao hàng chuẩn hoặc Giao hỏa tốc xe lạnh 2-4h. Thanh toán qua VNPay QR Code (preview mã QR động), MoMo, Chuyển khoản, COD.',
-    verifiedInClient: 'Modal Đặt Hàng > Quy trình 3 bước với form nhập địa chỉ, mã giảm giá và thanh toán QR',
+    verifiedInClient: '/thanh-toan — 3 bước, xe lạnh/tiêu chuẩn, VNPay QR/MoMo/chuyển khoản/COD',
     status: 'passed'
   },
   {
@@ -70,7 +70,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Hiển thị tiến trình đơn hàng (Chờ duyệt -> Đang đóng gói có đá gel -> Đang giao xe lạnh -> Hoàn tất), mã tra cứu vận đơn và hóa đơn điện tử.',
-    verifiedInClient: 'Màn hình Sau Đặt Hàng > Timeline trực quan + Nút in phiếu xuất kho / hóa đơn điện tử',
+    verifiedInClient: '/don-hang/:ma — timeline, in hóa đơn; /dat-hang/thanh-cong/:ma',
     status: 'passed'
   },
   {
@@ -79,7 +79,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'FR',
     priority: 'Must',
     description: 'Dành cho nhân viên cửa hàng Gia Hòa Phát: Quản lý danh mục, thêm/sửa sản phẩm, cập nhật tồn kho, cảnh báo lô hàng bơ sữa sắp hết hạn.',
-    verifiedInClient: 'Chuyển sang chế độ Quản Trị Viên (Admin View) ở thanh điều hướng trên cùng',
+    verifiedInClient: '/admin/* — sản phẩm, danh mục, tồn kho & lô, cảnh báo HSD, đơn hàng',
     status: 'passed'
   },
   {
@@ -87,8 +87,8 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     name: 'Tiêu chuẩn Tiếp cận WCAG 2.2 AA',
     type: 'NFR',
     priority: 'Must',
-    description: 'Màu chữ chính (#2B1D14) trên nền (#FFFBF5) đạt độ tương phản 14.8:1 (vượt chuẩn AAA). Nút bấm chính (#92400E) đạt 5.1:1 (đạt chuẩn AA).',
-    verifiedInClient: 'Kiểm tra bằng công cụ devtools / Không sử dụng emoji làm icon đơn thuần, hỗ trợ focus ring rõ ràng',
+    description: 'Màu chữ chính (#1C1917) trên nền (#FAFAF9) đạt độ tương phản 16.7:1 (vượt chuẩn AAA). Nút bấm chính (#92400E) đạt 7.1:1 (chuẩn AAA). Chữ phụ (#78716C) trên trắng đạt 4.8:1 (chuẩn AA).',
+    verifiedInClient: 'Toàn site — chữ chính #1C1917 trên #FAFAF9 = 16,7:1 · trắng trên nút #92400E = 7,1:1 · chữ phụ #78716C trên trắng = 4,8:1 · focus ring, bàn phím',
     status: 'passed'
   },
   {
@@ -97,7 +97,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'BR',
     priority: 'Must',
     description: 'Nếu giỏ hàng chứa bất kỳ sản phẩm nào có điều kiện bảo quản là "chilled" hoặc "frozen", đơn hàng bắt buộc phải đóng gói thùng cách nhiệt đá gel.',
-    verifiedInClient: 'Hệ thống tự động phát hiện sản phẩm bơ/kem và áp dụng quy tắc đóng gói lạnh trong giỏ hàng',
+    verifiedInClient: 'Giỏ hàng, thanh toán, /san-pham/:id — hàng lạnh → xe lạnh + phí đóng gói',
     status: 'passed'
   },
   {
@@ -106,7 +106,7 @@ export const SWR_REQUIREMENTS: SWRRequirement[] = [
     type: 'BR',
     priority: 'Must',
     description: 'Khi số lượng một mặt hàng vượt qua các mốc tối thiểu (Ví dụ: bơ Anchor mua từ 10 thỏi hoặc từ 40 thỏi), giá đơn vị sẽ tự động hạ theo bảng giá sỉ.',
-    verifiedInClient: 'Giỏ hàng và Trang sản phẩm hiển thị trực quan phần trăm giảm giá khi tăng số lượng',
+    verifiedInClient: '/san-pham/:id, /gio-hang — giá tự hạ theo mốc số lượng',
     status: 'passed'
   }
 ];

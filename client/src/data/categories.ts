@@ -68,7 +68,7 @@ export const CATEGORIES: Category[] = [
     id: 'cat-combo',
     name: 'Combo Nguyên Liệu Theo Món',
     slug: 'combo-cong-thuc',
-    iconName: 'Sparkles',
+    iconName: 'Layers',
     description: 'Gói trọn đủ nguyên liệu theo công thức bánh Tiramisu, Sourdough, Su kem chuẩn tỷ lệ',
     productCount: 6,
     imageUrl: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80'

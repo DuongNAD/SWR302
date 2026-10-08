@@ -1,0 +1,15 @@
+export { AdminDashboardPage } from './DashboardPage'
+export { AdminOrdersPage } from './OrdersPage'
+export { AdminOrderDetailPage } from './OrderDetailPage'
+
+export { AdminProductsPage } from './ProductsPage'
+export { AdminProductFormPage } from './ProductFormPage'
+export { AdminCategoriesPage } from './CategoriesPage'
+export { AdminInventoryPage } from './InventoryPage'
+
+export { AdminCustomersPage } from './CustomersPage'
+export { AdminPromotionsPage } from './PromotionsPage'
+export { AdminShippingPage } from './ShippingPage'
+export { AdminReportsPage } from './ReportsPage'
+export { AdminStaffPage } from './StaffPage'
+export { AdminSettingsPage } from './SettingsPage'

@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWR302 — Software Requirements Specification Report</title>
+    <!-- Mermaid.js for UML diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text: #1f2937;
+            --bg: #f9fafb;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 3rem 4rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        h1, h2, h3, h4 {
+            color: #111827;
+            font-weight: 700;
+        }
+        h1 {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        h2 {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.3rem;
+            margin-top: 1.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        code {
+            background-color: #f3f4f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.875em;
+            color: #d97706;
+        }
+        pre {
+            background-color: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        blockquote {
+            border-left: 4px solid var(--primary);
+            margin: 1.5rem 0;
+            padding: 0.5rem 1rem;
+            background: #eff6ff;
+            color: #1e40af;
+            border-radius: 0 8px 8px 0;
+        }
+        .mermaid {
+            background: #ffffff;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+        }
+        @media print {
+            body { padding: 0; background: #fff; }
+            .container { box-shadow: none; padding: 1rem; max-width: 100%; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="border: none; margin-bottom: 0.5rem;">ĐẠI HỌC FPT — KHOA CÔNG NGHỆ THÔNG TIN</h1>
+            <h2 style="border: none; color: #4b5563; font-weight: 500;">BÁO CÁO ĐỒ ÁN MÔN HỌC SWR302 (SOFTWARE REQUIREMENTS)</h2>
+            <hr style="border: 0; border-top: 2px solid var(--primary); width: 80px; margin: 1.5rem auto;">
+        </header>
+
+        <div id="content"></div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+        
+        // Raw Markdown Content
+        const rawMarkdown = `
+
+---
+
+<!-- FILE: vision_and_scope.md -->
+
+# 📑 TÀI LIỆU VISION AND SCOPE (TẦM NHÌN VÀ PHẠM VI)
+
+> **Môn học:** SWR302 — Software Requirements  
+> **Dự án:** [Tên Dự Án Của Nhóm]  
+> **Phiên bản:** 1.0 (Draft)  
+> **Người thực hiện:** [Tên Thành viên / Nhóm X]  
+
+---
+
+## 1. BUSINESS REQUIREMENTS (YÊU CẦU KINH DOANH)
+
+### 1.1 Bối cảnh (Background)
+Trong kỷ nguyên số hóa, nhu cầu quản lý và thực hiện giao dịch trực tuyến ngày càng trở nên cấp thiết. Các phương thức quản lý truyền thống bộc lộ nhiều điểm nghẽn: tốn kém thời gian, dễ thất lạc dữ liệu, tỷ lệ sai sót thủ công cao và thiếu khả năng thống kê tức thì.
+
+### 1.2 Cơ hội kinh doanh (Business Opportunity)
+Xây dựng một nền tảng số hóa tập trung giúp kết nối trực tiếp giữa người dùng và nhà cung cấp dịch vụ, tối ưu hóa quy trình tiếp nhận, xử lý và giám sát giao dịch với chi phí vận hành tối thiểu.
+
+### 1.3 Mục tiêu kinh doanh & Tiêu chí thành công (Business Objectives & Success Metrics)
+- **BO-1:** Giảm ít nhất 50% thời gian chờ đợi xử lý yêu cầu nghiệp vụ trong 3 tháng đầu tiên.
+- **BO-2:** Đạt mức độ hài lòng của khách hàng (CSAT) tối thiểu 85% trong khảo sát sau sử dụng.
+- **BO-3:** Giảm tỷ lệ huỷ hẹn / hủy đơn bất ngờ xuống dưới 10% nhờ hệ thống thông báo nhắc nhở tự động.
+
+---
+
+## 2. VISION STATEMENT (TUYÊN NGÔN TẦM NHÌN)
+
+> **Dành cho:** Khách hàng và đối tác cần một giải pháp quản lý & giao dịch nhanh chóng  
+> **Người đang gặp vấn đề:** Mất nhiều thời gian xếp hàng, quản lý lịch trình thủ công rời rạc  
+> **Sản phẩm của chúng tôi:** [Tên sản phẩm]  
+> **Là một:** Nền tảng ứng dụng đa nền tảng hiện đại  
+> **Giúp:** Tự động hóa quy trình đặt chỗ, thanh toán trực tuyến và cập nhật trạng thái theo thời gian thực  
+> **Khác với:** Các hệ thống phân tán, ghi sổ truyền thống hoặc các ứng dụng đơn lẻ thiếu đồng bộ  
+> **Sản phẩm của chúng tôi:** Đem lại trải nghiệm liền mạch, an toàn bảo mật và khả năng phân tích báo cáo toàn diện.
+
+---
+
+## 3. SCOPE AND LIMITATIONS (PHẠM VI DỰ ÁN)
+
+### 3.1 Phạm vi bản phát hành đầu tiên (In-Scope for Release 1.0 - MVP)
+1. **Module Tài khoản & Phân quyền:** Đăng ký, đăng nhập, bảo vệ dữ liệu người dùng, phân quyền RBAC.
+2. **Module Tìm kiếm & Khám phá:** Bộ lọc thông minh theo danh mục, vị trí, giá, thời gian.
+3. **Module Đặt dịch vụ & Xử lý giao dịch:** Chọn lịch, xác nhận, hủy lịch trước hạn.
+4. **Module Tích hợp Thanh toán:** Cổng thanh toán trực tuyến và hóa đơn điện tử.
+5. **Module Dashboard & Báo cáo cơ bản:** Thống kê lượt giao dịch và doanh thu cho quản lý.
+
+### 3.2 Ngoài phạm vi phiên bản 1.0 (Out-of-Scope)
+- Tích hợp trí tuệ nhân tạo (AI) gợi ý thông minh (sẽ triển khai ở Release 2.0).
+- Hỗ trợ thanh toán quốc tế đa tiền tệ (chỉ hỗ trợ VNĐ ở MVP).
+- Ứng dụng bản địa hóa đa ngôn ngữ (chỉ hỗ trợ Tiếng Việt ở MVP).
+
+---
+
+## 4. CONTEXT DIAGRAM (SƠ ĐỒ NGỮ CẢNH HỆ THỐNG)
+
+\`\`\`mermaid
+flowchart TD
+    Customer["Người Dùng / Khách Hàng"] -->|"Thông tin đăng ký, Yêu cầu dịch vụ, Dữ liệu thanh toán"| System(("Hệ Thống\\n[Tên Dự Án]\\nProcess 0"))
+    System -->|"Xác nhận đặt lịch, Hóa đơn, Kết quả tra cứu"| Customer
+
+    Admin["Quản Trị Viên (Admin)"] -->|"Cấu hình danh mục, Phân quyền người dùng"| System
+    System -->|"Báo cáo thống kê, Nhật ký kiểm toán (Audit Logs)"| Admin
+
+    Provider["Đối Tác / Nhà Cung Cấp"] -->|"Cập nhật lịch làm việc, Xác nhận hoàn tất dịch vụ"| System
+    System -->|"Danh sách lịch hẹn, Thông báo đơn mới"| Provider
+
+    PaymentGW["Cổng Thanh Toán Trực Tuyến"] <-->|"Xác thực giao dịch thanh toán"| System
+    NotificationService["Cổng Gửi Email / SMS"] <--|"Yêu cầu gửi mã OTP / Thông báo"| System
+\`\`\`
+
+
+---
+
+<!-- FILE: stakeholder_analysis.md -->
+
+# 👥 PHÂN TÍCH CÁC BÊN LIÊN QUAN (STAKEHOLDER ANALYSIS)
+
+## 1. Ma trận Quyền hạn & Mức độ quan tâm (Power vs Interest Matrix)
+
+\`\`\`text
+       Mức độ quyền hạn (Power)
+          ▲
+     Cao  │  [Tham vấn & Quản lý chặt]       [Hợp tác chặt chẽ (Key Players)]
+          │  - Nhà tài trợ dự án (Sponsor)   - Ban Giám đốc / Product Owner
+          │  - Cơ quan quản lý pháp lý       - Trưởng bộ phận nghiệp vụ
+          │──────────────────────────────────────────────────────────────
+     Thấp │  [Giám sát tối thiểu]             [Thông báo & Giữ gắn kết]
+          │  - Nhà cung cấp dịch vụ phụ trợ  - Người dùng cuối (End-Users)
+          │  - Bộ phận hỗ trợ kỹ thuật       - Nhân viên vận hành hàng ngày
+          └──────────────────────────────────────────────────────────────►
+             Thấp                             Cao
+                     Mức độ quan tâm (Interest)
+\`\`\`
+
+---
+
+## 2. Bảng Phân Tích Stakeholder Chi Tiết
+
+| Mã Stakeholder | Tên nhóm liên quan | Đại diện tiêu biểu | Mục tiêu & Kỳ vọng chính | Nỗi đau hiện tại (Pain Points) | Chiến lược tương tác (Engagement Strategy) |
+| :---: | :--- | :--- | :--- | :--- | :--- |
+| **SH-01** | Khách hàng cuối (End-User) | Người đặt dịch vụ / Người mua | Trải nghiệm mượt mà, minh bạch giá, bảo mật dữ liệu | Mất thời gian chờ đợi, giao diện phức tạp, dễ bị trễ hẹn | Khảo sát nhu cầu, phỏng vấn mẫu, kiểm thử Usability testing |
+| **SH-02** | Đối tác cung ứng (Service Provider)| Bác sĩ / Cửa hàng | Quản lý lịch thuận tiện, giảm tỷ lệ vắng mặt (no-show) | Quản lý sổ sách thủ công dễ nhầm lẫn, khó thống kê doanh thu | Phỏng vấn sâu (Deep interview), đào tạo sử dụng |
+| **SH-03** | Đội ngũ Vận hành (Operations) | Chăm sóc khách hàng | Dễ dàng tra cứu thông tin khi khách gọi hỗ trợ | Thông tin phân tán, mất nhiều thao tác xử lý sự cố | Thu thập yêu cầu quy trình hỗ trợ khách hàng |
+| **SH-04** | Ban Lãnh đạo (Management) | Business Owner / Sponsor | Tối ưu hóa chi phí, tăng trưởng doanh thu, báo cáo real-time | Thiếu số liệu tổng quan để ra quyết định kinh doanh | Báo cáo tiến độ định kỳ hàng tuần, bản demo MVP |
+| **SH-05** | Đội ngũ Kỹ thuật (Dev / QA) | Lập trình viên, Tester | Yêu cầu rõ ràng, không mơ hồ, scope ổn định | Scope creep, thay đổi yêu cầu liên tục, thiếu test case | Tham gia review SRS, phê duyệt RTM |
+
+
+---
+
+<!-- FILE: user_personas.md -->
+
+# 👤 USER PERSONAS & EMPATHY MAPS
+
+---
+
+## 1. PERSONA 1: NGUYỄN VĂN AN (NGƯỜI DÙNG CUỐI / KHÁCH HÀNG)
+
+| Tiêu chí | Chi tiết |
+| :--- | :--- |
+| **Ảnh đại diện** | \`assets/persona_customer.png\` |
+| **Họ và tên** | Nguyễn Văn An (26 tuổi) |
+| **Nghề nghiệp** | Lập trình viên / Nhân viên văn phòng |
+| **Nơi sống** | Hà Nội |
+| **Trình độ công nghệ** | Thành thạo (High-tech) |
+
+### Mục tiêu & Động lực (Goals & Motivations)
+- Muốn chủ động đặt lịch dịch vụ trước ít nhất 1-2 ngày mà không cần gọi điện thoại thoại thoại.
+- Muốn nhận được thông báo nhắc nhở trước giờ hẹn để sắp xếp công việc cá nhân.
+- Xem được đánh giá thực tế và bảng giá minh bạch trước khi quyết định.
+
+### Nỗi đau & Rào cản (Frustrations & Pain Points)
+- Rất ghét việc phải chờ đợi xếp hàng tại chỗ từ 30 - 45 phút.
+- Từng gặp trường hợp bị hủy lịch sát giờ mà không được bồi thường thỏa đáng.
+- Mất thời gian nếu ứng dụng bắt nhập quá nhiều trường thông tin rườm rà.
+
+### Empathy Map
+- **Says (Nói):** "Tôi chỉ cần 3 bước là hoàn thành việc đặt lịch, đừng bắt tôi khai báo quá nhiều thứ".
+- **Thinks (Nghĩ):** "Liệu thanh toán trước tiền dịch vụ có an toàn không? Có được hoàn tiền nếu huỷ sớm không?".
+- **Does (Làm):** Thường sử dụng điện thoại thông minh vào giờ nghỉ trưa hoặc buổi tối để tìm kiếm dịch vụ.
+- **Feels (Cảm thấy):** Bực bội khi hệ thống bị chậm, muốn mọi thứ nhanh chóng và chính xác.
+
+---
+
+## 2. PERSONA 2: TRẦN THỊ MAI (ĐỐI TÁC CUNG CẤP / CHỦ DỊCH VỤ)
+
+| Tiêu chí | Chi tiết |
+| :--- | :--- |
+| **Ảnh đại diện** | \`assets/persona_provider.png\` |
+| **Họ và tên** | Trần Thị Mai (38 tuổi) |
+| **Nghề nghiệp** | Chủ phòng khám / Quản lý cửa hàng dịch vụ |
+| **Nơi sống** | TP. Hồ Chí Minh |
+| **Trình độ công nghệ** | Trung bình (Dùng quen smartphone & Excel cơ bản) |
+
+### Mục tiêu & Động lực (Goals & Motivations)
+- Tối ưu hóa công suất phục vụ, lấp đầy các khung giờ trống trong tuần.
+- Giảm thiểu tình trạng khách đặt lịch rồi bỏ hẹn (no-show).
+- Tự động hóa việc tổng hợp doanh thu và báo cáo hàng tuần/tháng.
+
+### Nỗi đau & Rào cản (Frustrations & Pain Points)
+- Quản lý qua sổ tay hoặc tin nhắn Zalo rất hay bị trùng lịch (double-booking).
+- Nhân viên quên nhắc khách dẫn đến khách quên giờ hẹn.
+- Khó quản lý ca kíp và phân công lịch làm việc của nhân viên.
+
+
+---
+
+<!-- FILE: IEEE_830_SRS.md -->
+
+# 📑 ĐẶC TẢ YÊU CẦU PHẦN MỀM (SRS - IEEE STD 830-1998)
+### SOFTWARE REQUIREMENTS SPECIFICATION
+
+**Tên dự án:** [TÊN HỆ THỐNG / ĐỀ TÀI SẢN PHẨM]  
+**Môn học:** SWR302 — Software Requirements  
+**Nhóm thực hiện:** [Nhóm X]  
+**Phiên bản:** 1.0 (Official Draft)  
+**Ngày cập nhật:** DD/MM/2026  
+
+---
+
+## MỤC LỤC TÀI LIỆU
+1. **GIỚI THIỆU (INTRODUCTION)**
+   - 1.1 Mục đích (Purpose)
+   - 1.2 Phạm vi tài liệu (Scope)
+   - 1.3 Định nghĩa & Từ viết tắt (Definitions & Acronyms)
+   - 1.4 Tài liệu tham khảo (References)
+   - 1.5 Tổng quan cấu trúc tài liệu (Overview)
+2. **MÔ TẢ TỔNG QUAN (OVERALL DESCRIPTION)**
+   - 2.1 Bối cảnh hệ thống (Product Perspective) & Sơ đồ ngữ cảnh (Context Diagram)
+   - 2.2 Các phân hệ chức năng chính (Product Functions)
+   - 2.3 Phân loại người dùng (User Classes & Characteristics)
+   - 2.4 Môi trường vận hành (Operating Environment)
+   - 2.5 Ràng buộc thiết kế và triển khai (Design Constraints)
+   - 2.6 Giả định và phụ thuộc (Assumptions & Dependencies)
+3. **YÊU CẦU GIAO DIỆN HỆ THỐNG NGOÀI (EXTERNAL INTERFACE REQUIREMENTS)**
+   - 3.1 Giao diện người dùng (User Interfaces)
+   - 3.2 Giao diện phần cứng (Hardware Interfaces)
+   - 3.3 Giao diện phần mềm & API bên ngoài (Software Interfaces)
+   - 3.4 Giao diện truyền thông (Communications Interfaces)
+4. **CÁC TÍNH NĂNG VÀ YÊU CẦU CHỨC NĂNG (SYSTEM FEATURES & FUNCTIONAL REQUIREMENTS)**
+   - *Chi tiết liên kết:* Xem toàn bộ danh sách tại [functional_reqs.md](functional_reqs.md)
+   - 4.1 Phân hệ Quản lý Tài khoản & Phân quyền (Authentication & Authorization)
+   - 4.2 Phân hệ Tìm kiếm & Tra cứu Dịch vụ (Search & Discovery)
+   - 4.3 Phân hệ Đặt chỗ & Quản lý Lịch hẹn (Booking Management)
+   - 4.4 Phân hệ Thanh toán & Hóa đơn (Payment & Invoicing)
+   - 4.5 Phân hệ Quản trị & Báo cáo Thống kê (Admin & Dashboard)
+5. **QUY TẮC NGHIỆP VỤ (BUSINESS RULES)**
+   - *Chi tiết liên kết:* Xem toàn bộ quy tắc nghiệp vụ tại [business_rules.md](business_rules.md)
+   - 5.1 Facts & Constraints
+   - 5.2 Action Enablers & Inferences
+   - 5.3 Computations (Thuật toán chiết khấu, phạt huỷ)
+6. **YÊU CẦU PHI CHỨC NĂNG (NON-FUNCTIONAL REQUIREMENTS - FURPS+)**
+   - *Chi tiết liên kết:* Xem bảng NFRs chi tiết tại [non_functional_reqs.md](non_functional_reqs.md)
+   - 6.1 An toàn & Bảo mật (Security)
+   - 6.2 Khả năng sử dụng (Usability)
+   - 6.3 Độ tin cậy & Sẵn sàng (Reliability & Availability)
+   - 6.4 Hiệu năng & Khả năng chịu tải (Performance)
+   - 6.5 Khả năng bảo trì & Mở rộng (Supportability)
+7. **CÁC YÊU CẦU KHÁC (OTHER REQUIREMENTS)**
+   - 7.1 Cơ sở dữ liệu và lưu trữ (Database Requirements)
+   - 7.2 Tuân thủ pháp lý & Sở hữu trí tuệ (Legal & Compliance)
+
+
+---
+
+<!-- FILE: functional_reqs.md -->
+
+# 📋 DANH SÁCH YÊU CẦU CHỨC NĂNG (FUNCTIONAL REQUIREMENTS - FRs)
+
+> **Tiêu chuẩn viết:** Mỗi yêu cầu chức năng phải được đánh mã định danh duy nhất (Unique ID), có mức độ ưu tiên theo MoSCoW, mô tả rõ hành vi hệ thống bằng từ ngữ chuẩn xác (**PHẢI - SHALL**).
+
+---
+
+## 1. PHÂN HỆ QUẢN LÝ TÀI KHOẢN & XÁC THỰC (AUTHENTICATION & USER MANAGEMENT)
+
+| Mã FR | Tên chức năng | Mô tả yêu cầu (System SHALL...) | Ưu tiên | Actor | Traceability (UC/BR) |
+| :---: | :--- | :--- | :---: | :--- | :---: |
+| **FR-AUTH-01** | Đăng ký tài khoản | Hệ thống **phải** cho phép người dùng đăng ký tài khoản bằng email/số điện thoại và mật khẩu thỏa mãn chính sách bảo mật [BR-02]. | Must | Guest | \`UC-01\`, \`BR-02\` |
+| **FR-AUTH-02** | Xác thực OTP | Hệ thống **phải** gửi mã OTP 6 chữ số có hiệu lực trong vòng 5 phút qua email/SMS để hoàn tất kích hoạt tài khoản. | Must | Guest | \`UC-01\` |
+| **FR-AUTH-03** | Đăng nhập hệ thống | Hệ thống **phải** xác thực thông tin đăng nhập và cấp Access Token (JWT) có thời hạn 60 phút nếu thông tin chính xác. | Must | User/Staff | \`UC-01\`, \`BR-01\` |
+| **FR-AUTH-04** | Khóa tài khoản đăng nhập sai | Hệ thống **phải** tự động tạm khóa đăng nhập trong vòng 15 phút nếu người dùng nhập sai mật khẩu 5 lần liên tiếp. | Must | System | \`UC-01\`, \`BR-03\` |
+| **FR-AUTH-05** | Quên / Đặt lại mật khẩu | Hệ thống **phải** cho phép người dùng yêu cầu liên kết đặt lại mật khẩu qua email đăng ký với thời hạn hiệu lực 15 phút. | Should | User | \`UC-01\` |
+| **FR-AUTH-06** | Quản lý hồ sơ cá nhân | Hệ thống **phải** cho phép người dùng cập nhật họ tên, ảnh đại diện, số điện thoại và địa chỉ liên lạc. | Should | User | \`UC-02\` |
+
+---
+
+## 2. PHÂN HỆ TÌM KIẾM & XEM THÔNG TIN DỊCH VỤ (SEARCH & BROWSING)
+
+| Mã FR | Tên chức năng | Mô tả yêu cầu (System SHALL...) | Ưu tiên | Actor | Traceability (UC/BR) |
+| :---: | :--- | :--- | :---: | :--- | :---: |
+| **FR-SRC-01** | Tìm kiếm theo từ khóa | Hệ thống **phải** hỗ trợ tìm kiếm theo tên dịch vụ, tên nhà cung cấp, hoặc từ khóa liên quan với độ trễ phản hồi < 1 giây. | Must | All Users | \`UC-02\` |
+| **FR-SRC-02** | Bộ lọc nâng cao | Hệ thống **phải** cho phép lọc danh sách dịch vụ theo khoảng giá, chuyên khoa/danh mục, khoảng cách địa lý và đánh giá sao. | Should | All Users | \`UC-02\` |
+| **FR-SRC-03** | Xem chi tiết dịch vụ | Hệ thống **phải** hiển thị đầy đủ mô tả dịch vụ, hồ sơ chuyên gia, bảng giá chi tiết, các khung giờ còn trống và đánh giá từ khách hàng. | Must | All Users | \`UC-02\` |
+
+---
+
+## 3. PHÂN HỆ ĐẶT DỊCH VỤ & QUẢN LÝ LỊCH HẸN (BOOKING & RESERVATION)
+
+| Mã FR | Tên chức năng | Mô tả yêu cầu (System SHALL...) | Ưu tiên | Actor | Traceability (UC/BR) |
+| :---: | :--- | :--- | :---: | :--- | :---: |
+| **FR-BOK-01** | Khởi tạo lịch hẹn | Hệ thống **phải** cho phép người dùng chọn dịch vụ, chọn chuyên gia và chọn khung giờ còn trống để tạo yêu cầu đặt lịch. | Must | Customer | \`UC-03\` |
+| **FR-BOK-02** | Giữ chỗ tạm thời | Hệ thống **phải** khóa tạm thời khung giờ đã chọn trong vòng 10 phút để người dùng hoàn tất thanh toán (tránh double-booking). | Must | System | \`UC-03\` |
+| **FR-BOK-03** | Xác nhận đặt lịch | Hệ thống **phải** cập nhật trạng thái lịch hẹn thành "Đã xác nhận", sinh mã Booking ID duy nhất và gửi email thông báo sau khi thanh toán thành công. | Must | System | \`UC-03\` |
+| **FR-BOK-04** | Hủy lịch hẹn | Hệ thống **phải** cho phép khách hàng hủy lịch hẹn theo quy tắc hoàn/phạt [BR-05]. | Should | Customer | \`UC-04\`, \`BR-05\` |
+| **FR-BOK-05** | Nhắc nhở tự động | Hệ thống **phải** tự động gửi thông báo đẩy (push notification) hoặc SMS nhắc lịch trước giờ hẹn 24 giờ và 2 giờ. | Should | System | \`UC-05\` |
+
+---
+
+## 4. PHÂN HỆ THANH TOÁN (PAYMENT MODULE)
+
+| Mã FR | Tên chức năng | Mô tả yêu cầu (System SHALL...) | Ưu tiên | Actor | Traceability (UC/BR) |
+| :---: | :--- | :--- | :---: | :--- | :---: |
+| **FR-PAY-01** | Tích hợp cổng thanh toán | Hệ thống **phải** tích hợp với cổng thanh toán (VNPay / MoMo) để hỗ trợ thanh toán qua mã QR, thẻ ATM nội địa và thẻ quốc tế. | Must | Customer | \`UC-04\` |
+| **FR-PAY-02** | Áp dụng mã giảm giá | Hệ thống **phải** xác thực và trừ tiền giảm giá nếu mã voucher còn hiệu lực và thỏa mãn điều kiện đơn hàng. | Should | Customer | \`UC-04\` |
+| **FR-PAY-03** | Xuất biên lai / hóa đơn | Hệ thống **phải** tự động tạo và lưu trữ hóa đơn điện tử (PDF) có thể tải về ngay sau khi giao dịch hoàn tất. | Should | Customer/Admin| \`UC-04\` |
+
+---
+
+## 5. PHÂN HỆ QUẢN TRỊ & BÁO CÁO (ADMIN & DASHBOARD)
+
+| Mã FR | Tên chức năng | Mô tả yêu cầu (System SHALL...) | Ưu tiên | Actor | Traceability (UC/BR) |
+| :---: | :--- | :--- | :---: | :--- | :---: |
+| **FR-ADM-01** | Quản lý người dùng | Quản trị viên **phải** có quyền kích hoạt, tạm khóa, hoặc phân quyền vai trò cho bất kỳ tài khoản nào trong hệ thống. | Must | Admin | \`UC-07\` |
+| **FR-ADM-02** | Quản lý danh mục dịch vụ | Quản trị viên **phải** có quyền thêm mới, chỉnh sửa, ẩn/hiện các danh mục dịch vụ và bảng giá niêm yết. | Must | Admin | \`UC-08\` |
+| **FR-ADM-03** | Báo cáo thống kê | Hệ thống **phải** cung cấp dashboard biểu đồ thể hiện doanh thu, số lượng đơn, tỷ lệ hủy đơn theo ngày/tuần/tháng. | Should | Admin/Provider| \`UC-09\` |
+
+
+---
+
+<!-- FILE: non_functional_reqs.md -->
+
+# ⚡ YÊU CẦU PHI CHỨC NĂNG (NON-FUNCTIONAL REQUIREMENTS - NFRs)
+### Phân loại theo mô hình FURPS+ (Hewlett-Packard / Karl Wiegers)
+
+---
+
+## 1. FUNCTIONALITY (AN TOÀN BẢO MẬT & PHÂN QUYỀN)
+- **NFR-SEC-01 (Mã hóa đường truyền):** 100% dữ liệu trao đổi giữa máy khách và máy chủ phải được mã hóa bằng giao thức HTTPS/TLS 1.3 với chứng chỉ SSL hợp lệ.
+- **NFR-SEC-02 (Mã hóa mật khẩu):** Mật khẩu người dùng không bao giờ được lưu dưới dạng văn bản thuần (plain text); bắt buộc phải được mã hóa bằng thuật toán băm an toàn (BCrypt với cost factor >= 12 hoặc Argon2id).
+- **NFR-SEC-03 (Kiểm soát truy cập - RBAC):** Hệ thống phải thực thi kiểm tra quyền nghiêm ngặt tại tầng API đối với mọi endpoint yêu cầu quyền Admin hoặc Provider.
+- **NFR-SEC-04 (Bảo vệ phiên làm việc):** Phiên làm việc (Session) sẽ tự động hết hạn và yêu cầu đăng nhập lại sau 30 phút nếu không có bất kỳ tương tác nào từ phía người dùng.
+
+---
+
+## 2. USABILITY (KHẢ NĂNG SỬ DỤNG & TRẢI NGHIỆM NGƯỜI DÙNG)
+- **NFR-USA-01 (Thời gian hoàn thành thao tác):** Người dùng thông thường có thể hoàn thành luồng đặt lịch dịch vụ trong vòng không quá 3 phút (tối đa 4 bước màn hình).
+- **NFR-USA-02 (Tính đáp ứng giao diện - Responsive):** Giao diện web/app phải hiển thị mượt mà và trực quan trên các kích thước màn hình phổ biến từ 375px (iPhone SE) đến 1920px (Desktop Full HD).
+- **NFR-USA-03 (Thông báo lỗi thân thiện):** Tất cả các thông báo lỗi hiển thị cho người dùng phải rõ ràng bằng tiếng Việt, giải thích nguyên nhân và hướng dẫn cách khắc phục, tuyệt đối không hiển thị mã lỗi kỹ thuật (ví dụ: Stack trace hoặc SQL Exception).
+
+---
+
+## 3. RELIABILITY (ĐỘ TIN CẬY & TÍNH KHẢ DỤNG)
+- **NFR-REL-01 (Độ khả dụng - Availability):** Hệ thống phải đảm bảo thời gian hoạt động liên tục (Uptime) tối thiểu 99.5% mỗi tháng (tương đương thời gian gián đoạn tối đa không quá 3.65 giờ/tháng).
+- **NFR-REL-02 (Sao lưu dữ liệu - Backup):** Toàn bộ cơ sở dữ liệu phải được tự động sao lưu định kỳ 24 giờ một lần (Automated Daily Backup) và được lưu trữ phân tán tại vị trí địa lý độc lập.
+- **NFR-REL-03 (Khôi phục thảm họa - RTO & RPO):**
+  - **RTO (Recovery Time Objective):** Thời gian phục hồi hệ thống sau sự cố sập máy chủ tối đa là 2 giờ.
+  - **RPO (Recovery Point Objective):** Mất mát dữ liệu tối đa chấp nhận được không vượt quá 1 giờ dữ liệu giao dịch.
+
+---
+
+## 4. PERFORMANCE (HIỆU NĂNG & KHẢ NĂNG TẢI)
+- **NFR-PERF-01 (Thời gian phản hồi):** Trong điều kiện tải thông thường, 90% các tác vụ tìm kiếm và xem trang phải trả về kết quả trong thời gian dưới 1.2 giây.
+- **NFR-PERF-02 (Tải đồng thời - Concurrency):** Hệ thống phải duy trì hoạt động ổn định khi có ít nhất 1.000 người dùng truy cập và thao tác đồng thời tại cùng một thời điểm.
+- **NFR-PERF-03 (Băng thông & Kích thước trang):** Dung lượng tải về của trang chủ (Landing Page) lần đầu tiên không được vượt quá 2.5 MB.
+
+---
+
+## 5. SUPPORTABILITY (KHẢ NĂNG BẢO TRÌ & MỞ RỘNG)
+- **NFR-SUP-01 (Kiến trúc phân tầng):** Hệ thống phải được thiết kế theo kiến trúc phân tách rõ ràng (Clean Architecture / RESTful APIs), cho phép thay thế giao diện người dùng mà không cần sửa đổi logic nghiệp vụ phía backend.
+- **NFR-SUP-02 (Nhật ký hệ thống - Logging):** Hệ thống phải tự động ghi log mọi giao dịch tài chính, thay đổi phân quyền và ngoại lệ hệ thống vào file log tập trung để hỗ trợ truy vết lỗi.
+
+
+---
+
+<!-- FILE: business_rules.md -->
+
+# ⚖️ QUY TẮC NGHIỆP VỤ HỆ THỐNG (BUSINESS RULES - BRs)
+
+> Phân loại theo 5 loại chuẩn của Karl Wiegers: **Fact, Constraint, Action Enabler, Inference, Computation**.
+
+---
+
+## BẢNG TỔNG HỢP QUY TẮC NGHIỆP VỤ
+
+| Mã BR | Tên quy tắc | Loại quy tắc (Type) | Mô tả chi tiết quy tắc nghiệp vụ | FRs / UCs thực thi |
+| :---: | :--- | :---: | :--- | :--- |
+| **BR-01** | Quyền đăng nhập hệ thống | **Constraint** | Chỉ những tài khoản có trạng thái \`Active\` và đã xác thực email/số điện thoại mới được phép đăng nhập. | \`FR-AUTH-03\`, \`UC-01\` |
+| **BR-02** | Độ phức tạp của mật khẩu | **Constraint** | Mật khẩu phải có độ dài từ 8 đến 32 ký tự, bao gồm ít nhất 1 chữ cái in hoa, 1 chữ cái thường, 1 chữ số và 1 ký tự đặc biệt (@, #, $, %, !). | \`FR-AUTH-01\`, \`UC-01\` |
+| **BR-03** | Khóa tài khoản tạm thời | **Action Enabler** | Nếu người dùng nhập sai mật khẩu quá 5 lần liên tiếp trong khoảng thời gian 10 phút, hệ thống tự động khóa đăng nhập 15 phút. | \`FR-AUTH-04\`, \`UC-01\` |
+| **BR-04** | Giữ chỗ lịch hẹn tạm thời | **Action Enabler** | Khi khách hàng chọn khung giờ và bấm "Tiến hành thanh toán", hệ thống tạm thời giữ chỗ (lock slot) trong 10 phút. Nếu quá thời gian chưa thanh toán, slot tự động mở lại cho người khác. | \`FR-BOK-02\`, \`UC-03\` |
+| **BR-05** | Chính sách hủy hẹn & hoàn tiền | **Computation** | - Hủy trước giờ hẹn > 24 giờ: Hoàn 100% tiền.<br>- Hủy trước giờ hẹn từ 12 - 24 giờ: Phí phạt 30%, hoàn 70%.<br>- Hủy trước giờ hẹn < 12 giờ hoặc vắng mặt: Phí phạt 100%, không hoàn tiền. | \`FR-BOK-04\`, \`UC-04\` |
+| **BR-06** | Định nghĩa khách hàng VIP | **Inference** | Khách hàng có tổng chi tiêu trong năm dương lịch đạt từ 10.000.000 VNĐ trở lên được tự động xếp hạng \`Thành viên VIP\` và được giảm giá 5% cho mọi dịch vụ. | \`FR-CUST-02\`, \`UC-04\` |
+| **BR-07** | Đơn vị tiền tệ và định dạng | **Fact** | Đơn vị tiền tệ chính thức của hệ thống là Việt Nam Đồng (VNĐ). Mọi số tiền hiển thị trên giao diện phải có dấu phân cách hàng nghìn (ví dụ: \`150,000 VNĐ\`). | \`FR-PAY-01\`, \`UC-03\` |
+| **BR-08** | Lịch làm việc của nhà cung cấp | **Constraint** | Mỗi nhà cung cấp dịch vụ không được phép mở quá 12 ca hẹn trong một ngày làm việc để đảm bảo chất lượng dịch vụ. | \`FR-ADM-02\`, \`UC-08\` |
+
+
+---
+
+<!-- FILE: use_case_index.md -->
+
+# 📚 DANH MỤC USE CASE (USE CASE INDEX)
+
+> Tổng hợp danh mục Use Case theo từng phân hệ, ánh xạ với Actor và độ ưu tiên.
+
+---
+
+## 1. MA TRẬN PHÂN QUYỀN ACTOR VÀ USE CASE (ACTOR - USE CASE MATRIX)
+
+| Mã UC | Tên Use Case | Primary Actor | Secondary Actor | Độ ưu tiên | File đặc tả chi tiết |
+| :---: | :--- | :--- | :--- | :---: | :--- |
+| **UC-01** | Đăng ký & Đăng nhập hệ thống | Khách vãng lai, Người dùng | Mail/SMS Service | High | [UC01_Authentication.md](specs/UC01_Authentication.md) |
+| **UC-02** | Tìm kiếm & Xem chi tiết dịch vụ | Khách vãng lai, Người dùng | — | High | [specs/UC02_Search.md](specs/UC02_Search.md) |
+| **UC-03** | Khởi tạo lịch hẹn dịch vụ | Người dùng đã đăng ký | Provider | High | [specs/UC03_Booking.md](specs/UC03_Booking.md) |
+| **UC-04** | Thanh toán đơn dịch vụ | Người dùng đã đăng ký | Payment Gateway | High | [specs/UC04_Payment.md](specs/UC04_Payment.md) |
+| **UC-05** | Hủy hoặc đổi lịch hẹn | Người dùng đã đăng ký | Mail Service | Medium | [specs/UC05_Cancel_Booking.md](specs/UC05_Cancel_Booking.md) |
+| **UC-06** | Quản lý ca làm việc & tiếp nhận | Nhà cung cấp (Provider) | — | High | [specs/UC06_Manage_Schedule.md](specs/UC06_Manage_Schedule.md) |
+| **UC-07** | Đánh giá & Phản hồi dịch vụ | Người dùng đã đăng ký | — | Low | [specs/UC07_Review_Feedback.md](specs/UC07_Review_Feedback.md) |
+| **UC-08** | Quản trị người dùng & Phân quyền | Quản trị viên (Admin) | — | High | [specs/UC08_Manage_Users.md](specs/UC08_Manage_Users.md) |
+| **UC-09** | Quản lý danh mục & Bảng giá | Quản trị viên (Admin) | — | Medium | [specs/UC09_Manage_Catalog.md](specs/UC09_Manage_Catalog.md) |
+| **UC-10** | Xem báo cáo & Thống kê doanh thu | Quản trị viên, Provider | — | Medium | [specs/UC10_View_Reports.md](specs/UC10_View_Reports.md) |
+
+---
+
+## 2. QUAN HỆ GIỮA CÁC USE CASE (UML RELATIONSHIPS)
+- \`UC-03 (Khởi tạo lịch hẹn)\` **<<include>>** \`UC-04 (Thanh toán đơn dịch vụ)\`.
+- \`UC-04 (Thanh toán đơn dịch vụ)\` **<<extend>>** \`Áp dụng mã giảm giá\` (Chỉ kích hoạt khi khách hàng chọn nhập voucher).
+- \`UC-01 (Đăng ký)\` **<<include>>** \`Xác thực mã OTP\`.
+
+
+---
+
+<!-- FILE: UC01_Authentication.md -->
+
+# 📑 USE CASE SPECIFICATION: UC-01
+## ĐĂNG KÝ VÀ ĐĂNG NHẬP HỆ THỐNG (AUTHENTICATION)
+
+---
+
+## 1. THÔNG TIN CƠ BẢN
+- **Use Case ID:** \`UC-01\`
+- **Use Case Name:** Đăng ký và Đăng nhập hệ thống
+- **Primary Actor:** Khách vãng lai (Guest) / Người dùng đã đăng ký (Registered User)
+- **Secondary Actor:** Hệ thống gửi Email / SMS OTP
+- **Scope:** Hệ thống phần mềm [Tên Hệ Thống]
+- **Level:** User Goal
+- **Priority:** High (Must-have)
+
+---
+
+## 2. TIỀN ĐIỀU KIỆN & HẬU ĐIỀU KIỆN (PRE & POST-CONDITIONS)
+- **Preconditions:**
+  - Người dùng có thiết bị kết nối mạng Internet ổn định và truy cập vào giao diện hệ thống.
+- **Postconditions (Success Guarantee):**
+  - Người dùng được xác thực danh tính thành công.
+  - Hệ thống sinh phiên đăng nhập (JWT token), điều hướng người dùng tới Dashboard tương ứng với vai trò.
+
+---
+
+## 3. MAIN SUCCESS SCENARIO (LUỒNG CHÍNH - ĐĂNG NHẬP)
+
+| Bước | Hành động của Actor | Phản hồi của Hệ thống |
+| :---: | :--- | :--- |
+| **1** | Người dùng mở trang đăng nhập và nhập Email/Số điện thoại cùng Mật khẩu. | Hệ thống kiểm tra cú pháp định dạng cơ bản của dữ liệu đầu vào. |
+| **2** | Người dùng bấm nút "Đăng nhập". | Hệ thống kiểm tra sự tồn tại của tài khoản, trạng thái tài khoản [BR-01], và so khớp mật khẩu mã hóa. |
+| **3** | | Hệ thống xác thực thành công, ghi nhận lịch sử đăng nhập vào Audit Log, reset bộ đếm lần đăng nhập sai về 0. |
+| **4** | | Hệ thống cấp Access Token và điều hướng người dùng về trang chủ/bảng điều khiển với giao diện tương ứng theo vai trò. |
+
+---
+
+## 4. EXTENSIONS / ALTERNATIVE FLOWS (LUỒNG RẼ NHÁNH VÀ NGOẠI LỆ)
+
+- **1a. Người dùng để trống trường bắt buộc hoặc sai định dạng email:**
+  - 1a1. Hệ thống báo lỗi đỏ: *"Vui lòng nhập đúng định dạng email"*.
+  - 1a2. Người dùng sửa lại và bấm Đăng nhập.
+
+- **2a. Sai mật khẩu:**
+  - 2a1. Hệ thống tăng bộ đếm đăng nhập sai thêm 1.
+  - 2a2. Hệ thống hiển thị: *"Email hoặc mật khẩu không chính xác. Bạn còn X lần thử"*.
+  - 2a3. Nếu sai quá 5 lần liên tiếp trong 10 phút, hệ thống kích hoạt [BR-03]: khóa tài khoản 15 phút và gửi email cảnh báo bảo mật.
+
+- **2b. Tài khoản đang ở trạng thái Bị khóa (Inactive/Suspended):**
+  - 2b1. Hệ thống từ chối đăng nhập và thông báo: *"Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên qua support@system.vn"*.
+
+
+---
+
+<!-- FILE: product_backlog.md -->
+
+# 📋 PRODUCT BACKLOG & USER STORIES (AGILE / SCRUM)
+
+---
+
+## BẢNG PRODUCT BACKLOG
+
+| Story ID | Epic | Tiêu đề User Story | Câu chuyện người dùng (As a... I want... So that...) | Ưu tiên (MoSCoW) | Story Points | Trạng thái |
+| :---: | :--- | :--- | :--- | :---: | :---: | :---: |
+| **US-01** | Account | Đăng ký tài khoản | Là một khách vãng lai, tôi muốn đăng ký tài khoản bằng email để có thể sử dụng các dịch vụ đặt lịch trực tuyến. | Must | 3 | Done |
+| **US-02** | Account | Đăng nhập an toàn | Là một người dùng, tôi muốn đăng nhập bằng mật khẩu hoặc Google SSO để truy cập nhanh vào hồ sơ cá nhân của mình. | Must | 3 | Done |
+| **US-03** | Discovery | Tìm kiếm theo chuyên khoa | Là một khách hàng, tôi muốn tìm kiếm bác sĩ/dịch vụ theo chuyên khoa và khu vực để chọn được dịch vụ phù hợp nhất. | Must | 5 | In Progress |
+| **US-04** | Booking | Chọn khung giờ đặt lịch | Là một khách hàng, tôi muốn thấy các khung giờ còn trống theo thời gian thực để chọn giờ hẹn thuận tiện với tôi. | Must | 5 | In Progress |
+| **US-05** | Payment | Thanh toán qua VNPay/QR | Là một khách hàng, tôi muốn quét mã QR chuyển khoản nhanh để thanh toán tiền cọc dịch vụ an toàn. | Must | 5 | To Do |
+| **US-06** | Booking | Nhận thông báo nhắc lịch | Là một khách hàng, tôi muốn nhận SMS/Email nhắc lịch trước 24h để không bị quên giờ hẹn. | Should | 2 | To Do |
+| **US-07** | Management| Quản lý ca trực | Là một nhà cung cấp, tôi muốn cài đặt lịch làm việc trong tuần để khách chỉ có thể đặt trong khung giờ tôi trực. | Must | 5 | To Do |
+| **US-08** | Analytics | Dashboard doanh thu | Là một quản lý, tôi muốn xem biểu đồ doanh thu theo tuần để đánh giá hiệu quả kinh doanh. | Should | 8 | To Do |
+
+
+---
+
+<!-- FILE: use_case_diagram.md -->
+
+# 📊 SƠ ĐỒ USE CASE TỔNG THỂ (USE CASE DIAGRAM)
+
+> Sơ đồ được dựng bằng cú pháp **Mermaid.js**, tự động render trực tiếp trên GitHub, VS Code và Antigravity IDE.
+
+\`\`\`mermaid
+flowchart LR
+    %% Actors
+    subgraph Actors["Tác Nhân (Actors)"]
+        Guest["Khách Vãng Lai (Guest)"]
+        Customer["Khách Hàng (Customer)"]
+        Provider["Nhà Cung Cấp (Provider)"]
+        Admin["Quản Trị Viên (Admin)"]
+        PaymentSystem["Hệ Thống Thanh Toán"]
+    end
+
+    %% Use Cases Boundary
+    subgraph SystemBoundary["Hệ Thống Phần Mềm SWR302"]
+        UC01(["UC-01: Đăng Ký / Đăng Nhập"])
+        UC02(["UC-02: Tìm Kiếm & Xem Dịch Vụ"])
+        UC03(["UC-03: Đặt Lịch Hẹn"])
+        UC04(["UC-04: Thanh Toán Trực Tuyến"])
+        UC05(["UC-05: Áp Dụng Mã Giảm Giá"])
+        UC06(["UC-06: Hủy / Đổi Lịch Hẹn"])
+        UC07(["UC-07: Quản Lý Lịch Trực & Nhận Đơn"])
+        UC08(["UC-08: Quản Trị Người Dùng"])
+        UC09(["UC-09: Xem Báo Cáo Doanh Thu"])
+    end
+
+    %% Interactions
+    Guest --> UC01
+    Guest --> UC02
+
+    Customer --> UC01
+    Customer --> UC02
+    Customer --> UC03
+    Customer --> UC06
+
+    Provider --> UC01
+    Provider --> UC07
+    Provider --> UC09
+
+    Admin --> UC01
+    Admin --> UC08
+    Admin --> UC09
+
+    %% Includes & Extends
+    UC03 -.->|"<<include>>"| UC04
+    UC05 -.->|"<<extend>>"| UC04
+    UC04 <--> PaymentSystem
+\`\`\`
+
+
+---
+
+<!-- FILE: activity_diagrams.md -->
+
+# 🔄 SƠ ĐỒ HOẠT ĐỘNG (ACTIVITY DIAGRAMS)
+### Quy trình nghiệp vụ cốt lõi: Đặt lịch và Thanh toán
+
+\`\`\`mermaid
+flowchart TD
+    Start((● Bắt đầu)) --> Browse[Khách hàng tìm kiếm dịch vụ & chọn khung giờ]
+    Browse --> CheckSlot{Khung giờ còn trống?}
+
+    CheckSlot -- Không --> AlertSlot[Hiển thị cảnh báo slot đã kín & gợi ý giờ khác]
+    AlertSlot --> Browse
+
+    CheckSlot -- Có --> LockSlot[Hệ thống khóa tạm thời slot trong 10 phút]
+    LockSlot --> InputInfo[Khách hàng xác nhận thông tin & chọn thanh toán]
+
+    InputInfo --> ApplyVoucher{Có mã giảm giá?}
+    ApplyVoucher -- Có --> ValidateVoucher[Hệ thống kiểm tra & tính toán chiết khấu]
+    ApplyVoucher -- Không --> SelectGateway[Chọn cổng thanh toán VNPay / MoMo]
+    ValidateVoucher --> SelectGateway
+
+    SelectGateway --> RedirectGateway[Chuyển hướng sang cổng thanh toán]
+    RedirectGateway --> ProcessPayment{Khách hàng xác thực thanh toán}
+
+    ProcessPayment -- Thất bại / Hủy --> TimeoutCheck{Hết 10 phút khóa slot?}
+    TimeoutCheck -- Chưa --> RetryPayment[Chọn lại phương thức thanh toán]
+    RetryPayment --> SelectGateway
+    TimeoutCheck -- Đã hết hạn --> ReleaseSlot[Hệ thống mở khóa slot & hủy đơn]
+    ReleaseSlot --> EndFail((○ Kết thúc thất bại))
+
+    ProcessPayment -- Thành công --> RecordDB[Hệ thống ghi nhận đơn, cập nhật trạng thái 'Đã thanh toán']
+    RecordDB --> SendNoti[Gửi Email/SMS xác nhận kèm Booking ID]
+    SendNoti --> NotifyProvider[Bắn thông báo có lịch hẹn mới cho Provider]
+    NotifyProvider --> EndSuccess(((◉ Kết thúc thành công)))
+\`\`\`
+
+
+---
+
+<!-- FILE: sequence_diagrams.md -->
+
+# ⚡ SƠ ĐỒ TRÌNH TỰ (SEQUENCE DIAGRAMS)
+### Nghiệp vụ: Xác thực thanh toán trực tuyến qua Webhook
+
+\`\`\`mermaid
+sequenceDiagram
+    autonumber
+    actor User as Khách Hàng
+    participant UI as Giao Diện Web/App
+    participant API as Backend Server
+    participant DB as Cơ Sở Dữ Liệu
+    participant GW as Cổng Thanh Toán (VNPay)
+
+    User->>UI: Bấm nút "Thanh toán ngay"
+    UI->>API: POST /api/bookings/{id}/checkout
+    activate API
+    API->>DB: Kiểm tra trạng thái đơn & Khóa slot (Lock)
+    DB-->>API: Trả về trạng thái hợp lệ
+    API->>GW: Gửi yêu cầu khởi tạo thanh toán (OrderID, Amount, Checksum)
+    activate GW
+    GW-->>API: Trả về Payment URL
+    deactivate GW
+    API-->>UI: Redirect URL sang trang thanh toán
+    deactivate API
+
+    UI->>User: Hiển thị cổng thanh toán VNPay
+    User->>GW: Nhập OTP / Quét mã QR thanh toán
+    activate GW
+    GW->>GW: Xử lý trừ tiền tài khoản ngân hàng
+    GW-->>API: Gửi Webhook/IPN xác nhận giao dịch (Signature, Status: SUCCESS)
+    deactivate GW
+
+    activate API
+    API->>API: Xác thực chữ ký điện tử HMAC-SHA512
+    alt Chữ ký hợp lệ & Giao dịch thành công
+        API->>DB: Cập nhật Booking Status = 'CONFIRMED'
+        API->>DB: Lưu lịch sử giao dịch (Transaction Log)
+        API-->>GW: Phản hồi HTTP 200 OK (Đã nhận IPN)
+        API->>UI: Gửi thông báo WebSocket / Push Noti
+        UI-->>User: Hiển thị màn hình "Đặt lịch thành công!"
+    else Chữ ký không hợp lệ hoặc lỗi
+        API-->>GW: Phản hồi HTTP 400 Bad Request
+        API->>DB: Ghi log cảnh báo bảo mật
+    end
+    deactivate API
+\`\`\`
+
+
+---
+
+<!-- FILE: domain_model.md -->
+
+# 🏛️ MÔ HÌNH MIỀN (DOMAIN MODEL / CONCEPTUAL CLASS DIAGRAM)
+
+> Mô hình lớp khái niệm thể hiện các thực thể cốt lõi trong bài toán và quan hệ giữa chúng.
+
+\`\`\`mermaid
+classDiagram
+    class User {
+        +int id
+        +string email
+        +string passwordHash
+        +string fullName
+        +string phone
+        +string role
+        +string status
+        +login()
+        +updateProfile()
+    }
+
+    class Customer {
+        +string medicalHistory
+        +int loyaltyPoints
+        +string customerTier
+        +makeBooking()
+    }
+
+    class Provider {
+        +string specialty
+        +string bio
+        +int yearsOfExperience
+        +decimal consultationFee
+        +manageSlots()
+    }
+
+    class Service {
+        +int id
+        +string serviceName
+        +string description
+        +decimal basePrice
+        +int durationMinutes
+        +string category
+    }
+
+    class ScheduleSlot {
+        +int id
+        +date workDate
+        +time startTime
+        +time endTime
+        +string slotStatus
+    }
+
+    class Booking {
+        +int id
+        +string bookingCode
+        +datetime bookingDate
+        +decimal totalAmount
+        +string status
+        +cancelBooking()
+    }
+
+    class PaymentTransaction {
+        +int id
+        +string transactionNo
+        +string paymentMethod
+        +decimal amount
+        +string gatewayStatus
+        +datetime paidAt
+    }
+
+    %% Relationships
+    User <|-- Customer : Kế thừa (Inheritance)
+    User <|-- Provider : Kế thừa (Inheritance)
+    Provider "1" -- "*" ScheduleSlot : Quản lý lịch
+    Provider "*" -- "*" Service : Cung cấp
+    Customer "1" -- "*" Booking : Đặt lịch
+    Booking "1" -- "1" ScheduleSlot : Chiếm giữ
+    Booking "1" -- "1" Service : Chọn dịch vụ
+    Booking "1" -- "1" PaymentTransaction : Có hóa đơn thanh toán
+\`\`\`
+
+
+---
+
+<!-- FILE: ui_flow.md -->
+
+# 📱 SƠ ĐỒ LUỒNG MÀN HÌNH (SCREEN FLOW / UI FLOW)
+
+\`\`\`mermaid
+flowchart LR
+    Splash["Màn hình Chào (Splash)"] --> Home["Trang Chủ (Home / Catalog)"]
+    Home --> Search["Tìm Kiếm & Bộ Lọc"]
+    Home --> Login["Đăng Nhập / Đăng Ký"]
+
+    Search --> Detail["Chi Tiết Dịch Vụ & Chuyên Gia"]
+    Detail --> SelectSlot["Chọn Ngày & Khung Giờ"]
+
+    SelectSlot --> CheckLogin{Đã đăng nhập?}
+    CheckLogin -- Chưa --> Login
+    Login --> Checkout["Xác Nhận Đặt Lịch & Hóa Đơn"]
+    CheckLogin -- Rồi --> Checkout
+
+    Checkout --> ApplyPromo["Nhập Voucher Khuyến Mãi"]
+    ApplyPromo --> Checkout
+
+    Checkout --> Payment["Cổng Thanh Toán Trực Tuyến"]
+    Payment --> Success["Đặt Lịch Thành Công (Booking Receipt)"]
+    Payment --> Failed["Thanh Toán Thất Bại (Thử Lại)"]
+    Failed --> Checkout
+
+    Success --> History["Lịch Sử Đặt Chỗ (Quản Lý & Hủy Lịch)"]
+\`\`\`
+
+---
+
+## DANH SÁCH MÃ MÀN HÌNH (SCREEN SPECIFICATION)
+| Mã màn hình | Tên màn hình | Chức năng chính | Use Case liên quan |
+| :---: | :--- | :--- | :---: |
+| **SCR-01** | Landing Page / Trang chủ | Banner nổi bật, tìm kiếm nhanh, top dịch vụ được ưa thích | \`UC-02\` |
+| **SCR-02** | Login / Register Modal | Đăng nhập bằng Email/Password hoặc Google OAuth | \`UC-01\` |
+| **SCR-03** | Service Detail Page | Thông tin dịch vụ, chuyên gia, đánh giá, bảng giá | \`UC-02\` |
+| **SCR-04** | Booking Calendar Slot | Lịch chọn ngày, các slot giờ còn trống theo thời gian thực | \`UC-03\` |
+| **SCR-05** | Checkout & Payment | Tóm tắt đơn hàng, áp voucher, chọn cổng VNPay/MoMo | \`UC-04\` |
+| **SCR-06** | Booking Confirmation Receipt | Hiển thị mã QR check-in, mã Booking ID, hướng dẫn đường đi | \`UC-03\`, \`UC-04\` |
+| **SCR-07** | Admin Dashboard | Biểu đồ doanh thu, thống kê lượt đặt, quản lý người dùng | \`UC-08\`, \`UC-10\` |
+
+
+---
+
+<!-- FILE: rtm_matrix.md -->
+
+# 📊 MA TRẬN TRUY VẾT YÊU CẦU (REQUIREMENTS TRACEABILITY MATRIX - RTM)
+
+> **Mục tiêu:** Ánh xạ từ Mục tiêu Kinh doanh (BO) ➔ Yêu cầu Chức năng (FR) ➔ Quy tắc Nghiệp vụ (BR) ➔ Use Case (UC) ➔ User Story (US) ➔ Màn hình (SCR) ➔ Kịch bản Kiểm thử (TC).
+
+| Business Obj | Functional Req (FR) | Business Rule (BR) | Use Case (UC) | User Story (US) | Screen (SCR) | Test Case (TC) | Trạng thái |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **BO-1** | \`FR-AUTH-01\` | \`BR-02\` | \`UC-01\` | \`US-01\` | \`SCR-02\` | \`TC-AUTH-01\` | Verified |
+| **BO-1** | \`FR-AUTH-02\` | — | \`UC-01\` | \`US-01\` | \`SCR-02\` | \`TC-AUTH-02\` | Verified |
+| **BO-1** | \`FR-AUTH-03\` | \`BR-01\` | \`UC-01\` | \`US-02\` | \`SCR-02\` | \`TC-AUTH-03\` | Verified |
+| **BO-1** | \`FR-AUTH-04\` | \`BR-03\` | \`UC-01\` | \`US-02\` | \`SCR-02\` | \`TC-AUTH-04\` | Verified |
+| **BO-1** | \`FR-AUTH-05\` | — | \`UC-01\` | \`US-02\` | \`SCR-02\` | \`TC-AUTH-05\` | Planned |
+| **BO-1** | \`FR-AUTH-06\` | — | \`UC-01\` | \`US-02\` | \`SCR-02\` | \`TC-AUTH-06\` | Planned |
+| **BO-1** | \`FR-SRC-01\` | — | \`UC-02\` | \`US-03\` | \`SCR-01\` | \`TC-SRC-01\` | In Dev |
+| **BO-1** | \`FR-SRC-02\` | — | \`UC-02\` | \`US-03\` | \`SCR-01\` | \`TC-SRC-02\` | In Dev |
+| **BO-1** | \`FR-SRC-03\` | — | \`UC-02\` | \`US-03\` | \`SCR-03\` | \`TC-SRC-03\` | In Dev |
+| **BO-2** | \`FR-BOK-01\` | — | \`UC-03\` | \`US-04\` | \`SCR-04\` | \`TC-BOK-01\` | In Dev |
+| **BO-2** | \`FR-BOK-02\` | \`BR-04\` | \`UC-03\` | \`US-04\` | \`SCR-04\` | \`TC-BOK-02\` | In Dev |
+| **BO-2** | \`FR-BOK-03\` | — | \`UC-03\` | \`US-04\` | \`SCR-06\` | \`TC-BOK-03\` | In Dev |
+| **BO-2** | \`FR-PAY-01\` | \`BR-07\` | \`UC-04\` | \`US-05\` | \`SCR-05\` | \`TC-PAY-01\` | Planned |
+| **BO-2** | \`FR-PAY-02\` | \`BR-06\` | \`UC-04\` | \`US-05\` | \`SCR-05\` | \`TC-PAY-02\` | Planned |
+| **BO-2** | \`FR-PAY-03\` | — | \`UC-04\` | \`US-05\` | \`SCR-05\` | \`TC-PAY-03\` | Planned |
+| **BO-3** | \`FR-BOK-04\` | \`BR-05\` | \`UC-05\` | \`US-06\` | \`SCR-06\` | \`TC-BOK-04\` | Planned |
+| **BO-3** | \`FR-BOK-05\` | — | \`UC-05\` | \`US-06\` | — | \`TC-BOK-05\` | Planned |
+| **BO-2** | \`FR-BOK-01\` | \`BR-08\` | \`UC-06\` | \`US-07\` | \`SCR-04\` | \`TC-BOK-06\` | In Dev |
+| **BO-2** | — | — | \`UC-07\` | \`US-06\` | \`SCR-03\` | \`TC-REV-01\` | Planned |
+| **BO-2** | \`FR-ADM-01\` | — | \`UC-08\` | \`US-07\` | \`SCR-07\` | \`TC-ADM-01\` | Planned |
+| **BO-2** | \`FR-ADM-02\` | \`BR-08\` | \`UC-09\` | \`US-07\` | \`SCR-07\` | \`TC-ADM-02\` | Planned |
+| **BO-3** | \`FR-ADM-03\` | — | \`UC-10\` | \`US-08\` | \`SCR-07\` | \`TC-ADM-03\` | Planned |
+
+---
+
+## TỔNG KẾT TRACEABILITY
+- **100% FRs** đều được liên kết trực tiếp với Use Case và User Story.
+- **Không có Orphan Requirement** (Yêu cầu không rõ nguồn gốc mục tiêu nghiệp vụ).
+- **Không có Gold Plating** (Tính năng tự tiện thêm vào mà không phục vụ mục tiêu kinh doanh).
+
+
+---
+
+<!-- FILE: srs_review_checklist.md -->
+
+# ✅ CHECKLIST ĐÁNH GIÁ CHẤT LƯỢNG SRS (VERIFICATION & VALIDATION)
+### 8 Đặc tính chất lượng yêu cầu phần mềm theo chuẩn IEEE 830 / ISO 29148
+
+---
+
+## 1. BẢNG CHECKLIST ĐÁNH GIÁ CHI TIẾT
+
+| Tiêu chuẩn chất lượng (Quality Attribute) | Câu hỏi kiểm tra (Verification Questions) | Đạt (Pass/Fail) | Ghi chú / Điểm cần sửa |
+| :--- | :--- | :---: | :--- |
+| **1. Correctness (Tính đúng đắn)** | Mọi yêu cầu có phản ánh chính xác mong muốn thực tế của khách hàng và nghiệp vụ không? | [ ] Pass | |
+| **2. Unambiguous (Tính không mơ hồ)** | Mỗi yêu cầu chỉ có DUY NHẤT một cách hiểu? Không chứa các từ cảm tính như "nhanh chóng", "thân thiện", "tối ưu", "dễ dùng"? | [ ] Pass | Rà soát từ mơ hồ |
+| **3. Completeness (Tính đầy đủ)** | Đã mô tả đầy đủ cả luồng thành công lẫn luồng ngoại lệ/lỗi? Đầy đủ tham số đầu vào và đầu ra? | [ ] Pass | |
+| **4. Consistency (Tính nhất quán)** | Các yêu cầu không mâu thuẫn lẫn nhau về mặt thuật ngữ, logic nghiệp vụ hoặc phân quyền? | [ ] Pass | |
+| **5. Ranked for Importance (Độ ưu tiên)** | Mọi yêu cầu đã được phân loại mức độ quan trọng theo MoSCoW (Must, Should, Could, Won't)? | [ ] Pass | |
+| **6. Verifiable / Testable (Kiểm chứng được)** | Đội ngũ QA/Tester có thể thiết kế ít nhất 1 kịch bản kiểm thử (Test Case) cụ thể để pass/fail yêu cầu này không? | [ ] Pass | |
+| **7. Modifiable (Dễ sửa đổi)** | Tài liệu có mục lục rõ ràng, mã hóa ID duy nhất (FR-xx, BR-xx), không bị lặp lại nội dung ở nhiều nơi? | [ ] Pass | |
+| **8. Traceable (Khả năng truy vết)** | Mỗi yêu cầu có truy ngược được về mục tiêu kinh doanh (Backward) và truy xuôi đến Use Case/Test Case (Forward)? | [ ] Pass | Xem tại RTM |
+
+---
+
+## 2. DANH SÁCH TỪ NGỮ CẦN TRÁNH TRONG TÀI LIỆU YÊU CẦU (AMBIGUITY DEFECTS)
+- ❌ **"Thân thiện với người dùng (User-friendly)":** Thay bằng: *"Người dùng mới có thể hoàn thành tác vụ trong tối đa 3 phút mà không cần tài liệu hướng dẫn"*.
+- ❌ **"Phản hồi nhanh (Fast response)":** Thay bằng: *"Thời gian phản hồi API < 1.5 giây với 95% số yêu cầu trong điều kiện tải 500 CCU"*.
+- ❌ **"Độ bảo mật cao (High security)":** Thay bằng: *"Mã hóa dữ liệu đường truyền bằng TLS 1.3 và mật khẩu được băm bằng BCrypt cost factor 12"*.
+- ❌ **"Hỗ trợ nhiều trình duyệt":** Thay bằng: *"Tương thích với Google Chrome từ phiên bản 110+, Safari 16+, MS Edge và Mozilla Firefox"*.
+`;
+        
+        // Custom renderer for Mermaid
+        const renderer = new marked.Renderer();
+        const defaultCode = renderer.code.bind(renderer);
+        renderer.code = function(code, language) {
+            if (language === 'mermaid') {
+                return '<div class="mermaid">' + code + '</div>';
+            }
+            return defaultCode(code, language);
+        };
+
+        marked.setOptions({ renderer: renderer, gfm: true, breaks: true });
+        document.getElementById('content').innerHTML = marked.parse(rawMarkdown);
+        setTimeout(() => { mermaid.run(); }, 300);
+    </script>
+</body>
+</html>

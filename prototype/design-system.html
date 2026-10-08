@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gia Hoa Phat Bakery Supply — Design System & Component Library</title>
+  <link rel="stylesheet" href="design-system.css">
+  <style>
+    /* Specific styles for the Design System Showcase Page */
+    .ds-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--space-32) var(--space-24) var(--space-64);
+    }
+    .ds-header {
+      background: linear-gradient(135deg, #2B1D14 0%, #452D1F 100%);
+      color: #FFFFFF;
+      padding: var(--space-48) var(--space-32);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-40);
+      box-shadow: var(--shadow-3);
+    }
+    .ds-header-badge {
+      display: inline-block;
+      background: rgba(180, 83, 9, 0.35);
+      border: 1px solid rgba(254, 243, 226, 0.3);
+      color: #FEF3E2;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--space-12);
+      letter-spacing: 0.05em;
+    }
+    .ds-header h1 {
+      color: #FFFFFF;
+      font-size: var(--font-size-40);
+      margin-bottom: var(--space-8);
+    }
+    .ds-header p {
+      color: #E8DED3;
+      font-size: var(--font-size-18, 1.125rem);
+      max-width: 780px;
+    }
+
+    /* Sticky Navigation Bar */
+    .ds-nav {
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: var(--space-12) var(--space-16);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-2);
+      margin-bottom: var(--space-40);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .ds-nav a {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-medium);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+    .ds-nav a:hover {
+      background-color: var(--color-primary-tint);
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    /* Section Wrapper */
+    .ds-section {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-32);
+      margin-bottom: var(--space-40);
+      box-shadow: var(--shadow-1);
+    }
+    .ds-section-title {
+      font-size: var(--font-size-24);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-8);
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      border-bottom: 2px solid var(--color-primary-tint);
+      padding-bottom: var(--space-12);
+    }
+    .ds-section-desc {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-14);
+      margin-bottom: var(--space-24);
+    }
+
+    /* Color Swatches Grid */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--space-16);
+      margin-bottom: var(--space-24);
+    }
+    .color-swatch-card {
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--color-surface);
+    }
+    .color-preview {
+      height: 90px;
+      display: flex;
+      align-items: flex-end;
+      padding: 8px 12px;
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-12);
+    }
+    .color-info {
+      padding: var(--space-12);
+    }
+    .color-name {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+    }
+    .color-hex {
+      font-size: var(--font-size-12);
+      color: var(--color-text-secondary);
+      font-family: monospace;
+    }
+    .color-note {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    /* Typography Scale Table */
+    .typo-row {
+      display: flex;
+      align-items: baseline;
+      padding: var(--space-12) 0;
+      border-bottom: 1px solid var(--color-border-light);
+      gap: var(--space-24);
+    }
+    .typo-meta {
+      width: 160px;
+      flex-shrink: 0;
+      font-size: var(--font-size-12);
+      color: var(--color-text-muted);
+      font-family: monospace;
+    }
+    .typo-sample {
+      flex: 1;
+      color: var(--color-text-primary);
+    }
+
+    /* Component Demonstration Grids */
+    .component-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-16);
+      margin-bottom: var(--space-24);
+    }
+    .component-label {
+      width: 140px;
+      font-size: var(--font-size-12);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Responsive Product Grid */
+    .product-grid-demo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: var(--space-24);
+      margin-top: var(--space-16);
+    }
+
+    /* Lucide SVG Inline Icons Helper */
+    .icon {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.5;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: middle;
+    }
+
+    /* Search Bar Component Showcase */
+    .search-bar-composite {
+      display: flex;
+      align-items: center;
+      background: var(--color-surface);
+      border: 2px solid var(--color-primary);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      width: 100%;
+      max-width: 720px;
+      box-shadow: var(--shadow-1);
+    }
+    .search-category-select {
+      background: var(--color-surface-alt);
+      border: none;
+      border-right: 1px solid var(--color-border);
+      padding: 0 16px;
+      height: 48px;
+      font-size: var(--font-size-14);
+      color: var(--color-text-primary);
+      outline: none;
+      cursor: pointer;
+    }
+    .search-input-field {
+      flex: 1;
+      border: none;
+      padding: 0 16px;
+      height: 48px;
+      font-size: var(--font-size-16);
+      color: var(--color-text-primary);
+      outline: none;
+    }
+    .search-action-btn {
+      background-color: var(--color-primary);
+      color: #FFFFFF;
+      border: none;
+      height: 48px;
+      padding: 0 24px;
+      font-weight: var(--font-weight-semibold);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color var(--transition-fast);
+    }
+    .search-action-btn:hover {
+      background-color: var(--color-primary-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ds-container">
+
+    <!-- HEADER / META -->
+    <header class="ds-header">
+      <span class="ds-header-badge">SWR302 — TOPIC 1 • DESIGN SYSTEM V1.0</span>
+      <h1>Gia Hoa Phat Bakery Supply</h1>
+      <p>Hệ thống Design System và Thư viện Thành phần Giao diện chuẩn thương mại điện tử chuyên ngành nguyên liệu & thiết bị làm bánh. Tuân thủ chuẩn tiếp cận <strong>WCAG 2.2 AA</strong> (độ tương phản ≥ 4.5:1), quy tắc 10 Heuristics của Nielsen và lưới 8pt responsive.</p>
+    </header>
+
+    <!-- STICKY NAV -->
+    <nav class="ds-nav" aria-label="Design System Navigation">
+      <a href="#tokens">🎨 Design Tokens</a>
+      <a href="#typography">📐 Typography</a>
+      <a href="#buttons">🔘 Buttons</a>
+      <a href="#inputs">📝 Form Controls</a>
+      <a href="#searchbar">🔍 Search Bar</a>
+      <a href="#badges">🏷️ Badges & Chips</a>
+      <a href="#productcards">🍰 Product Cards</a>
+      <a href="#navigation">🧭 Nav & Stepper</a>
+      <a href="#feedback">🔔 Toast & Modal</a>
+      <a href="#table">📊 Admin Data Table</a>
+      <a href="#states">⏳ States & Loaders</a>
+    </nav>
+
+    <!-- ====================================================================
+         SECTION 1: DESIGN TOKENS (COLORS, SPACING, RADIUS, ELEVATION)
+         ==================================================================== -->
+    <section id="tokens" class="ds-section">
+      <h2 class="ds-section-title">🎨 1. Design Tokens: Bảng màu & Độ tương phản (WCAG AA)</h2>
+      <p class="ds-section-desc">Màu caramel <code>#B45309</code> đạt tỷ lệ tương phản 5:1 với chữ trắng (vượt chuẩn WCAG AA 4.5:1). Nền kem <code>#FFFBF5</code> tạo cảm giác ấm cúng, kích thích vị giác và uy tín trong ngành ẩm thực.</p>
+
+      <div class="color-grid">
+        <!-- Primary -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #B45309; color: #FFF;">
+            Contrast: 5.1:1 (Pass AA)
+          </div>
+          <div class="color-info">
+            <div class="color-name">Primary Caramel</div>
+            <div class="color-hex">#B45309 • --color-primary</div>
+            <div class="color-note">Nút chính, giá tiền, liên kết, highlight</div>
+          </div>
+        </div>
+
+        <!-- Primary Hover -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #92400E; color: #FFF;">
+            Hover State
+          </div>
+          <div class="color-info">
+            <div class="color-name">Primary Dark</div>
+            <div class="color-hex">#92400E • --color-primary-hover</div>
+            <div class="color-note">Trạng thái Hover nút chính</div>
+          </div>
+        </div>
+
+        <!-- Primary Tint -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #FEF3E2; color: #B45309;">
+            Soft Warm Tint
+          </div>
+          <div class="color-info">
+            <div class="color-name">Primary Tint</div>
+            <div class="color-hex">#FEF3E2 • --color-primary-tint</div>
+            <div class="color-note">Nền thẻ active, badge nhạt, focus ring</div>
+          </div>
+        </div>
+
+        <!-- Background Cream -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #FFFBF5; color: #2B1D14; border-bottom: 1px solid #E8DED3;">
+            Canvas Background
+          </div>
+          <div class="color-info">
+            <div class="color-name">Cream Background</div>
+            <div class="color-hex">#FFFBF5 • --color-bg</div>
+            <div class="color-note">Nền trang web toàn hệ thống</div>
+          </div>
+        </div>
+
+        <!-- Surface White -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #FFFFFF; color: #2B1D14; border-bottom: 1px solid #E8DED3;">
+            Surface Card
+          </div>
+          <div class="color-info">
+            <div class="color-name">Pure White</div>
+            <div class="color-hex">#FFFFFF • --color-surface</div>
+            <div class="color-note">Nền thẻ sản phẩm, modal, input</div>
+          </div>
+        </div>
+
+        <!-- Text Primary -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #2B1D14; color: #FFF;">
+            Contrast: 14.8:1
+          </div>
+          <div class="color-info">
+            <div class="color-name">Roasted Coffee (Text)</div>
+            <div class="color-hex">#2B1D14 • --color-text-primary</div>
+            <div class="color-note">Tiêu đề, nội dung chính, giá niêm yết</div>
+          </div>
+        </div>
+
+        <!-- Text Secondary -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #6B5B4E; color: #FFF;">
+            Contrast: 6.2:1
+          </div>
+          <div class="color-info">
+            <div class="color-name">Warm Gray (Secondary)</div>
+            <div class="color-hex">#6B5B4E • --color-text-secondary</div>
+            <div class="color-note">Mô tả phụ, đơn vị tính, thương hiệu</div>
+          </div>
+        </div>
+
+        <!-- Border Neutral -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #E8DED3; color: #2B1D14;">
+            UI Border
+          </div>
+          <div class="color-info">
+            <div class="color-name">Warm Border</div>
+            <div class="color-hex">#E8DED3 • --color-border</div>
+            <div class="color-note">Đường viền thẻ, phân cách bảng</div>
+          </div>
+        </div>
+
+        <!-- Success Green -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #15803D; color: #FFF;">
+            Success (Còn hàng)
+          </div>
+          <div class="color-info">
+            <div class="color-name">Forest Success</div>
+            <div class="color-hex">#15803D • --color-success</div>
+            <div class="color-note">Huy hiệu Còn hàng, đặt hàng thành công</div>
+          </div>
+        </div>
+
+        <!-- Error Red -->
+        <div class="color-swatch-card">
+          <div class="color-preview" style="background-color: #B91C1C; color: #FFF;">
+            Error (Hết hàng / Lỗi)
+          </div>
+          <div class="color-info">
+            <div class="color-name">Warning Red</div>
+            <div class="color-hex">#B91C1C • --color-error</div>
+            <div class="color-note">Hết hàng, báo lỗi form, giảm giá</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spacing, Radius, Elevation -->
+      <h3 style="margin-top: var(--space-32); margin-bottom: var(--space-12);">📏 Lưới 8pt, Bo góc (Border Radius) & Độ nổi (Elevation)</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-20);">
+        <div style="padding: var(--space-16); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-sm); box-shadow: var(--shadow-1);">
+          <strong>Elevation 1 (Thấp)</strong>: <code>box-shadow: var(--shadow-1)</code><br>
+          <small style="color: var(--color-text-secondary);">Dùng cho: Thẻ sản phẩm mặc định, button, bảng dữ liệu</small>
+        </div>
+        <div style="padding: var(--space-16); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-2);">
+          <strong>Elevation 2 (Vừa)</strong>: <code>box-shadow: var(--shadow-2)</code><br>
+          <small style="color: var(--color-text-secondary);">Dùng cho: Card hover, Sticky navbar, giỏ hàng nổi</small>
+        </div>
+        <div style="padding: var(--space-16); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-3);">
+          <strong>Elevation 3 (Cao)</strong>: <code>box-shadow: var(--shadow-3)</code><br>
+          <small style="color: var(--color-text-secondary);">Dùng cho: Modal dialogs, Toast notifications, Dropdowns</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 2: TYPOGRAPHY (BE VIETNAM PRO)
+         ==================================================================== -->
+    <section id="typography" class="ds-section">
+      <h2 class="ds-section-title">📐 2. Thang Typography: Be Vietnam Pro (Hỗ trợ tiếng Việt chuẩn)</h2>
+      <p class="ds-section-desc">Phông chữ được tối ưu cho tiếng Việt không bị lỗi chân dấu. Thang đo từ 12px đến 56px đáp ứng hoàn hảo từ nhãn phụ trợ đến tiêu đề ấn tượng.</p>
+
+      <div class="typo-row">
+        <div class="typo-meta">Display • 56px / 700</div>
+        <div class="typo-sample" style="font-size: var(--font-size-56); font-weight: 700; line-height: 1.1;">
+          Nguyên Liệu Làm Bánh Cao Cấp
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta">Heading 1 • 40px / 700</div>
+        <div class="typo-sample" style="font-size: var(--font-size-40); font-weight: 700;">
+          Lò Nướng Đối Lưu & Thiết Bị Làm Bánh
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta">Heading 2 • 32px / 700</div>
+        <div class="typo-sample" style="font-size: var(--font-size-32); font-weight: 700;">
+          Bột Mì Thượng Hạng & Men Nở Tự Nhiên
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta">Heading 3 • 24px / 600</div>
+        <div class="typo-sample" style="font-size: var(--font-size-24); font-weight: 600;">
+          Bơ Lạt Động Vật New Zealand Nhập Khẩu 100%
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta">Subheading • 20px / 600</div>
+        <div class="typo-sample" style="font-size: var(--font-size-20); font-weight: 600; color: var(--color-primary);">
+          Giá bán sỉ: 125.000đ / túi 1kg (Tiết kiệm 20% khi mua thùng 10kg)
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta">Body Large • 16px / 400</div>
+        <div class="typo-sample" style="font-size: var(--font-size-16); font-weight: 400;">
+          Gia Hòa Phát cung cấp giải pháp toàn diện cho tiệm bánh gia đình và xưởng sản xuất bánh ngọt chuyên nghiệp trên toàn quốc. Đảm bảo nguồn gốc xuất xứ rõ ràng và chứng nhận an toàn thực phẩm.
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta">Body Small • 14px / 400</div>
+        <div class="typo-sample" style="font-size: var(--font-size-14); color: var(--color-text-secondary);">
+          Đơn vị tính: Túi 500g • Hạn sử dụng: 12 tháng kể từ ngày sản xuất • Bảo quản nhiệt độ phòng thoáng mát.
+        </div>
+      </div>
+      <div class="typo-row">
+        <div class="typo-meta">Caption / Tag • 12px / 600</div>
+        <div class="typo-sample" style="font-size: var(--font-size-12); font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
+          SKU: GHP-FLOUR-008 • ĐÃ KIỂM ĐỊNH BỞI BỘ Y TẾ
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 3: BUTTONS WITH ALL VARIANTS & STATES
+         ==================================================================== -->
+    <section id="buttons" class="ds-section">
+      <h2 class="ds-section-title">🔘 3. Nút bấm (Button Component): Biến thể & Trạng thái tương tác</h2>
+      <p class="ds-section-desc">Mọi nút đều đạt chiều cao tối thiểu <strong>≥ 44px</strong> trên thiết bị cảm ứng theo định luật Fitts và tiêu chuẩn WCAG 2.2 AA. Trạng thái focus có viền tương phản kép 2px.</p>
+
+      <!-- Primary Variants -->
+      <div class="component-row">
+        <div class="component-label">Primary</div>
+        <button class="btn btn-primary" onclick="showToast('Bạn vừa bấm Nút Primary!')">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          Thêm vào giỏ
+        </button>
+        <button class="btn btn-primary btn-sm">Primary Nhỏ (36px)</button>
+        <button class="btn btn-primary btn-lg">Mua ngay (52px)</button>
+        <button class="btn btn-primary" disabled>Bị vô hiệu (Disabled)</button>
+        <button class="btn btn-primary">
+          <span class="spinner"></span>
+          Đang xử lý...
+        </button>
+      </div>
+
+      <!-- Secondary Variants -->
+      <div class="component-row">
+        <div class="component-label">Secondary</div>
+        <button class="btn btn-secondary">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Yêu thích
+        </button>
+        <button class="btn btn-secondary btn-sm">Xem chi tiết</button>
+        <button class="btn btn-secondary" disabled>Disabled</button>
+        <button class="btn btn-secondary">
+          <span class="spinner spinner-dark"></span>
+          Đang tải...
+        </button>
+      </div>
+
+      <!-- Ghost & Destructive Variants -->
+      <div class="component-row">
+        <div class="component-label">Ghost & Danger</div>
+        <button class="btn btn-ghost">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Tải bảng giá sỉ
+        </button>
+        <button class="btn btn-destructive" onclick="openModal()">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          Xóa đơn hàng
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 4: FORM INPUTS & SELECTION CONTROLS
+         ==================================================================== -->
+    <section id="inputs" class="ds-section">
+      <h2 class="ds-section-title">📝 4. Điều khiển Biểu mẫu (Form Inputs & Selection Controls)</h2>
+      <p class="ds-section-desc">Đầy đủ nhãn trực quan, chỉ báo bắt buộc <code>*</code>, văn bản trợ giúp và phản hồi lỗi theo ngữ cảnh (Nielsen Heuristics 5 & 9).</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-24);">
+        
+        <!-- Standard Text Input -->
+        <div class="form-group">
+          <label class="form-label" for="inp-fullname">
+            Họ và tên khách hàng <span class="required">*</span>
+          </label>
+          <div class="form-control-wrapper">
+            <input type="text" id="inp-fullname" class="form-input" placeholder="Ví dụ: Nguyễn Văn An" value="Nguyễn Văn An">
+          </div>
+          <span class="form-helper">Dùng để in trên phiếu giao hàng và hóa đơn</span>
+        </div>
+
+        <!-- Password with Interactive Toggle -->
+        <div class="form-group">
+          <label class="form-label" for="inp-password">
+            Mật khẩu đăng nhập <span class="required">*</span>
+          </label>
+          <div class="form-control-wrapper has-icon-right">
+            <input type="password" id="inp-password" class="form-input" value="BakingSupply@2026">
+            <button type="button" class="input-icon-right" onclick="togglePasswordVisibility()" aria-label="Hiện/ẩn mật khẩu">
+              <svg id="eye-icon" class="icon" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <span class="form-helper">Tối thiểu 8 ký tự, có ít nhất 1 chữ hoa, 1 số [BR-02]</span>
+        </div>
+
+        <!-- Error State Input -->
+        <div class="form-group">
+          <label class="form-label" for="inp-phone">
+            Số điện thoại nhận hàng <span class="required">*</span>
+          </label>
+          <div class="form-control-wrapper">
+            <input type="tel" id="inp-phone" class="form-input error" value="090123abc">
+          </div>
+          <span class="form-helper error-text">
+            ⚠️ Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số bắt đầu bằng 0.
+          </span>
+        </div>
+
+        <!-- Select Dropdown -->
+        <div class="form-group">
+          <label class="form-label" for="sel-province">
+            Tỉnh / Thành phố nhận hàng <span class="required">*</span>
+          </label>
+          <select id="sel-province" class="form-select">
+            <option value="">-- Chọn Tỉnh / Thành phố --</option>
+            <option value="HN" selected>Thành phố Hà Nội</option>
+            <option value="HCM">Thành phố Hồ Chí Minh</option>
+            <option value="DN">Thành phố Đà Nẵng</option>
+            <option value="BD">Tỉnh Bình Dương</option>
+          </select>
+          <span class="form-helper">Hỗ trợ giao hàng hỏa tốc trong 2h tại HN & TP.HCM</span>
+        </div>
+      </div>
+
+      <!-- Quantity Stepper & Selection Checks -->
+      <h3 style="margin-top: var(--space-24); margin-bottom: var(--space-12);">Bộ chọn số lượng (Quantity Stepper) & Checkbox/Radio</h3>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-32);">
+        
+        <div>
+          <label class="form-label" style="margin-bottom: 6px;">Số lượng đặt mua:</label>
+          <div class="stepper-control">
+            <button class="stepper-btn" onclick="updateQty(-1)" aria-label="Giảm số lượng">-</button>
+            <input type="number" id="demo-qty" class="stepper-input" value="1" min="1" max="99" readonly>
+            <button class="stepper-btn" onclick="updateQty(1)" aria-label="Tăng số lượng">+</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label" style="margin-bottom: 6px;">Tùy chọn hóa đơn:</label>
+          <div style="display: flex; gap: var(--space-16);">
+            <label class="checkbox-label">
+              <input type="checkbox" class="custom-checkbox" checked>
+              Xuất hóa đơn VAT cho công ty
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" class="custom-checkbox">
+              Giao hàng đồng kiểm
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label" style="margin-bottom: 6px;">Phương thức thanh toán:</label>
+          <div style="display: flex; gap: var(--space-16);">
+            <label class="radio-label">
+              <input type="radio" name="pay-demo" class="custom-radio" checked>
+              Chuyển khoản / Quét mã QR
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="pay-demo" class="custom-radio">
+              Thanh toán khi nhận hàng (COD)
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 5: SEARCH BAR COMPONENT
+         ==================================================================== -->
+    <section id="searchbar" class="ds-section">
+      <h2 class="ds-section-title">🔍 5. Thanh Tìm Kiếm Đa Năng (Global Search Bar)</h2>
+      <p class="ds-section-desc">Được thiết kế theo tiêu chuẩn thương mại điện tử Baymard Institute: Luôn nổi bật, tích hợp bộ chọn danh mục nhanh, gợi ý từ khóa tìm kiếm và tự động xóa nhanh.</p>
+
+      <div class="search-bar-composite">
+        <select class="search-category-select" aria-label="Chọn danh mục tìm kiếm">
+          <option>Tất cả danh mục</option>
+          <option>Bột & Men nở</option>
+          <option>Bơ, Sữa & Phô mai</option>
+          <option>Socola & Cacao</option>
+          <option>Khuôn & Khay nướng</option>
+          <option>Máy đánh trứng & Lò nướng</option>
+        </select>
+        <input type="text" class="search-input-field" placeholder="Tìm tên nguyên liệu (bột mì số 8, bơ Anchor), mã SKU, hoặc thiết bị..." value="Bột mì số 11 baker choice">
+        <button class="search-action-btn" type="button" onclick="showToast('Đang tìm kiếm: Bột mì số 11...')">
+          <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Tìm kiếm
+        </button>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 6: BADGES & CATEGORY CHIPS
+         ==================================================================== -->
+    <section id="badges" class="ds-section">
+      <h2 class="ds-section-title">🏷️ 6. Huy hiệu (Badges) & Chip Danh Mục (Category Chips)</h2>
+      
+      <div style="margin-bottom: var(--space-20);">
+        <strong style="display: block; margin-bottom: var(--space-8); font-size: var(--font-size-14);">Trạng thái Tồn kho & Tiếp thị:</strong>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-12);">
+          <span class="badge badge-success">✓ Còn hàng (In Stock)</span>
+          <span class="badge badge-warning">⚡ Sắp hết hàng (Low Stock - 3 còn lại)</span>
+          <span class="badge badge-error">✕ Tạm hết hàng (Out of Stock)</span>
+          <span class="badge badge-sale">🔥 GIẢM 25%</span>
+          <span class="badge badge-info">⭐ Bán chạy nhất (Best Seller)</span>
+          <span class="badge" style="background: #F3E8FF; color: #7E22CE; border: 1px solid #E9D5FF;">🌿 Hữu cơ Organic</span>
+        </div>
+      </div>
+
+      <div>
+        <strong style="display: block; margin-bottom: var(--space-8); font-size: var(--font-size-14);">Bộ lọc Danh mục Nhanh (Category Chips):</strong>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-8);">
+          <button class="category-chip active">Tất cả sản phẩm (1.240)</button>
+          <button class="category-chip">🌾 Bột & Men nở</button>
+          <button class="category-chip">🧈 Bơ & Kem sữa</button>
+          <button class="category-chip">🍫 Socola & Cacao</button>
+          <button class="category-chip">🎨 Màu & Hương liệu</button>
+          <button class="category-chip">🥣 Dụng cụ & Khuôn</button>
+          <button class="category-chip">🔥 Lò nướng & Máy trộn</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 7: PRODUCT CARDS (THE CORE COMPONENT)
+         ==================================================================== -->
+    <section id="productcards" class="ds-section">
+      <h2 class="ds-section-title">🍰 7. Thẻ Sản Phẩm (Product Cards with Real Variants)</h2>
+      <p class="ds-section-desc">Đáp ứng 100% yêu cầu: Hình ảnh món bánh thực tế, tên tối đa 2 dòng, thương hiệu, đơn vị/khối lượng, giá niêm yết (kèm giá cũ gạch ngang), huy hiệu tồn kho và bộ tăng giảm số lượng mua hàng.</p>
+
+      <div class="product-grid-demo">
+        
+        <!-- Product 1: In Stock -->
+        <article class="product-card">
+          <div class="product-card-img-wrapper">
+            <span class="badge badge-success product-card-badge">✓ Còn hàng</span>
+            <img src="https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?auto=format&fit=crop&w=400&q=80" alt="Bơ lạt Anchor" class="product-card-img">
+          </div>
+          <div class="product-card-brand">Anchor • New Zealand</div>
+          <h3 class="product-card-title">Bơ Lạt Tự Nhiên Anchor Unsalted Butter Khối 250g</h3>
+          <div class="product-card-unit">Đóng gói: Thỏi 250g • HSD: 18 tháng</div>
+          <div class="product-card-price-row">
+            <span class="product-card-price">78.000đ</span>
+            <span class="product-card-price-old">85.000đ</span>
+          </div>
+          <div class="product-card-action-row">
+            <div class="stepper-control" style="height: 38px;">
+              <button class="stepper-btn" style="width: 32px;" onclick="showToast('Giảm số lượng')">-</button>
+              <input type="text" class="stepper-input" value="1" style="width: 36px;" readonly>
+              <button class="stepper-btn" style="width: 32px;" onclick="showToast('Tăng số lượng')">+</button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Đã thêm 1 thỏi Bơ Anchor vào giỏ hàng!', true)">
+              Thêm giỏ
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 2: Sale Discount -->
+        <article class="product-card">
+          <div class="product-card-img-wrapper">
+            <span class="badge badge-sale product-card-badge">GIẢM 21%</span>
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80" alt="Bột mì đa dụng" class="product-card-img">
+          </div>
+          <div class="product-card-brand">Hoa Ngọc Lan • Việt Nam</div>
+          <h3 class="product-card-title">Bột Mì Đa Dụng Số 11 Thượng Hạng Chuyên Làm Bánh Mì</h3>
+          <div class="product-card-unit">Đóng gói: Túi 1kg (Thùng 10 túi)</div>
+          <div class="product-card-price-row">
+            <span class="product-card-price">22.000đ</span>
+            <span class="product-card-price-old">28.000đ</span>
+          </div>
+          <div class="product-card-action-row">
+            <div class="stepper-control" style="height: 38px;">
+              <button class="stepper-btn" style="width: 32px;">-</button>
+              <input type="text" class="stepper-input" value="1" style="width: 36px;" readonly>
+              <button class="stepper-btn" style="width: 32px;">+</button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Đã thêm Bột mì Hoa Ngọc Lan vào giỏ!')">
+              Thêm giỏ
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 3: Low Stock Warning -->
+        <article class="product-card">
+          <div class="product-card-img-wrapper">
+            <span class="badge badge-warning product-card-badge">⚡ Còn 3 gói</span>
+            <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&w=400&q=80" alt="Socola nguyên chất" class="product-card-img">
+          </div>
+          <div class="product-card-brand">Grand-Place • Bỉ</div>
+          <h3 class="product-card-title">Socola Đen Nguyên Chất 65% Cacao Dạng Nút Nấu Chảy</h3>
+          <div class="product-card-unit">Quy cách: Gói 1kg • Chuyên làm Ganache</div>
+          <div class="product-card-price-row">
+            <span class="product-card-price">185.000đ</span>
+          </div>
+          <div class="product-card-action-row">
+            <div class="stepper-control" style="height: 38px;">
+              <button class="stepper-btn" style="width: 32px;">-</button>
+              <input type="text" class="stepper-input" value="1" style="width: 36px;" readonly>
+              <button class="stepper-btn" style="width: 32px;">+</button>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Đã thêm Socola Grand-Place vào giỏ!')">
+              Thêm giỏ
+            </button>
+          </div>
+        </article>
+
+        <!-- Product 4: Out of Stock (Disabled Action) -->
+        <article class="product-card" style="opacity: 0.85;">
+          <div class="product-card-img-wrapper">
+            <span class="badge badge-error product-card-badge">✕ Tạm hết hàng</span>
+            <img src="https://images.unsplash.com/photo-1584990347449-373307730e62?auto=format&fit=crop&w=400&q=80" alt="Lò nướng bánh" class="product-card-img" style="filter: grayscale(40%);">
+          </div>
+          <div class="product-card-brand">Southstar • Đài Loan</div>
+          <h3 class="product-card-title">Lò Nướng Điện Đối Lưu 1 Tầng 2 Khay Bánh Chuyên Dụng</h3>
+          <div class="product-card-unit">Bảo hành 24 tháng chính hãng</div>
+          <div class="product-card-price-row">
+            <span class="product-card-price">18.500.000đ</span>
+          </div>
+          <div class="product-card-action-row">
+            <button class="btn btn-secondary btn-sm" style="width: 100%;" onclick="showToast('Hệ thống sẽ gửi tin nhắn khi có hàng!')">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              Báo khi có hàng
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 8: NAVIGATION, TABS & STEPPER
+         ==================================================================== -->
+    <section id="navigation" class="ds-section">
+      <h2 class="ds-section-title">🧭 8. Điều Hướng, Tiến Trình (Breadcrumb, Tabs & Stepper)</h2>
+      
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <div class="breadcrumb-item"><a href="#">Trang chủ</a></div>
+        <span class="breadcrumb-separator">/</span>
+        <div class="breadcrumb-item"><a href="#">Nguyên liệu làm bánh</a></div>
+        <span class="breadcrumb-separator">/</span>
+        <div class="breadcrumb-item"><a href="#">Bột & Men nở</a></div>
+        <span class="breadcrumb-separator">/</span>
+        <div class="breadcrumb-item active" aria-current="page">Bột mì số 11 Hoa Ngọc Lan</div>
+      </nav>
+
+      <!-- Stepper for Checkout Flow -->
+      <div style="margin: var(--space-32) 0;">
+        <strong style="display: block; margin-bottom: var(--space-12); font-size: var(--font-size-14);">Thanh Tiến Trình Thanh Toán (Checkout Stepper - SCR-05):</strong>
+        <div class="stepper-nav">
+          <div class="stepper-step completed">
+            <div class="stepper-circle">✓</div>
+            <div class="stepper-label">1. Địa chỉ nhận hàng</div>
+          </div>
+          <div style="flex: 1; height: 2px; background-color: var(--color-success); margin: 0 8px; margin-bottom: 24px;"></div>
+          <div class="stepper-step active">
+            <div class="stepper-circle">2</div>
+            <div class="stepper-label">2. Vận chuyển & Thanh toán</div>
+          </div>
+          <div style="flex: 1; height: 2px; background-color: var(--color-border); margin: 0 8px; margin-bottom: 24px;"></div>
+          <div class="stepper-step">
+            <div class="stepper-circle">3</div>
+            <div class="stepper-label">3. Xác nhận đơn hàng</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Underline Tabs -->
+      <div style="margin-top: var(--space-32);">
+        <strong style="display: block; margin-bottom: var(--space-12); font-size: var(--font-size-14);">Thẻ Nội Dung Chi Tiết (Underline Tabs - SCR-03):</strong>
+        <div class="tabs-header">
+          <button class="tab-btn active" onclick="switchTab(this, 'tab-desc')">Mô tả sản phẩm</button>
+          <button class="tab-btn" onclick="switchTab(this, 'tab-specs')">Thông số kỹ thuật</button>
+          <button class="tab-btn" onclick="switchTab(this, 'tab-usage')">Hướng dẫn & Bảo quản</button>
+          <button class="tab-btn" onclick="switchTab(this, 'tab-reviews')">Đánh giá khách hàng (142)</button>
+        </div>
+        <div id="tab-content" style="padding: var(--space-12) 0; color: var(--color-text-secondary); font-size: var(--font-size-14);">
+          Bột mì số 11 (Bread Flour) với hàm lượng Gluten cao (11.5% - 12.5%), tạo độ dai giòn lý tưởng cho bánh mì gối, bánh mì hoa cúc và đế pizza thủ công. Nhập khẩu trực tiếp nguyên bao, đóng gói kín khí đạt chuẩn HACCP.
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div style="margin-top: var(--space-32);">
+        <strong style="display: block; margin-bottom: var(--space-8); font-size: var(--font-size-14);">Phân trang (Pagination):</strong>
+        <div class="pagination">
+          <button class="pagination-item disabled" aria-label="Trang trước">«</button>
+          <button class="pagination-item active">1</button>
+          <button class="pagination-item">2</button>
+          <button class="pagination-item">3</button>
+          <button class="pagination-item">4</button>
+          <span style="color: var(--color-text-muted);">...</span>
+          <button class="pagination-item">15</button>
+          <button class="pagination-item" aria-label="Trang sau">»</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 9: FEEDBACK, TOAST & MODAL
+         ==================================================================== -->
+    <section id="feedback" class="ds-section">
+      <h2 class="ds-section-title">🔔 9. Phản Hồi Người Dùng (Toast Notifications & Modal Dialog)</h2>
+      <p class="ds-section-desc">Theo nguyên tắc Nielsen Heuristics 1 (Hiển thị trạng thái hệ thống) và Nielsen 3 (Kiểm soát của người dùng - Cho phép Hoàn tác/Undo ngay lập tức).</p>
+
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-16); margin-bottom: var(--space-24);">
+        <button class="btn btn-primary" onclick="showToast('Thêm sản phẩm vào giỏ thành công!', true)">
+          Kích hoạt Toast Thành công (Có Hoàn tác)
+        </button>
+        <button class="btn btn-secondary" onclick="showToast('Mã giảm giá SUMMER2026 đã hết lượt sử dụng.', false, 'warning')">
+          Kích hoạt Toast Cảnh báo
+        </button>
+        <button class="btn btn-destructive" onclick="openModal()">
+          Mở Hộp thoại Xác nhận (Modal)
+        </button>
+      </div>
+
+      <!-- Live Toast Container -->
+      <div id="toast-wrapper" class="toast-container"></div>
+
+      <!-- Modal Component -->
+      <div id="confirm-modal" class="modal-backdrop" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-dialog">
+          <div class="modal-header">
+            <h3 style="margin: 0; font-size: var(--font-size-20);">Xác nhận hủy đơn hàng #GHP-9821</h3>
+            <button onclick="closeModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text-secondary);">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p>Bạn có chắc chắn muốn hủy đơn hàng này không? Theo quy tắc nghiệp vụ <strong>[BR-05]</strong>, đơn hàng đang ở trạng thái <em>Chờ xử lý</em> sẽ được hoàn trả 100% số tiền cọc trong vòng 24 giờ làm việc.</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeModal()">Giữ lại đơn hàng</button>
+            <button class="btn btn-destructive" onclick="closeModal(); showToast('Đã gửi yêu cầu hủy đơn hàng #GHP-9821 thành công!');">Xác nhận hủy</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 10: ADMIN DATA TABLE (SCR-A2, SCR-A3)
+         ==================================================================== -->
+    <section id="table" class="ds-section">
+      <h2 class="ds-section-title">📊 10. Bảng Quản Trị Dữ Liệu (Admin Data Table - SCR-A2/A3)</h2>
+      <p class="ds-section-desc">Dành cho màn hình máy tính của Quản trị viên/Quản lý: Sắp xếp, bộ lọc trạng thái, chọn hàng loạt (Bulk actions) và thanh tác vụ nhanh.</p>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;"><input type="checkbox" class="custom-checkbox"></th>
+              <th>Mã SKU</th>
+              <th>Sản phẩm</th>
+              <th>Danh mục</th>
+              <th>Tồn kho</th>
+              <th>Đơn giá</th>
+              <th>Trạng thái</th>
+              <th style="text-align: right;">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" class="custom-checkbox"></td>
+              <td><code>GHP-FL-001</code></td>
+              <td><strong>Bột mì số 11 Hoa Ngọc Lan</strong></td>
+              <td>Bột & Men nở</td>
+              <td>350 gói</td>
+              <td>22.000đ</td>
+              <td><span class="badge badge-success">Đang bán</span></td>
+              <td style="text-align: right;">
+                <button class="btn btn-ghost btn-sm" onclick="showToast('Sửa sản phẩm GHP-FL-001')">Sửa</button>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="custom-checkbox"></td>
+              <td><code>GHP-BT-014</code></td>
+              <td><strong>Bơ lạt Anchor 250g</strong></td>
+              <td>Bơ & Kem sữa</td>
+              <td>8 thỏi</td>
+              <td>78.000đ</td>
+              <td><span class="badge badge-warning">Sắp hết hàng</span></td>
+              <td style="text-align: right;">
+                <button class="btn btn-ghost btn-sm" onclick="showToast('Nhập thêm hàng Bơ Anchor')">Nhập kho</button>
+              </td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" class="custom-checkbox"></td>
+              <td><code>GHP-OV-009</code></td>
+              <td><strong>Lò nướng đối lưu Southstar 1 tầng</strong></td>
+              <td>Lò nướng & Máy</td>
+              <td>0 cái</td>
+              <td>18.500.000đ</td>
+              <td><span class="badge badge-error">Hết hàng</span></td>
+              <td style="text-align: right;">
+                <button class="btn btn-ghost btn-sm">Chi tiết</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 11: EMPTY & ERROR STATES & SKELETON
+         ==================================================================== -->
+    <section id="states" class="ds-section">
+      <h2 class="ds-section-title">⏳ 11. Các Trạng Thái Tải, Trống & Lỗi (Skeleton, Empty & Error)</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-24);">
+        
+        <!-- Skeleton Card -->
+        <div>
+          <strong style="display: block; margin-bottom: var(--space-8); font-size: var(--font-size-14);">Skeleton Shimmer Loading:</strong>
+          <div class="product-card" style="border: 1px solid var(--color-border);">
+            <div class="skeleton skeleton-img" style="margin-bottom: var(--space-12);"></div>
+            <div class="skeleton" style="width: 40%; height: 14px; margin-bottom: 8px;"></div>
+            <div class="skeleton skeleton-title"></div>
+            <div class="skeleton skeleton-price"></div>
+            <div class="skeleton skeleton-btn"></div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div>
+          <strong style="display: block; margin-bottom: var(--space-8); font-size: var(--font-size-14);">Trạng thái Giỏ hàng Trống (Empty Cart):</strong>
+          <div class="state-box">
+            <div class="state-icon">🛒</div>
+            <h4 class="state-title">Giỏ hàng của bạn đang trống</h4>
+            <p class="state-desc">Hãy khám phá hơn 1.000 loại bột, bơ sữa, socola và khuôn làm bánh hảo hạng tại Gia Hòa Phát.</p>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Chuyển hướng về trang Danh mục sản phẩm...')">
+              Tiếp tục mua sắm
+            </button>
+          </div>
+        </div>
+
+        <!-- Error State -->
+        <div>
+          <strong style="display: block; margin-bottom: var(--space-8); font-size: var(--font-size-14);">Trạng thái Mất kết nối / Lỗi tải:</strong>
+          <div class="state-box">
+            <div class="state-icon" style="color: var(--color-error);">⚠️</div>
+            <h4 class="state-title">Không thể tải danh sách sản phẩm</h4>
+            <p class="state-desc">Đã xảy ra sự cố gián đoạn đường truyền. Vui lòng kiểm tra lại kết nối mạng hoặc thử lại sau giây lát.</p>
+            <button class="btn btn-secondary btn-sm" onclick="location.reload()">
+              Thử lại ngay
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+  <script>
+    // 1. Password Visibility Toggle
+    function togglePasswordVisibility() {
+      const pwd = document.getElementById('inp-password');
+      const icon = document.getElementById('eye-icon');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        icon.innerHTML = '<path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/>';
+      } else {
+        pwd.type = 'password';
+        icon.innerHTML = '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    }
+
+    // 2. Quantity Stepper
+    function updateQty(delta) {
+      const input = document.getElementById('demo-qty');
+      let val = parseInt(input.value, 10) || 1;
+      val += delta;
+      if (val < 1) val = 1;
+      if (val > 99) val = 99;
+      input.value = val;
+    }
+
+    // 3. Tab Switcher
+    function switchTab(btn, tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const content = document.getElementById('tab-content');
+      if (tabId === 'tab-desc') {
+        content.innerHTML = 'Bột mì số 11 (Bread Flour) với hàm lượng Gluten cao (11.5% - 12.5%), tạo độ dai giòn lý tưởng cho bánh mì gối, bánh mì hoa cúc và đế pizza thủ công. Nhập khẩu trực tiếp nguyên bao, đóng gói kín khí đạt chuẩn HACCP.';
+      } else if (tabId === 'tab-specs') {
+        content.innerHTML = '<strong>Độ ẩm:</strong> Tối đa 14.0% • <strong>Hàm lượng tro:</strong> 0.55% • <strong>Protein:</strong> 11.8% • <strong>Xuất xứ:</strong> Việt Nam / Lúa mì Úc • <strong>Chứng nhận:</strong> ISO 22000:2018, Halal.';
+      } else if (tabId === 'tab-usage') {
+        content.innerHTML = 'Bảo quản nơi khô ráo, nhiệt độ dưới 25°C, tránh ánh nắng trực tiếp. Sau khi mở túi cần kẹp chặt miệng hoặc cho vào hộp nhựa kín để tránh côn trùng, ẩm mốc.';
+      } else {
+        content.innerHTML = '⭐⭐⭐⭐⭐ 4.9 / 5 (142 lượt đánh giá thực tế từ các thợ bánh và tiệm Bakery). 100% đánh giá bột dai ngon, nở xốp đạt tiêu chuẩn.';
+      }
+    }
+
+    // 4. Toast Notification System
+    function showToast(message, allowUndo = false, type = 'success') {
+      const container = document.getElementById('toast-wrapper');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      
+      let undoBtn = '';
+      if (allowUndo) {
+        undoBtn = `<button class="toast-undo-btn" onclick="undoAction(this)">Hoàn tác (Undo)</button>`;
+      }
+
+      toast.innerHTML = `
+        <div class="toast-content">${message}</div>
+        ${undoBtn}
+        <button onclick="this.parentElement.remove()" style="background:none; border:none; cursor:pointer; color:#9A897B; font-size:18px;">&times;</button>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        if (toast.parentElement) toast.remove();
+      }, 5000);
+    }
+
+    function undoAction(btn) {
+      btn.parentElement.remove();
+      showToast('Đã hoàn tác thao tác vừa rồi thành công!');
+    }
+
+    // 5. Modal Dialog Controls
+    function openModal() {
+      document.getElementById('confirm-modal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('confirm-modal').classList.remove('open');
+    }
+    function closeModalOnBackdrop(e) {
+      if (e.target.id === 'confirm-modal') {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>

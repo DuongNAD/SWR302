@@ -1,13 +1,12 @@
 # 📋 THÔNG TIN DỰ ÁN SWR302
 
 ## 1. Thông tin chung
-- **Tên đề tài (Project Name):** `[Ví dụ: Hệ thống Quản lý Đặt khám Bác sĩ Trực tuyến - SmartClinic]`
+- **Tên đề tài (Project Name):** Topic 1 — Hệ Thống Mua Sắm Nguyên Liệu & Thiết Bị Làm Bánh Trực Tuyến (Gia Hoa Phat Bakery Supply)
 - **Mã môn học:** SWR302 — Software Requirements
-- **Lớp / Khóa (Class / Term):** `[Ví dụ: SE18xx - Fall 2026]`
-- **Giảng viên hướng dẫn (Lecturer):** `[Điền tên giảng viên]`
-- **Mã nhóm (Team ID):** `Group [X]`
-- **Repository URL:** `[Link Github/GitLab nếu có]`
-- **Figma / Prototype URL:** `[Link Figma]`
+- **Lớp / Khóa (Class / Term):** Fall 2026
+- **Giảng viên hướng dẫn (Lecturer):** [Điền tên giảng viên]
+- **Mã nhóm (Team ID):** Group [X]
+- **Prototype HTML:** [prototype/design-system.html](file:///Users/duongnad/Documents/project/SWR302/prototype/design-system.html)
 
 ---
 

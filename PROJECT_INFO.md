@@ -6,7 +6,9 @@
 - **Lớp / Khóa (Class / Term):** Fall 2026
 - **Giảng viên hướng dẫn (Lecturer):** [Điền tên giảng viên]
 - **Mã nhóm (Team ID):** Group [X]
-- **Prototype HTML:** [prototype/design-system.html](file:///Users/duongnad/Documents/project/SWR302/prototype/design-system.html)
+- **Client App (SPA):** [client/](file:///Users/duongnad/Documents/project/SWR302/client) — Local URL: `http://localhost:5173`
+- **Design System Spec:** [design-system/gia-hoa-phat-bakery-supply/MASTER.md](file:///Users/duongnad/Documents/project/SWR302/design-system/gia-hoa-phat-bakery-supply/MASTER.md)
+- **Design System Showcase:** [prototype/design-system.html](file:///Users/duongnad/Documents/project/SWR302/prototype/design-system.html)
 
 ---
 

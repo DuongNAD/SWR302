@@ -1,4 +1,6 @@
-# 03 · Danh sách task (làm lần lượt T0 → T17)
+# 03 · Danh sách task (vòng 1: T0 → T17 — đã xong; tùy chọn: T18)
+
+> **Vòng 1 (T0 → T17) đã hoàn thành** (commit `c9cc5ce`). **Việc cần làm tiếp là vòng 2: R1 → R16 ở `06_review_round2.md`.** File này giữ lại làm tham chiếu cho nội dung từng task, và có thêm **T18** (tùy chọn, làm sau cùng).
 
 > Đọc `README.md` (luật + thư viện được phép), `01_design_rules.md` (thiết kế, chuyển trang) và `02_pages.md` (nội dung từng trang) trước.
 > Ưu tiên: **P0** bắt buộc · **P1** nên làm · **P2** nếu còn thời gian. **T16 luôn phải làm.**
@@ -277,6 +279,21 @@
 
 **Nghiệm thu**
 - [ ] `npm run preview` mở được toàn bộ route; thư mục `screenshots/` đủ ảnh, tên đúng mã SCR.
+
+---
+
+## T18 — Trang xem sơ đồ use case `/dev/use-cases` (SCR-D03) `[P2 · tùy chọn · chỉ làm khi xong R1 → R15 ở 06_review_round2.md]`
+**Files:** `src/pages/dev/UseCasesPage.tsx`, `src/router.tsx` (thêm route), `src/components/layout/DemoWidget.tsx` (thêm liên kết), `public/diagrams/*.svg`.
+
+1. Sao chép 7 file `ui-spec/diagrams/uc-*.svg` vào `client/public/diagrams/` (giữ nguyên tên, **không sửa nội dung**, **không vẽ lại** — sơ đồ do nhóm tự vẽ nên không cần ghi vào `THIRD_PARTY.md`).
+2. Trang `/dev/use-cases` (trong `StoreLayout`, như hai trang dev còn lại): `PageHeader` với `h1` "Sơ đồ use case" + mô tả một dòng ("41 use case, 5 tác nhân, 4 hệ thống ngoài."); shadcn `Tabs` kiểu gạch chân gồm 7 tab: *Tổng quan · Tài khoản · Duyệt và tìm kiếm · Giỏ hàng và đặt hàng · Theo dõi đơn · Kho và vận hành · Quản trị*. Mỗi tab hiện sơ đồ bằng `<img src="./diagrams/uc-xx.svg">` trong khung viền trắng `rounded-lg`, `max-w-full`; sơ đồ rộng hơn khung thì **cuộn ngang trong khung** (trang không được tràn). Dưới ảnh: chú thích "Hình n — …" và liên kết "Mở ảnh gốc" (`target="_blank"`).
+3. Dưới các tab: bảng **Tác nhân** (5 dòng: tên, vai trò `role`, làm được gì) — nội dung chép từ `05_use_case_diagram.md` mục 2, viết cứng.
+4. Thêm liên kết "Sơ đồ use case" vào `DemoWidget`. Thêm `/dev/use-cases` vào mảng `ROUTES` của `ui-spec/audit-runtime.mjs`.
+5. Mỗi `<img>` có `alt` mô tả ("Sơ đồ use case tổng quan", …).
+
+**Nghiệm thu**
+- [ ] `/dev/use-cases` hiện đủ 7 sơ đồ rõ nét; ở 375px sơ đồ cuộn ngang trong khung, trang không tràn.
+- [ ] `check-ui.sh`, `check-links.mjs`, `audit-runtime.mjs` không tăng so với trước T18.
 
 ---
 

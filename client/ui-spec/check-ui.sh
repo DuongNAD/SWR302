@@ -85,6 +85,55 @@ else
   echo '✓ "SWR302" chỉ nằm ở khu vực demo'
 fi
 
+# ───────────── Kiểm tra vòng 2 (lỗi "tự nhiên / hiện đại" còn sót) ─────────────
+report() { # report "<tên>" "<gợi ý>" "<kết quả grep>"
+  local name="$1" hint="$2" out="$3" count
+  count=$(printf '%s' "$out" | grep -c . || true)
+  if [ "$count" -gt 0 ]; then
+    violations=$((violations + count))
+    printf '\n✗ %s — %s chỗ\n  → %s\n' "$name" "$count" "$hint"
+    printf '%s\n' "$out" | head -5 | sed 's/^/    /'
+    [ "$count" -gt 5 ] && printf '    … và %s chỗ khác\n' "$((count - 5))"
+  else
+    printf '✓ %s\n' "$name"
+  fi
+}
+UIDIRS=("$SRC/pages" "$SRC/components" "$SRC/layouts")
+NOCOMMENT=':[0-9]+:[[:space:]]*(//|\{/\*|/\*|\*)'
+
+out=$(grep -rnE 'SCR-[A-Z]?[0-9]+' "${UIDIRS[@]}" --include='*.tsx' 2>/dev/null | grep -v 'pages/dev/' | grep -vE "$NOCOMMENT")
+report 'Mã màn hình nội bộ "SCR-xx" lộ ra giao diện' "Xóa hẳn nhãn/eyebrow dạng 'SCR-15 · TÀI KHOẢN…'. Mã SCR chỉ dành cho tài liệu." "$out"
+
+if command -v perl >/dev/null 2>&1; then
+  scan() { find "${UIDIRS[@]}" -name '*.tsx' -not -path '*/pages/dev/*' -print0 | xargs -0 perl -CSD -ne "$1" 2>/dev/null; }
+  out=$(scan 'next if /^\s*(\/\/|\{\/\*|\/\*|\*|import )/ || /Chủ tài khoản/; print "$ARGV:$.:$_" if /\p{Lu}{2,}(?:[ ·&]+\p{Lu}{2,}){2,}/; close ARGV if eof')
+  report "Chữ IN HOA gõ cứng (≥ 3 từ)" "Viết câu thường. Đây là nhãn 'eyebrow' kiểu AI — bỏ hoặc viết lại." "$out"
+  out=$(scan 'next if /^\s*(\/\/|\{\/\*|\/\*|\*|import )/ || /Chủ tài khoản/; print "$ARGV:$.:$_" if /[\p{L}\p{N}]!(?=[\x27"`<\s}])/; close ARGV if eof')
+  report 'Dấu "!" trong chữ hiển thị / thông báo' "Bỏ dấu chấm than: 'Đặt hàng thành công', 'Đã lưu thay đổi'." "$out"
+  out=$(scan 'next if /^\s*(\/\/|\{\/\*|\/\*|\*|import )/; print "$ARGV:$.:$_" if /(?<=[\s>])\p{Ll}+ & \p{Lu}\p{Ll}/; close ARGV if eof')
+  report 'Viết hoa chữ đầu sau dấu "&" (Title Case)' "Viết sentence case và dùng 'và': 'Vận chuyển và chuỗi lạnh', không phải 'Vận chuyển & Chuỗi lạnh'." "$out"
+fi
+
+out=$(grep -rnE '<select\b' "${UIDIRS[@]}" --include='*.tsx' 2>/dev/null | grep -v 'components/ui/' | grep -vE "$NOCOMMENT")
+report "Thẻ <select> gốc của trình duyệt" "Dùng Select của shadcn/ui (components/ui/select) cho đồng bộ giao diện." "$out"
+
+out=$(grep -rnE 'https?://(images|plus)\.unsplash\.com|api\.qrserver\.com|images\.pexels\.com|pixabay\.com' "$SRC" --include='*.tsx' --include='*.ts' 2>/dev/null)
+report "Ảnh nạp từ URL ngoài (dễ chết / sai nội dung / cần mạng)" "Tải ảnh về public/img/ và trỏ imageUrl vào đó (xem 07_image_guide.md)." "$out"
+
+out=$(grep -rnE '\{[[:space:]]*[A-Za-z_.]+\.(status|paymentMethod|shippingMethod)[[:space:]]*\}' "${UIDIRS[@]}" --include='*.tsx' 2>/dev/null | grep -vE "$NOCOMMENT" | grep -v 'key={')
+report "Hiển thị thẳng giá trị enum (packing/pending/vnpay…)" "Ánh xạ sang nhãn tiếng Việt qua một bảng (STATUS_LABEL, PAYMENT_LABEL…)." "$out"
+
+out=$(grep -rnE 'container mx-auto' "${UIDIRS[@]}" --include='*.tsx' 2>/dev/null | grep -vE "$NOCOMMENT")
+report 'Khung nội dung lệch lưới ("container mx-auto")' "Dùng lớp 'wrap' (1200px) để lề trái thẳng hàng với header và footer (xem 06_review_round2.md, R5)." "$out"
+
+out=$(grep -rnE 'PCI-DSS|an toàn SSL|100% sản phẩm|Cam kết chất lượng' "${UIDIRS[@]}" --include='*.tsx' 2>/dev/null | grep -vE "$NOCOMMENT")
+report "Tuyên bố sai hoặc lời hứa chung chung" "Bỏ 'PCI-DSS 256-bit', 'SSL', '100% sản phẩm…', 'Cam kết chất lượng…'. Chỉ ghi điều kiểm chứng được (06_review_round2.md, R1)." "$out"
+
+if command -v node >/dev/null 2>&1 && [ -f ui-spec/check-links.mjs ]; then
+  out=$(node ui-spec/check-links.mjs 2>/dev/null | grep -E '^src/')
+  report "Link tới route không tồn tại" "Sửa đường dẫn hoặc thêm route (vd. /danh-muc/:slug → /san-pham?danh-muc=<id>)." "$out"
+fi
+
 # Cảnh báo (không tính vi phạm): font-mono chỉ hợp lệ cho SKU, số lô, mã đơn, OTP
 mono=$(grep -rn 'font-mono' "$SRC" --include='*.tsx' 2>/dev/null | grep -c . || true)
 printf '\n• font-mono: %s chỗ (chỉ hợp lệ cho SKU, số lô, mã đơn, OTP — tự rà bằng mắt)\n' "$mono"

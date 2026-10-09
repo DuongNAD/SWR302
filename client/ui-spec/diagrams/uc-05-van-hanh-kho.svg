@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="750" viewBox="0 0 1180 750" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title>Sơ đồ use case phân rã — Vận hành kho và đơn hàng</title>
+<defs>
+  <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#292524" stroke-width="1.5"/></marker>
+  <marker id="tri" viewBox="0 0 16 14" refX="15" refY="7" markerWidth="15" markerHeight="13" orient="auto"><path d="M1 1 L15 7 L1 13 Z" fill="#fff" stroke="#292524" stroke-width="1.5"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<rect x="697.6" y="17" width="212.39999999999998" height="27" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="803.8" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Vận hành kho và đơn hàng</text>
+<rect x="270" y="44" width="640" height="546" fill="#fff" stroke="#292524" stroke-width="1.8"/>
+<line x1="131.0" y1="319.0" x2="312.0" y2="140.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="319.0" x2="312.0" y2="320.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="319.0" x2="312.0" y2="520.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="110.0" y1="551.0" x2="110.0" y2="432.0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/>
+<line x1="548.0" y1="320.0" x2="642.0" y2="320.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="595.0" y="312.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
+<line x1="548.0" y1="140.0" x2="972.0" y2="140.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="548.0" y1="520.0" x2="972.0" y2="520.0" stroke="#292524" stroke-width="1.4"/>
+<g><circle cx="110" cy="296" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 307 V340 M89 319 H131 M110 340 L94 368 M110 340 L126 368" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="388" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Nhân viên kho</text><text x="110" y="405" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">và vận hành</text><text x="110" y="422" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Staff)</text></g>
+<g><circle cx="110" cy="566" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 577 V610 M89 589 H131 M110 610 L94 638 M110 610 L126 638" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="658" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Quản trị viên</text><text x="110" y="675" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Admin)</text></g>
+<g><ellipse cx="430" cy="140" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="135.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-31</text><text x="430" y="151.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Quản lý đơn hàng</text></g>
+<g><ellipse cx="430" cy="320" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="307.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-34</text><text x="430" y="323.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Quản lý tồn kho</text><text x="430" y="339.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">và lô hàng</text></g>
+<g><ellipse cx="430" cy="520" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="507.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-38</text><text x="430" y="523.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Giám sát vận chuyển</text><text x="430" y="539.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">và chuỗi lạnh</text></g>
+<g><ellipse cx="760" cy="320" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="307.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-35</text><text x="760" y="323.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Cảnh báo hạn dùng</text><text x="760" y="339.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">và tồn kho thấp</text></g>
+<g><rect x="972" y="109" width="176" height="62" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="1060" y="124" text-anchor="middle" font-size="11" font-style="italic" fill="#57534E">«hệ thống ngoài»</text><text x="1060" y="146" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Dịch vụ Email / SMS</text></g>
+<g><rect x="972" y="489" width="176" height="62" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="1060" y="504" text-anchor="middle" font-size="11" font-style="italic" fill="#57534E">«hệ thống ngoài»</text><text x="1060" y="520" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Cảm biến nhiệt độ</text><text x="1060" y="535" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">xe lạnh</text></g>
+<g transform="translate(24,726)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp</text></g>
+<g transform="translate(138.8,726)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
+<g transform="translate(336.8,726)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/><text x="42" y="4" font-size="12" fill="#57534E">Kế thừa (actor con → actor cha)</text></g>
+</svg>

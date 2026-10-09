@@ -1,6 +1,8 @@
 # 04 · Hiện trạng của `client/` (đã chạy thử và đo trên app thật, 08/10/2026)
 
 > File tham khảo — giải thích **vì sao** phải làm lại. Antigravity không cần làm gì với file này.
+>
+> **Lưu ý:** file này mô tả bản **trước vòng 1** (trước commit `c9cc5ce`). Hiện trạng sau vòng 1 và việc cần làm tiếp nằm ở **`06_review_round2.md`**.
 
 ## 1. Đánh giá tóm tắt
 

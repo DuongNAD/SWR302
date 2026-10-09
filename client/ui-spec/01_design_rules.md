@@ -32,6 +32,13 @@ Hiện tại giao diện mang "mùi AI" rõ rệt (gradient hero + vòng tròn m
 | 14 | Hero có ảnh nền + thẻ kính nổi + hàng số liệu | Banner "chia đôi" trong khung viền 1px: chữ bên trái, ảnh bên phải (xem SCR-01) |
 | 15 | **Giao diện mặc định của shadcn/ui** (zinc/slate, bóng `shadow-sm/md`, bo tròn mặc định) — nhìn là biết "app AI" | Retheme theo mục 4 ngay sau `init` |
 | 16 | Thư viện hiệu ứng (Magic UI, Aceternity, `motion`/framer-motion, GSAP, Lottie, particles) | Không dùng; chuyển trang chỉ bằng `.page-enter` |
+| 17 | **Nhãn nội bộ lộ ra giao diện**: mã màn hình `SCR-xx`, dòng mono IN HOA phía trên `h1` ("SCR-22 · HỆ THỐNG CỬA HÀNG") | Không có nhãn. Mã SCR chỉ nằm trong tài liệu |
+| 18 | **Viết hoa chữ đầu sau dấu `&`**: "Vận chuyển & Chuỗi lạnh", "Nhân viên & Phân quyền" | Sentence case và dùng "và": "Vận chuyển và chuỗi lạnh" |
+| 19 | **Tuyên bố kỹ thuật sai / cam kết chung chung**: "bảo mật chuẩn PCI-DSS 256-bit", "an toàn SSL", "Đền bù 100%", "100% sản phẩm…", "Cam kết chất lượng…" | Chỉ ghi điều kiểm chứng được ("Hạn dùng ghi trên từng lô"). Chính sách đền bù/hoàn tiền chỉ nằm ở trang Hỗ trợ |
+| 20 | **Khung nội dung lệch lưới**: `container mx-auto px-4` (lề trái 96px, lệch header 48px) | Lớp `wrap` (1200px) ở mọi trang cửa hàng |
+| 21 | **Điều khiển gốc của trình duyệt** (`<select>`) đứng cạnh điều khiển đã retheme | shadcn `Select`, cùng chiều cao và viền với `Input` |
+| 22 | **Giá trị enum thô và tiếng Anh lẫn trong câu**: `packing`, `pending`, "(Free)", "Chilled Express" | Bảng nhãn tiếng Việt (`src/lib/labels.ts`) |
+| 23 | **Ảnh sai nội dung, lặp, không cùng phong cách, hoặc nạp từ URL ngoài** | `07_image_guide.md` |
 
 ---
 
@@ -39,7 +46,7 @@ Hiện tại giao diện mang "mùi AI" rõ rệt (gradient hero + vòng tròn m
 
 - **Nền:** trang `page` (#FAFAF9); khối nội dung/thẻ/bảng nền trắng + viền `line`. Footer nền `ink`.
 - **Một màu nhấn** `brand` (#92400E) cho nút chính, link, mục đang chọn, focus. Giá **không** tô màu nhấn (dùng `ink`); giá giảm/giá gốc: `bad`/`ink-3`; "giá sỉ": `brand`. Màu `ok/warn/bad/info` **chỉ** dùng cho trạng thái.
-- **Lưới & khoảng cách:** container tối đa **1200px**, lề ngang 16px (≥ md: 24px); thang khoảng cách 4·8·12·16·24·32·48. Khoảng cách giữa các khối trang 32–48px (không 96px).
+- **Lưới & khoảng cách:** container tối đa **1200px**, lề ngang 16px (≥ md: 24px); thang khoảng cách 4·8·12·16·24·32·48. Khoảng cách giữa các khối trang 32–48px (không 96px). Header, breadcrumb, nội dung và footer dùng **cùng một** khung `wrap` — lề trái thẳng hàng ở mọi trang.
 - **Mật độ:** danh sách sản phẩm ≥ 4 cột ở desktop; hàng bảng admin 48px; không padding thừa.
 - **Thứ bậc:** mỗi màn hình đúng **1 `h1`**; mỗi vùng chỉ **1 nút primary**; nút phụ là outline/text.
 - **Căn lề trái** cho nội dung; chỉ căn giữa cho empty state, đăng nhập/đăng ký, trang thành công, 404.
@@ -329,6 +336,7 @@ Bán kính: **nút, ô nhập** `rounded-md` (6px) · **thẻ, bảng, popover**
 - Định dạng: tiền `78.000₫` · ngày `28/11/2026` · nhiệt độ `2–8°C` (gạch nối en) · khối lượng `227g` · điện thoại `0912 345 678`.
 - Thông báo lỗi (khi có) nói rõ cách sửa: "Số điện thoại chưa đúng. Nhập 10 chữ số, bắt đầu bằng 0."
 - Không số liệu ảo / lời khen chung chung. Chỉ dùng số có trong đề bài hoặc dữ liệu (1998, 2 cửa hàng, ngưỡng 500.000₫…).
+- Tiêu đề dùng "và", không dùng "&": "Vận chuyển và chuỗi lạnh". Không tuyên bố bảo mật hay đền bù ngoài trang Hỗ trợ (xem mục 2, dòng 19).
 
 | Hiện tại | Thay bằng |
 |---|---|
@@ -345,8 +353,8 @@ Bán kính: **nút, ô nhập** `rounded-md` (6px) · **thẻ, bảng, popover**
 ## 9. Ảnh & icon
 
 - **Icon:** chỉ `lucide-react`, 16px (nút, ô nhập, menu) / 20px (header) / 32px (empty state), `strokeWidth={1.75}`, màu kế thừa chữ. Icon **không** nằm trong ô tròn/vuông có nền.
-- **Ảnh sản phẩm:** khung vuông 1:1, `object-cover`, nền `page`, `loading="lazy"`, `alt` = tên sản phẩm; ảnh lỗi → nền `page` + icon `Package` 32px `ink-3`.
-- **Ảnh banner / danh mục (để giao diện đẹp):** chọn ảnh thật chất lượng cao từ **Unsplash / Pexels** (giấy phép miễn phí), **cùng tông ấm, cùng kiểu chụp**, tải về `public/img/` (chạy offline), ghi nguồn vào `THIRD_PARTY.md`. Banner tỉ lệ ~5:2. **Không** minh họa, blob, hình trang trí.
+- **Ảnh sản phẩm:** khung vuông 1:1, `object-cover`, nền `page`, `loading="lazy"`, `alt` = tên sản phẩm. Dùng thành phần `ProductImage` — ảnh lỗi chuyển sang `./img/placeholder.svg`, **không** hiện chữ alt.
+- **Mọi ảnh là file cục bộ** trong `public/img/` (đường dẫn tương đối `./img/…`, chạy offline). Được **tự tạo bằng AI** hoặc **tải từ Unsplash / Pexels / Pixabay / Wikimedia Commons** (giấy phép miễn phí), nhưng phải: **đúng nhãn**, **một bộ thống nhất** (nền kem `#F4F1EC`, ánh sáng từ trên-trái, cùng cỡ chủ thể), không chữ / logo / người, không lặp. Danh sách ảnh, phong cách, prompt, kích thước và cách kiểm tra: **`07_image_guide.md`**. Ghi nguồn hoặc công cụ + prompt vào `THIRD_PARTY.md`. **Không** minh họa, blob, hình trang trí.
 - Hình QR thanh toán: file SVG tĩnh trong `public/` (không gọi API ngoài).
 
 ---
@@ -386,7 +394,7 @@ Mọi lần đổi trang đều có hiệu ứng, **một kiểu duy nhất, nh�
 
 Mọi thứ phục vụ thuyết trình/môn học **không** nằm trong giao diện khách:
 
-- **`DemoWidget`**: một nút nhỏ "Demo" (cao 32px, nền `ink`, chữ trắng, 12px) cố định góc **dưới trái** (trên mobile đặt cao hơn thanh dính đáy của SCR-04, `bottom` ≥ 72px, để không che nút "Thêm vào giỏ"), bấm mở `Popover` gồm: *Vai trò hiện tại* → 3 nút chọn nhanh **Khách lẻ · Khách sỉ · Quản trị** (gọi `loginAs` sẵn có) · liên kết "Ma trận yêu cầu (SWR302)" → `/dev/requirements` · liên kết "Bộ thành phần giao diện" → `/dev/style-guide`. Không icon trang trí, không hiệu ứng.
+- **`DemoWidget`** *(sửa ở vòng 2 — R2)*: một **nút tròn 40px** (icon `SlidersHorizontal`, nền `ink`, icon trắng) cố định góc **dưới phải**, **không có chip chữ thường trực**. Trên mobile **ẩn mặc định**, chỉ hiện khi URL có `?demo=1` (để không che chữ hay thanh dính đáy của SCR-04). Bấm mở `Popover` gồm: *Vai trò hiện tại* → 3 nút chọn nhanh **Khách lẻ · Khách sỉ · Quản trị** (gọi `loginAs` sẵn có) · liên kết "Ma trận yêu cầu (SWR302)" → `/dev/requirements` · "Bộ thành phần giao diện" → `/dev/style-guide` · "Sơ đồ use case" → `/dev/use-cases` (chỉ khi làm T18). **Không** có link `/legacy`. Trang quản trị luôn hiện người dùng quản trị cố định ("Nguyễn Anh Dương"), không hiện tên khách.
 - **Trang đăng nhập:** thêm khối viền `line` tên "Tài khoản demo" dưới form, 3 nút nhỏ như trên.
 - **`/dev/requirements`:** chuyển nội dung `SWRMatrixDrawer` sang trang đầy đủ (bảng responsive). **`/dev/style-guide`:** hiển thị mọi thành phần ở mục 6 cùng các trạng thái.
 - Footer có đúng **một dòng** prototype (xem mục 7). Ngoài các chỗ này, chữ "SWR302" **không** xuất hiện trong giao diện (`check-ui.sh` kiểm tra).
@@ -394,7 +402,11 @@ Mọi thứ phục vụ thuyết trình/môn học **không** nằm trong giao d
 ## 12. Kiểm tra
 
 ```bash
-bash ui-spec/check-ui.sh   # 0 vi phạm: gradient · blur · bo góc lớn · bóng nặng · hiệu ứng · Sparkles ·
-                           # IN HOA · chữ nhỏ · hex cứng · cụm từ quảng cáo · emoji · "SWR302" lọt ra ngoài
+bash ui-spec/check-ui.sh        # 0 vi phạm: gradient · blur · bo góc lớn · bóng nặng · hiệu ứng · Sparkles · IN HOA · chữ nhỏ ·
+                                # hex cứng · cụm từ quảng cáo · emoji · "SWR302" · nhãn SCR-xx · "!" · viết hoa sau "&" ·
+                                # <select> gốc · ảnh URL ngoài · enum thô · container mx-auto · tuyên bố sai · link chết
+node ui-spec/check-links.mjs    # 0 link nội bộ tới route không tồn tại
+node ui-spec/check-images.mjs   # 0 lỗi ảnh (cục bộ, đủ kích thước, không trùng, không mồ côi)
+node ui-spec/audit-runtime.mjs --viewports=desktop,mobile --all   # chạy thật 45 route: 0 lỗi, 0 cảnh báo
 ```
 Ngoài script, **tự rà bằng mắt**: Title Case còn sót, thẻ lồng thẻ, nhãn pastel, icon trong ô màu, khoảng cách lệch thang 4, hai nút primary trong một vùng, chữ mờ dưới 4.5:1, **giao diện mặc định của shadcn còn sót** (bóng, bo tròn, xám zinc), hiệu ứng chuyển trang giật/nháy.

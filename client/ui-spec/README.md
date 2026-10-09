@@ -4,16 +4,25 @@ Bộ tài liệu giao việc cho **Antigravity** để làm lại giao diện `c
 
 > **Phạm vi: CHỈ GIAO DIỆN** — phần hiển thị, các trang và **hiệu ứng chuyển trang**. Không backend, **không cần bảo mật**, **dữ liệu có thể hard-code**, không đổi công thức nghiệp vụ, không sửa tài liệu SRS trong `docs/`.
 
+> **Trạng thái (09/10/2026):** vòng 1 (T0 → T17) **đã xong**. **Đang ở vòng 2** — sửa các lỗi còn lại để giao diện tự nhiên như web thật: việc cần làm ở **`06_review_round2.md`** (R1 → R16), ảnh ở **`07_image_guide.md`** (được tự tạo ảnh hoặc tìm ảnh trên mạng). Có thêm **sơ đồ use case** ở `05_use_case_diagram.md`.
+
 | File | Nội dung |
 |---|---|
 | `README.md` | Bối cảnh đề bài, luật bắt buộc, **thư viện được phép**, prompt dán cho Antigravity *(file này)* |
+| **`06_review_round2.md`** | **Vòng 2 — đọc trước.** Kết luận, số đo, 27 lỗi, **16 task R1 → R16** với tiêu chí nghiệm thu đo được, prompt vòng 2 |
+| **`07_image_guide.md`** | **Ảnh** — được tự tạo hoặc tìm trên mạng; danh sách 28 ảnh, phong cách, prompt mẫu, cách kiểm tra |
+| `05_use_case_diagram.md` | **Sơ đồ use case** (hình người que, 1 tổng quan + 6 phân rã), 5 tác nhân, 41 use case ↔ màn hình ↔ yêu cầu. Tài liệu tham chiếu |
 | `01_design_rules.md` | Nguyên tắc **"không giống AI"**, design tokens, cách retheme shadcn/ui, quy cách thành phần, cách viết nội dung |
-| `02_pages.md` | **Danh sách đủ các trang** (40 màn hình): đường dẫn, bố cục, thành phần, trạng thái, dữ liệu |
-| `03_tasks.md` | 18 task (T0 → T17) theo thứ tự, kèm tiêu chí nghiệm thu |
-| `04_audit_current.md` | Hiện trạng đã đo của bản hiện tại (bằng chứng, số liệu) |
-| `check-ui.sh` | Script tự kiểm tra "dấu hiệu giao diện AI" — `bash ui-spec/check-ui.sh` |
+| `02_pages.md` | **Danh sách đủ các trang** (40 màn hình + 1 trang dev tùy chọn): đường dẫn, bố cục, thành phần, trạng thái, dữ liệu |
+| `03_tasks.md` | Vòng 1: 18 task (T0 → T17, đã xong) + T18 tùy chọn |
+| `04_audit_current.md` | Hiện trạng **trước vòng 1** (bằng chứng, số liệu) — chỉ để tham khảo |
+| `check-ui.sh` | Kiểm tra tĩnh: "dấu hiệu giao diện AI", nhãn dev, lưới, `<select>` gốc, ảnh ngoài, link chết |
+| `check-links.mjs` | Tìm link nội bộ trỏ tới route không tồn tại |
+| `check-images.mjs` | Kiểm ảnh: cục bộ, tồn tại, đủ kích thước, không trùng, không mồ côi |
+| `audit-runtime.mjs` | Chạy thật 45 route bằng Chrome headless: tràn ngang, ảnh hỏng, lỗi console, nhãn dev, truy cập… |
+| `diagrams/` | Sơ đồ use case: `build-use-cases.mjs` (nguồn) + `uc-*.svg` / `uc-*.png` |
 
-**Thứ tự đọc:** `README` → `01_design_rules` → `02_pages` → `03_tasks`. (`04_audit_current` chỉ để tham khảo.)
+**Thứ tự đọc (vòng 2):** `README` → `06_review_round2` → `07_image_guide` → (tham chiếu khi cần) `01_design_rules`, `02_pages`, `03_tasks`, `05_use_case_diagram`.
 
 ---
 
@@ -32,7 +41,7 @@ Bộ tài liệu giao việc cho **Antigravity** để làm lại giao diện `c
 ## 2. Đừng đọc nhầm
 
 `docs/07_ui_wireframes/ui_flow.md`, `docs/04_use_cases/*`, `docs/03_srs/functional_reqs.md`, `docs/02_elicitation/user_personas.md`… hiện là **mẫu của một đề tài đặt lịch dịch vụ** ("Booking", "Provider", "chuyên gia", "khung giờ"). **Không phải Topic 1 — không bám theo.**
-Nguồn đúng cho nghiệp vụ Topic 1: các file trong `ui-spec/`, `client/src/data/swrRequirements.ts` và code hiện có trong `client/src/`.
+Nguồn đúng cho nghiệp vụ Topic 1: các file trong `ui-spec/`, `client/src/data/swrRequirements.ts` và code hiện có trong `client/src/`. Sơ đồ use case đúng của Topic 1: `05_use_case_diagram.md`.
 
 ## 3. Luật bắt buộc
 
@@ -40,9 +49,9 @@ Nguồn đúng cho nghiệp vụ Topic 1: các file trong `ui-spec/`, `client/sr
 2. **Không cần bảo mật. Dữ liệu hard-code được.** Không xác thực thật, không phân quyền route (mọi trang vào được bằng URL; vai trò chỉ làm đổi *phần hiển thị*), không kiểm tra hợp lệ phức tạp, không lưu bền vững. Dữ liệu viết thẳng trong `src/mocks/`; không cần đồng bộ trạng thái giữa các trang (không cần `OrdersContext` / `WishlistContext`).
 3. **Hiệu ứng chuyển trang là bắt buộc** (`01_design_rules.md` mục 10.1) và là hiệu ứng tự thêm *duy nhất*; mọi hiệu ứng trang trí khác bị cấm.
 4. **Dùng lại nguyên trạng** các context có sẵn: `CartContext` (miễn phí vận chuyển 500.000₫, miễn phí đóng gói lạnh từ 300.000₫, phí đóng gói 15.000₫, voucher `BAKING2026`/`GHPVIP`/`FREESHIP`), `AuthContext` (3 vai trò demo), `ToastContext` (API `showToast`). Công thức đã có (phí vận chuyển tiêu chuẩn 25.000₫ / xe lạnh 45.000₫, giá sỉ bậc thang `getCurrentTierPrice`) thì **sao chép nguyên văn** sang trang mới, không phát minh lại.
-5. **Không sửa** `src/data/*`, `src/types/*` (chỉ được *thêm* file/type/field tùy chọn mới). Ngoại lệ duy nhất: chuỗi `verifiedInClient` trong `swrRequirements.ts` (xem T16).
+5. **Không sửa** `src/data/*`, `src/types/*` (chỉ được *thêm* file/type/field tùy chọn mới). Ngoại lệ: chuỗi `verifiedInClient` trong `swrRequirements.ts` (xem T16) và trường **`imageUrl`** trong `data/products.ts`, `categories.ts`, `recipeBundles.ts` (R4 — `07_image_guide.md`).
 6. **Không có "mùi AI"** — xem `01_design_rules.md`. `check-ui.sh` phải về 0 ở cuối. *Dùng thư viện không có nghĩa là giữ giao diện mặc định của nó — phải retheme theo token.*
-7. **Chạy được offline**: font bằng `@fontsource` (không CDN), QR là file SVG tĩnh, ảnh banner/danh mục tải về `public/img/`. Ảnh sản phẩm Unsplash có sẵn trong `data/` giữ nguyên URL.
+7. **Chạy được offline**: font bằng `@fontsource` (không CDN), QR là file SVG tĩnh, **mọi ảnh là file cục bộ** trong `public/img/` — được **tự tạo bằng AI** hoặc **tìm ảnh miễn phí trên mạng rồi tải về** (`07_image_guide.md`); không nạp ảnh từ URL ngoài khi chạy.
 8. Mỗi task xong: `npm run build` pass · `npm run lint` không tăng cảnh báo · `bash ui-spec/check-ui.sh` không tăng vi phạm · xem lại ở 375 / 768 / 1440px.
 9. **Mọi thư viện thêm vào và mọi đoạn mã/ảnh copy từ nguồn mở phải ghi vào `client/THIRD_PARTY.md`** (tên, phiên bản, giấy phép, URL, dùng ở đâu).
 10. **Không commit, không push.**
@@ -118,6 +127,18 @@ Magic UI · Aceternity UI · mọi bộ "glass / gradient / animated hero / spot
 
 ## 6. Prompt dán vào Antigravity
 
+### 6.1 Vòng 2 (hiện tại)
+
+Prompt đầy đủ ở **`06_review_round2.md` mục 9**. Bản rút gọn để dán nhanh:
+
+```text
+Đọc client/ui-spec/README.md, rồi làm đúng prompt ở 06_review_round2.md mục 9 và các task R1 → R16 (mục 6 cùng file).
+Ảnh làm theo 07_image_guide.md: được tự tạo ảnh hoặc tìm ảnh miễn phí trên mạng rồi tải về client/public/img/.
+Chỉ làm giao diện, không cần bảo mật, dữ liệu hard-code, không thêm thư viện mới. Không commit.
+```
+
+### 6.2 Vòng 1 (đã xong — giữ để tham chiếu)
+
 ```markdown
 Đóng vai trò Senior Frontend Engineer kiêm UI/UX Designer có kinh nghiệm làm website thương mại điện tử.
 
@@ -157,11 +178,16 @@ danh sách thư viện đã thêm, và liệt kê file đã tạo/xóa.
 
 ```bash
 cd client
-npm run dev                 # http://localhost:5173 (đã chạy sẵn thì không cần chạy lại)
-npm run build               # tsc -b && vite build — phải pass
-npm run lint                # baseline: 36 cảnh báo, 0 lỗi — không được tăng
-bash ui-spec/check-ui.sh    # baseline: 526 vi phạm — mục tiêu cuối: 0
+npm run dev                          # http://localhost:5173 (đã chạy sẵn thì không cần chạy lại)
+npm run build                        # tsc -b && vite build — phải pass (hiện 1 chunk 1.424 MB, có cảnh báo chunk lớn — R13)
+npm run lint                         # baseline: 8 cảnh báo, 0 lỗi — mục tiêu 0
+bash ui-spec/check-ui.sh             # baseline: 189 vi phạm — mục tiêu 0
+node ui-spec/check-links.mjs         # baseline: 4 link chết — mục tiêu 0
+node ui-spec/check-images.mjs        # baseline: 37 lỗi ảnh — mục tiêu 0
+node ui-spec/audit-runtime.mjs --viewports=desktop,mobile --all   # baseline: 12 loại lỗi, 3 loại cảnh báo — mục tiêu 0
 ```
+
+`audit-runtime.mjs` mở 45 route bằng Chrome headless (cần Node ≥ 22, Google Chrome và dev server đang chạy; **không cần cài thêm gói**). Thêm `--viewports=desktop,tablet,mobile --links` để rà cuối, `--routes=<chuỗi>` để chạy riêng vài route, `--shots=<thư mục>` để lưu ảnh chụp. Sơ đồ use case: `node ui-spec/diagrams/build-use-cases.mjs`.
 
 ## 8. Cấu trúc thư mục đích
 
@@ -169,11 +195,13 @@ bash ui-spec/check-ui.sh    # baseline: 526 vi phạm — mục tiêu cuối: 0
 client/
 ├── components.json          # cấu hình shadcn/ui (do CLI tạo)
 ├── THIRD_PARTY.md           # danh sách thư viện / mã / ảnh mở đã dùng + giấy phép
-├── public/img/              # ảnh banner & danh mục tải về (chạy offline)
+├── public/
+│   ├── img/                 # MỌI ảnh: products/ categories/ combos/ banners/ + placeholder.svg (07_image_guide.md)
+│   └── diagrams/            # (T18, tùy chọn) 7 sơ đồ use case .svg
 └── src/
     ├── main.tsx             # Providers + HashRouter
     ├── router.tsx           # bảng route (xem 02_pages.md)
-    ├── lib/utils.ts         # cn() của shadcn
+    ├── lib/                 # utils.ts (cn() của shadcn) · labels.ts (nhãn tiếng Việt: trạng thái, thanh toán, vận chuyển)
     ├── layouts/             # StoreLayout · CheckoutLayout · AuthLayout · AccountLayout · AdminLayout
     ├── pages/
     │   ├── store/           # Home, ProductList, Search, ProductDetail, Combo*, Cart, Checkout, OrderSuccess,
@@ -182,9 +210,9 @@ client/
     │   ├── account/         # Overview, Orders, Addresses, Wishlist, Profile, Business
     │   ├── admin/           # Dashboard, Orders, OrderDetail, Products, ProductForm, Categories, Inventory,
     │   │                    # Customers, Promotions, Shipping, Reports, Staff, Settings
-    │   └── dev/             # StyleGuide, RequirementsMatrix
+    │   └── dev/             # StyleGuide, RequirementsMatrix, (T18) UseCases
     ├── components/
-    │   ├── ui/              # shadcn/ui đã retheme + thành phần riêng (Price, Rating, QuantityStepper, Stepper, EmptyState…)
+    │   ├── ui/              # shadcn/ui đã retheme + thành phần riêng (Price, Rating, QuantityStepper, Stepper, EmptyState, ProductImage…)
     │   ├── layout/          # SiteHeader, SiteFooter, SearchBox, CategoryMenu, MobileMenu, MiniCart, DemoWidget, PageTransition, ScrollToTop
     │   ├── product/         # ProductCard, ProductGrid, FilterPanel, WholesaleTierTable, StorageNote, …
     │   ├── cart/            # CartLine, OrderSummary, VoucherBox
@@ -201,3 +229,4 @@ client/
 2. **T13** (Admin: tổng quan + đơn hàng) và **T14** (Admin: sản phẩm, tồn kho).
 3. Phần còn lại (T11, T12, T15) theo mức ưu tiên P1 → P2 ghi trong `02_pages.md`.
 4. **T16 luôn phải làm** (dọn dẹp + `check-ui.sh` về 0 + `THIRD_PARTY.md`), kể cả khi cắt bớt trang.
+5. **Vòng 2:** nếu thiếu thời gian, làm **R1 → R2 → R3 → R5 → R4 → R9 → R15 → R16** (P0) trước, rồi **R6 → R7 → R8 → R10 → R11 → R12** (P1), cuối cùng **R13, R14** (P2) và T18.

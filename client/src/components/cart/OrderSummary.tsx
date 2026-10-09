@@ -110,7 +110,7 @@ export const OrderSummary: React.FC = () => {
       {/* Small trust note */}
       <div className="border-t border-line/60 pt-3 flex items-center gap-2 text-xs text-ink-3">
         <ShieldCheck className="w-4 h-4 text-ok shrink-0" />
-        <span>Gia Hòa Phát cam kết đền bù 100% nếu bơ/kem bị chảy do lỗi vận chuyển.</span>
+        <span>Hạn dùng ghi rõ trên từng lô hàng, giao xe lạnh 2–8°C cho bơ sữa.</span>
       </div>
     </div>
   )

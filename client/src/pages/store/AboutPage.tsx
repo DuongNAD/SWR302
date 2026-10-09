@@ -40,7 +40,7 @@ export const AboutPage: React.FC = () => {
   ]
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-10">
+    <div className="wrap py-4 md:py-6 space-y-10">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -62,7 +62,6 @@ export const AboutPage: React.FC = () => {
           <Badge variant="outline" className="bg-brand-soft text-brand border-brand/40 text-xs px-2.5 py-0.5 font-semibold">
             Thành lập từ năm 1998 · 28 năm đồng hành
           </Badge>
-          <span className="text-xs text-ink-3 font-mono">SCR-24</span>
         </div>
 
         <h1 className="text-2xl sm:text-4xl font-bold text-ink max-w-3xl leading-snug">
@@ -108,7 +107,7 @@ export const AboutPage: React.FC = () => {
           <div className="border border-line rounded-lg bg-surface p-6 space-y-4 shadow-xs">
             <h2 className="text-lg font-bold text-ink flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-brand" />
-              Cam kết chất lượng vững bền
+              Tiêu chuẩn chất lượng nguyên liệu
             </h2>
 
             <div className="space-y-3 text-xs sm:text-sm text-ink-2 leading-relaxed">

@@ -7,6 +7,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
@@ -25,7 +32,7 @@ import {
 } from 'lucide-react'
 
 export const ContactPage: React.FC = () => {
-  useDocumentTitle('Liên hệ & Góp ý | Gia Hòa Phát Bakery Supply')
+  useDocumentTitle('Liên hệ và góp ý | Gia Hòa Phát Bakery Supply')
 
   const { showToast } = useToast()
 
@@ -39,19 +46,19 @@ export const ContactPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim() || !phone.trim() || !message.trim()) {
-      showToast({ type: 'error', message: 'Vui lòng điền họ tên, số điện thoại và nội dung tin nhắn!' })
+      showToast({ type: 'error', message: 'Vui lòng điền họ tên, số điện thoại và nội dung tin nhắn.' })
       return
     }
 
     setIsSent(true)
     showToast({
       type: 'success',
-      message: 'Cảm ơn bạn đã gửi liên hệ! Bộ phận chăm sóc khách hàng Gia Hòa Phát sẽ phản hồi trong 24 giờ.',
+      message: 'Cảm ơn bạn đã gửi liên hệ. Bộ phận chăm sóc khách hàng Gia Hòa Phát sẽ phản hồi trong 24 giờ.',
     })
   }
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-8">
+    <div className="wrap py-4 md:py-6 space-y-8">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -62,14 +69,13 @@ export const ContactPage: React.FC = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Liên hệ & Góp ý</BreadcrumbPage>
+            <BreadcrumbPage>Liên hệ và góp ý</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
       {/* Header */}
       <div className="space-y-1.5 border-b border-line pb-4">
-        <span className="text-xs font-mono text-ink-3">SCR-24 · LIÊN HỆ</span>
         <h1 className="text-2xl font-bold text-ink">
           Liên hệ với Gia Hòa Phát
         </h1>
@@ -196,18 +202,18 @@ export const ContactPage: React.FC = () => {
 
                 <div className="space-y-1.5">
                   <Label htmlFor="cnt-subject">Chủ đề cần hỗ trợ</Label>
-                  <select
-                    id="cnt-subject"
-                    value={subject}
-                    onChange={(e) => setSubject(e.target.value)}
-                    className="w-full h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
-                  >
-                    <option value="wholesale">Báo giá mua sỉ tiệm bánh & Hạn mức công nợ</option>
-                    <option value="coldchain">Khiếu nại về nhiệt độ vận chuyển xe lạnh</option>
-                    <option value="vat">Yêu cầu tra soát hóa đơn VAT điện tử</option>
-                    <option value="technical">Tư vấn kỹ thuật nguyên liệu & công thức làm bánh</option>
-                    <option value="other">Ý kiến đóng góp khác</option>
-                  </select>
+                  <Select value={subject} onValueChange={setSubject}>
+                    <SelectTrigger id="cnt-subject" className="w-full h-10 text-xs">
+                      <SelectValue placeholder="Chọn chủ đề cần hỗ trợ" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="wholesale">Báo giá mua sỉ tiệm bánh và hạn mức công nợ</SelectItem>
+                      <SelectItem value="coldchain">Khiếu nại về nhiệt độ vận chuyển xe lạnh</SelectItem>
+                      <SelectItem value="vat">Yêu cầu tra soát hóa đơn VAT điện tử</SelectItem>
+                      <SelectItem value="technical">Tư vấn kỹ thuật nguyên liệu và công thức làm bánh</SelectItem>
+                      <SelectItem value="other">Ý kiến đóng góp khác</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-1.5">

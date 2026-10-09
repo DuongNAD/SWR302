@@ -27,7 +27,9 @@ export const AuthLayout: React.FC = () => {
       <main className="flex-1 flex items-center justify-center p-4 py-12">
         <div className="w-full max-w-[420px]">
           <PageTransition>
-            <Outlet />
+            <React.Suspense fallback={null}>
+              <Outlet />
+            </React.Suspense>
           </PageTransition>
         </div>
       </main>

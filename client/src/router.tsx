@@ -6,65 +6,58 @@ import { AuthLayout } from '@/layouts/AuthLayout'
 import { AccountLayout } from '@/layouts/AccountLayout'
 import { AdminLayout } from '@/layouts/AdminLayout'
 
-// Store Pages
-import {
-  HomePage,
-  ProductListPage,
-  SearchPage,
-  ProductDetailPage,
-  ComboListPage,
-  ComboDetailPage,
-  CartPage,
-  CheckoutPage,
-  OrderSuccessPage,
-  OrderLookupPage,
-  OrderTrackingPage,
-  WholesalePage,
-  StoresPage,
-  SupportPage,
-  AboutPage,
-  ContactPage,
-  NotFoundPage,
-} from '@/pages/store'
+// Static Homepage
+import { HomePage } from '@/pages/store/HomePage'
 
-// Auth Pages
-import {
-  LoginPage,
-  RegisterPage,
-  ForgotPasswordPage,
-} from '@/pages/auth'
+// Lazy Store Pages
+const ProductListPage = React.lazy(() => import('@/pages/store/ProductListPage').then((m) => ({ default: m.ProductListPage })))
+const SearchPage = React.lazy(() => import('@/pages/store/SearchPage').then((m) => ({ default: m.SearchPage })))
+const ProductDetailPage = React.lazy(() => import('@/pages/store/ProductDetailPage').then((m) => ({ default: m.ProductDetailPage })))
+const ComboListPage = React.lazy(() => import('@/pages/store/ComboListPage').then((m) => ({ default: m.ComboListPage })))
+const ComboDetailPage = React.lazy(() => import('@/pages/store/ComboDetailPage').then((m) => ({ default: m.ComboDetailPage })))
+const CartPage = React.lazy(() => import('@/pages/store/CartPage').then((m) => ({ default: m.CartPage })))
+const CheckoutPage = React.lazy(() => import('@/pages/store/CheckoutPage').then((m) => ({ default: m.CheckoutPage })))
+const OrderSuccessPage = React.lazy(() => import('@/pages/store/OrderSuccessPage').then((m) => ({ default: m.OrderSuccessPage })))
+const OrderLookupPage = React.lazy(() => import('@/pages/store/OrderLookupPage').then((m) => ({ default: m.OrderLookupPage })))
+const OrderTrackingPage = React.lazy(() => import('@/pages/store/OrderTrackingPage').then((m) => ({ default: m.OrderTrackingPage })))
+const WholesalePage = React.lazy(() => import('@/pages/store/WholesalePage').then((m) => ({ default: m.WholesalePage })))
+const StoresPage = React.lazy(() => import('@/pages/store/StoresPage').then((m) => ({ default: m.StoresPage })))
+const SupportPage = React.lazy(() => import('@/pages/store/SupportPage').then((m) => ({ default: m.SupportPage })))
+const AboutPage = React.lazy(() => import('@/pages/store/AboutPage').then((m) => ({ default: m.AboutPage })))
+const ContactPage = React.lazy(() => import('@/pages/store/ContactPage').then((m) => ({ default: m.ContactPage })))
+const NotFoundPage = React.lazy(() => import('@/pages/store/NotFoundPage').then((m) => ({ default: m.NotFoundPage })))
 
-// Account Pages
-import {
-  AccountOverviewPage,
-  AccountOrdersPage,
-  AccountAddressesPage,
-  AccountWishlistPage,
-  AccountProfilePage,
-  AccountBusinessPage,
-} from '@/pages/account'
+// Lazy Auth Pages
+const LoginPage = React.lazy(() => import('@/pages/auth/LoginPage').then((m) => ({ default: m.LoginPage })))
+const RegisterPage = React.lazy(() => import('@/pages/auth/RegisterPage').then((m) => ({ default: m.RegisterPage })))
+const ForgotPasswordPage = React.lazy(() => import('@/pages/auth/ForgotPasswordPage').then((m) => ({ default: m.ForgotPasswordPage })))
 
-// Admin Pages
-import {
-  AdminDashboardPage,
-  AdminOrdersPage,
-  AdminOrderDetailPage,
-  AdminProductsPage,
-  AdminProductFormPage,
-  AdminCategoriesPage,
-  AdminInventoryPage,
-  AdminCustomersPage,
-  AdminPromotionsPage,
-  AdminShippingPage,
-  AdminReportsPage,
-  AdminStaffPage,
-  AdminSettingsPage,
-} from '@/pages/admin'
+// Lazy Account Pages
+const AccountOverviewPage = React.lazy(() => import('@/pages/account/AccountOverviewPage').then((m) => ({ default: m.AccountOverviewPage })))
+const AccountOrdersPage = React.lazy(() => import('@/pages/account/AccountOrdersPage').then((m) => ({ default: m.AccountOrdersPage })))
+const AccountAddressesPage = React.lazy(() => import('@/pages/account/AccountAddressesPage').then((m) => ({ default: m.AccountAddressesPage })))
+const AccountWishlistPage = React.lazy(() => import('@/pages/account/AccountWishlistPage').then((m) => ({ default: m.AccountWishlistPage })))
+const AccountProfilePage = React.lazy(() => import('@/pages/account/AccountProfilePage').then((m) => ({ default: m.AccountProfilePage })))
+const AccountBusinessPage = React.lazy(() => import('@/pages/account/AccountBusinessPage').then((m) => ({ default: m.AccountBusinessPage })))
 
-// Dev Pages
-import { StyleGuidePage } from '@/pages/dev/StyleGuidePage'
-import { RequirementsMatrixPage } from '@/pages/dev/RequirementsMatrixPage'
+// Lazy Admin Pages
+const AdminDashboardPage = React.lazy(() => import('@/pages/admin/DashboardPage').then((m) => ({ default: m.AdminDashboardPage })))
+const AdminOrdersPage = React.lazy(() => import('@/pages/admin/OrdersPage').then((m) => ({ default: m.AdminOrdersPage })))
+const AdminOrderDetailPage = React.lazy(() => import('@/pages/admin/OrderDetailPage').then((m) => ({ default: m.AdminOrderDetailPage })))
+const AdminProductsPage = React.lazy(() => import('@/pages/admin/ProductsPage').then((m) => ({ default: m.AdminProductsPage })))
+const AdminProductFormPage = React.lazy(() => import('@/pages/admin/ProductFormPage').then((m) => ({ default: m.AdminProductFormPage })))
+const AdminCategoriesPage = React.lazy(() => import('@/pages/admin/CategoriesPage').then((m) => ({ default: m.AdminCategoriesPage })))
+const AdminInventoryPage = React.lazy(() => import('@/pages/admin/InventoryPage').then((m) => ({ default: m.AdminInventoryPage })))
+const AdminCustomersPage = React.lazy(() => import('@/pages/admin/CustomersPage').then((m) => ({ default: m.AdminCustomersPage })))
+const AdminPromotionsPage = React.lazy(() => import('@/pages/admin/PromotionsPage').then((m) => ({ default: m.AdminPromotionsPage })))
+const AdminShippingPage = React.lazy(() => import('@/pages/admin/ShippingPage').then((m) => ({ default: m.AdminShippingPage })))
+const AdminReportsPage = React.lazy(() => import('@/pages/admin/ReportsPage').then((m) => ({ default: m.AdminReportsPage })))
+const AdminStaffPage = React.lazy(() => import('@/pages/admin/StaffPage').then((m) => ({ default: m.AdminStaffPage })))
+const AdminSettingsPage = React.lazy(() => import('@/pages/admin/SettingsPage').then((m) => ({ default: m.AdminSettingsPage })))
 
+// Lazy Dev Pages
+const StyleGuidePage = React.lazy(() => import('@/pages/dev/StyleGuidePage').then((m) => ({ default: m.StyleGuidePage })))
+const RequirementsMatrixPage = React.lazy(() => import('@/pages/dev/RequirementsMatrixPage').then((m) => ({ default: m.RequirementsMatrixPage })))
 
 export const AppRoutes: React.FC = () => {
   return (

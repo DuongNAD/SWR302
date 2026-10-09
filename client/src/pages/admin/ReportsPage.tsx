@@ -37,16 +37,16 @@ interface TopProduct {
 }
 
 const TOP_PRODUCTS: TopProduct[] = [
-  { rank: 1, id: 'p1', name: 'Bơ Lạt Tự Nhiên Anchor Unsalted Butter 227g', sku: 'GHP-BUTTER-ANC227', category: 'Bơ & Phô mai', unitsSold: 840, revenue: 65520000, maxSold: 1250 },
-  { rank: 2, id: 'p2', name: 'Kem Tươi Whipping Cream Tatua 1L', sku: 'GHP-WHIP-TAT1L', category: 'Kem & Sữa', unitsSold: 420, revenue: 59640000, maxSold: 1250 },
+  { rank: 1, id: 'p1', name: 'Bơ Lạt Tự Nhiên Anchor Unsalted Butter 227g', sku: 'GHP-BUTTER-ANC227', category: 'Bơ và phô mai', unitsSold: 840, revenue: 65520000, maxSold: 1250 },
+  { rank: 2, id: 'p2', name: 'Kem Tươi Whipping Cream Tatua 1L', sku: 'GHP-WHIP-TAT1L', category: 'Kem và sữa', unitsSold: 420, revenue: 59640000, maxSold: 1250 },
   { rank: 3, id: 'p3', name: 'Bột Mì Hoa Ngọc Lan Số 11 Đa Dụng 1kg', sku: 'GHP-FLOUR-HNL1K', category: 'Bột các loại', unitsSold: 1250, revenue: 30000000, maxSold: 1250 },
-  { rank: 4, id: 'p4', name: 'Phô Mai Kem Mascarpone Tatua New Zealand 500g', sku: 'GHP-CHEE-MASC500', category: 'Bơ & Phô mai', unitsSold: 210, revenue: 24150000, maxSold: 1250 },
-  { rank: 5, id: 'p5', name: 'Sô Cô La Đen Nguyên Chất Callebaut 54.5% Callets 1kg', sku: 'GHP-CHOC-CAL545', category: 'Sô cô la & Cacao', unitsSold: 65, revenue: 22425000, maxSold: 1250 },
-  { rank: 6, id: 'p6', name: 'Men Nở Khô Ngọt Saf-Instant Vàng 500g', sku: 'GHP-YEAST-SAF500', category: 'Phụ gia & Men nở', unitsSold: 180, revenue: 15300000, maxSold: 1250 },
+  { rank: 4, id: 'p4', name: 'Phô Mai Kem Mascarpone Tatua New Zealand 500g', sku: 'GHP-CHEE-MASC500', category: 'Bơ và phô mai', unitsSold: 210, revenue: 24150000, maxSold: 1250 },
+  { rank: 5, id: 'p5', name: 'Sô Cô La Đen Nguyên Chất Callebaut 54.5% Callets 1kg', sku: 'GHP-CHOC-CAL545', category: 'Sô cô la và cacao', unitsSold: 65, revenue: 22425000, maxSold: 1250 },
+  { rank: 6, id: 'p6', name: 'Men Nở Khô Ngọt Saf-Instant Vàng 500g', sku: 'GHP-YEAST-SAF500', category: 'Phụ gia và men nở', unitsSold: 180, revenue: 15300000, maxSold: 1250 },
   { rank: 7, id: 'p7', name: 'Bột Trộn Bánh Bông Lan Puratos Tegral Sponge 1kg', sku: 'GHP-MIX-SPON1K', category: 'Bột các loại', unitsSold: 140, revenue: 6860000, maxSold: 1250 },
   { rank: 8, id: 'p8', name: 'Bột Hạnh Nhân Mỹ Nguyên Chất Blue Diamond 500g', sku: 'GHP-NUTS-ALM500', category: 'Hạt dinh dưỡng', unitsSold: 45, revenue: 7875000, maxSold: 1250 },
-  { rank: 9, id: 'p9', name: "Tinh Mùi Vani Rayner's Chiết Xuất Tự Nhiên 28ml", sku: 'GHP-FLAV-VAN28', category: 'Hương liệu & Tinh dầu', unitsSold: 85, revenue: 4080000, maxSold: 1250 },
-  { rank: 10, id: 'p10', name: 'Đường Bột Làm Bánh Biên Hòa Pure Icing Sugar 500g', sku: 'GHP-SUGAR-IC500', category: 'Đường & Siro', unitsSold: 160, revenue: 3840000, maxSold: 1250 },
+  { rank: 9, id: 'p9', name: "Tinh Mùi Vani Rayner's Chiết Xuất Tự Nhiên 28ml", sku: 'GHP-FLAV-VAN28', category: 'Hương liệu và tinh dầu', unitsSold: 85, revenue: 4080000, maxSold: 1250 },
+  { rank: 10, id: 'p10', name: 'Đường Bột Làm Bánh Biên Hòa Pure Icing Sugar 500g', sku: 'GHP-SUGAR-IC500', category: 'Đường và siro', unitsSold: 160, revenue: 3840000, maxSold: 1250 },
 ]
 
 interface TopCustomer {
@@ -192,7 +192,7 @@ export const AdminReportsPage: React.FC = () => {
         <div>
           <h1 className="text-xl font-bold tracking-tight text-ink flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-brand" />
-            Báo cáo & Phân tích số liệu
+            Báo cáo và phân tích số liệu
           </h1>
           <p className="text-xs text-ink-2 mt-0.5">
             Báo cáo doanh số bán hàng, danh sách sản phẩm dẫn đầu và phân bổ khách hàng lẻ / sỉ

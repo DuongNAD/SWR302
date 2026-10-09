@@ -9,7 +9,7 @@ export const RECIPE_BUNDLES: RecipeBundle[] = [
     prepTime: '30 phút (Không cần lò nướng)',
     servings: '6-8 phần ăn (Khuôn vuông 18cm)',
     description: 'Món tráng miệng nổi tiếng nhất thế giới với từng lớp bánh sâm-panh đẫm cà phê hòa quyện cùng kem Mascarpone béo ngậy và lớp bột cacao nguyên chất đắng thơm.',
-    imageUrl: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?auto=format&fit=crop&w=600&q=80',
+    imageUrl: './img/combos/bundle-tiramisu.webp',
     itemIds: ['prod-03', 'prod-02', 'prod-07', 'prod-09'],
     instructions: [
       'Đánh bông lòng đỏ trứng với đường trên âu nước ấm cách thủy đến khi hỗn hợp chuyển màu vàng nhạt sánh mịn.',
@@ -28,7 +28,7 @@ export const RECIPE_BUNDLES: RecipeBundle[] = [
     prepTime: '24 giờ (Lên men lạnh)',
     servings: '1 ổ tròn lớn 800g',
     description: 'Bánh mì artisan vỏ giòn rụm màu hổ phách, ruột bánh tổ ong dai mềm, vị chua thanh tự nhiên từ quá trình lên men vi sinh có lợi cho hệ đường ruột.',
-    imageUrl: 'https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?auto=format&fit=crop&w=600&q=80',
+    imageUrl: './img/combos/bundle-sourdough.webp',
     itemIds: ['prod-04', 'prod-05', 'prod-12', 'prod-13'],
     instructions: [
       'Trộn bột mì số 13 với nước lọc ấm theo tỷ lệ 75% nước, để bột nghỉ tự phân hủy (autolyse) trong 45 phút.',
@@ -48,7 +48,7 @@ export const RECIPE_BUNDLES: RecipeBundle[] = [
     prepTime: '45 phút (Nướng 15 phút)',
     servings: '30-35 chiếc bánh hoa tuyết',
     description: 'Từng miếng bánh quy giòn tan tan biến trong miệng với hương thơm nồng nàn của bơ lạt động vật Anchor hảo hạng và vani tự nhiên.',
-    imageUrl: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80',
+    imageUrl: './img/combos/bundle-cookies.webp',
     itemIds: ['prod-01', 'prod-04', 'prod-09', 'prod-12'],
     instructions: [
       'Để bơ lạt Anchor mềm ở nhiệt độ phòng (ấn tay thấy lõm nhưng bơ không bị chảy dầu).',

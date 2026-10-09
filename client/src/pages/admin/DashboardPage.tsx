@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import {
@@ -13,6 +13,7 @@ import { StatStrip, StatItem } from '@/components/admin/StatStrip'
 import { formatPrice } from '@/components/ui/price'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { TRIP_STATUS_LABEL } from '@/lib/labels'
 import {
   BarChart,
   Bar,
@@ -36,6 +37,21 @@ export const AdminDashboardPage: React.FC = () => {
   const [timeRange, setTimeRange] = useState<'7d' | '30d'>('7d')
 
   const chartData = timeRange === '7d' ? DAILY_SALES_7D : DAILY_SALES_30D
+
+  const urgentOrders = useMemo(() => {
+    const list: typeof MOCK_ORDERS = []
+    const seen = new Set<string>()
+    for (const o of MOCK_ORDERS) {
+      if (['pending', 'confirmed', 'packing', 'shipping'].includes(o.status)) {
+        if (!seen.has(o.customerName)) {
+          seen.add(o.customerName)
+          list.push(o)
+          if (list.length >= 4) break
+        }
+      }
+    }
+    return list.length > 0 ? list : MOCK_ORDERS.slice(0, 3)
+  }, [])
 
   const statItems: StatItem[] = [
     {
@@ -76,7 +92,6 @@ export const AdminDashboardPage: React.FC = () => {
       {/* 1. Header with Period Selector */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
         <div>
-          <span className="text-xs font-mono text-ink-3">SCR-A01 · TRANG QUẢN TRỊ TỔNG QUAN</span>
           <h1 className="text-2xl font-bold text-ink">
             Tổng quan hoạt động kinh doanh
           </h1>
@@ -232,7 +247,7 @@ export const AdminDashboardPage: React.FC = () => {
           </div>
 
           <div className="divide-y divide-line text-xs">
-            {MOCK_ORDERS.slice(0, 3).map((order) => (
+            {urgentOrders.map((order) => (
               <div key={order.orderNumber} className="py-3 flex flex-wrap items-center justify-between gap-3">
                 <div className="space-y-0.5 max-w-sm">
                   <div className="flex items-center gap-2">
@@ -354,7 +369,7 @@ export const AdminDashboardPage: React.FC = () => {
             <thead className="bg-page text-ink-2 font-medium border-b border-line">
               <tr>
                 <th className="py-2.5 px-3">Mã chuyến</th>
-                <th className="py-2.5 px-3">Tài xế & Biển số</th>
+                <th className="py-2.5 px-3">Tài xế và biển số</th>
                 <th className="py-2.5 px-3">Tuyến giao</th>
                 <th className="py-2.5 px-3">Số đơn</th>
                 <th className="py-2.5 px-3">Nhiệt độ thùng</th>
@@ -377,7 +392,7 @@ export const AdminDashboardPage: React.FC = () => {
                   </td>
                   <td className="py-2.5 px-3">
                     <Badge variant="outline" className="text-xs text-ok border-ok/40">
-                      {trip.status}
+                      {TRIP_STATUS_LABEL[trip.status] || trip.status}
                     </Badge>
                   </td>
                 </tr>

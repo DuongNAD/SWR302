@@ -66,13 +66,21 @@ export const WholesaleTierTable: React.FC<WholesaleTierTableProps> = ({
                     ) : (
                       <span className="w-3.5 h-3.5 inline-block" />
                     )}
-                    <span>Từ {tier.minQty} {unit}</span>
+                    <span>
+                      {idx < sorted.length - 1
+                        ? `${tier.minQty}–${sorted[idx + 1].minQty - 1} ${unit}`
+                        : `Từ ${tier.minQty} ${unit}`}
+                    </span>
                   </td>
                   <td className="py-2 px-3 tabular-nums">
-                    <Price price={tier.price} size="sm" className={isActive ? 'text-brand' : 'text-ink'} />
+                    <Price price={tier.price} size="sm" className={isActive ? 'text-brand font-bold' : 'text-ink'} />
                   </td>
-                  <td className="py-2 px-3 text-right tabular-nums text-ok">
-                    -{tier.discountPercent}%
+                  <td className="py-2 px-3 text-right tabular-nums text-ok font-medium">
+                    {tier.discountPercent === 0 ? (
+                      <span className="text-ink-3 font-normal">Giá lẻ</span>
+                    ) : (
+                      `-${tier.discountPercent}%`
+                    )}
                   </td>
                 </tr>
               )

@@ -44,7 +44,7 @@ export const RegisterPage: React.FC = () => {
   const handleInfoSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim() || !phone.trim() || !password.trim()) {
-      showToast({ type: 'error', message: 'Vui lòng điền đầy đủ các thông tin bắt buộc!' })
+      showToast({ type: 'error', message: 'Vui lòng điền đầy đủ các thông tin bắt buộc.' })
       return
     }
     setStage('otp')
@@ -58,7 +58,7 @@ export const RegisterPage: React.FC = () => {
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault()
     if (otpValue.length < 6) {
-      showToast({ type: 'error', message: 'Vui lòng nhập đủ 6 chữ số OTP!' })
+      showToast({ type: 'error', message: 'Vui lòng nhập đủ 6 chữ số OTP.' })
       return
     }
 
@@ -67,7 +67,7 @@ export const RegisterPage: React.FC = () => {
     loginAs(targetRole)
     showToast({
       type: 'success',
-      message: `Đăng ký thành công! Chào mừng ${name} đến với Gia Hòa Phát.`,
+      message: `Đăng ký thành công. Chào mừng ${name} đến với Gia Hòa Phát.`,
     })
     navigate('/tai-khoan')
   }
@@ -245,7 +245,7 @@ export const RegisterPage: React.FC = () => {
 
             <div className="space-y-2">
               <Button type="submit" size="lg" className="w-full">
-                Xác nhận & Hoàn tất đăng ký
+                Xác nhận và hoàn tất đăng ký
               </Button>
 
               <Button

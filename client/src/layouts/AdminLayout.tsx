@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { Outlet, NavLink, Link } from 'react-router-dom'
-import { useAuth } from '@/context/AuthContext'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { DemoWidget } from '@/components/layout/DemoWidget'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+
+const ADMIN_USER = {
+  name: 'Nguyễn Anh Dương',
+  roleTitle: 'Quản trị viên',
+}
 import {
   LayoutDashboard,
   ShoppingBag,
@@ -23,7 +27,6 @@ import {
 import { cn } from '@/lib/utils'
 
 export const AdminLayout: React.FC = () => {
-  const { currentUser } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   interface NavItem {
@@ -45,15 +48,15 @@ export const AdminLayout: React.FC = () => {
       items: [
         { to: '/admin/don-hang', label: 'Đơn hàng', icon: ShoppingBag },
         { to: '/admin/khach-hang', label: 'Khách hàng', icon: Users },
-        { to: '/admin/khuyen-mai', label: 'Khuyến mãi & mã', icon: Tag },
+        { to: '/admin/khuyen-mai', label: 'Khuyến mãi và mã', icon: Tag },
       ],
     },
     {
-      group: 'Sản phẩm & Kho',
+      group: 'Sản phẩm và kho',
       items: [
         { to: '/admin/san-pham', label: 'Sản phẩm', icon: Package },
         { to: '/admin/danh-muc', label: 'Danh mục', icon: Layers },
-        { to: '/admin/ton-kho', label: 'Tồn kho & lô HSD', icon: Archive },
+        { to: '/admin/ton-kho', label: 'Tồn kho và lô HSD', icon: Archive },
       ],
     },
     {
@@ -172,7 +175,7 @@ export const AdminLayout: React.FC = () => {
               <div className="h-7 w-7 rounded-full bg-brand-soft border border-line flex items-center justify-center text-brand font-bold text-xs">
                 <User className="h-3.5 w-3.5" />
               </div>
-              <span className="hidden md:inline">{currentUser?.name || 'Nguyễn Anh Dương'}</span>
+              <span className="hidden md:inline">{ADMIN_USER.name} · {ADMIN_USER.roleTitle}</span>
             </div>
           </div>
         </header>
@@ -180,7 +183,9 @@ export const AdminLayout: React.FC = () => {
         {/* Page Content */}
         <main className="flex-1 p-4 sm:p-6 min-w-0 overflow-x-hidden">
           <PageTransition>
-            <Outlet />
+            <React.Suspense fallback={null}>
+              <Outlet />
+            </React.Suspense>
           </PageTransition>
         </main>
       </div>

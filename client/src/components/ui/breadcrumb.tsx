@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Slot } from "radix-ui"
 import { ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -42,9 +43,10 @@ const BreadcrumbLink = React.forwardRef<
   React.ComponentPropsWithoutRef<"a"> & {
     asChild?: boolean
   }
->(({ className, ...props }, ref) => {
+>(({ asChild, className, ...props }, ref) => {
+  const Comp = asChild ? (Slot.Root as unknown as React.ElementType) : "a"
   return (
-    <a
+    <Comp
       ref={ref}
       className={cn("transition-colors hover:text-ink cursor-pointer", className)}
       {...props}

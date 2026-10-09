@@ -35,7 +35,7 @@ import {
 } from 'recharts'
 
 export const AdminShippingPage: React.FC = () => {
-  useDocumentTitle('Vận chuyển & Chuỗi lạnh | Quản trị Gia Hòa Phát')
+  useDocumentTitle('Vận chuyển và chuỗi lạnh | Quản trị Gia Hòa Phát')
   const { showToast } = useToast()
 
   const [activeTab, setActiveTab] = useState<'trips' | 'telemetry' | 'policy'>('trips')
@@ -95,7 +95,7 @@ export const AdminShippingPage: React.FC = () => {
       ),
     },
     {
-      header: 'Tài xế & Biển số',
+      header: 'Tài xế và biển số',
       cell: (item) => (
         <div className="space-y-0.5">
           <div className="font-medium text-ink flex items-center gap-1.5">
@@ -144,7 +144,7 @@ export const AdminShippingPage: React.FC = () => {
               </span>
               {isExceeded && (
                 <span className="text-xs font-bold text-danger">
-                  Vượt ngưỡng!
+                  Vượt ngưỡng
                 </span>
               )}
             </div>
@@ -192,7 +192,8 @@ export const AdminShippingPage: React.FC = () => {
     },
     {
       header: 'Thao tác',
-      className: 'text-right',
+      sticky: 'right',
+      className: 'w-[100px] min-w-[100px] text-right',
       cell: (item) => (
         <Button
           variant="outline"
@@ -282,10 +283,10 @@ export const AdminShippingPage: React.FC = () => {
         <div>
           <h1 className="text-xl font-bold tracking-tight text-ink flex items-center gap-2">
             <Snowflake className="w-5 h-5 text-brand" />
-            Vận chuyển & Giám sát Chuỗi lạnh
+            Vận chuyển và giám sát chuỗi lạnh
           </h1>
           <p className="text-xs text-ink-2 mt-0.5">
-            Theo dõi nhiệt độ thùng xe lạnh theo thời gian thực (IoT Telemetry), quản lý lộ trình xe và biểu phí
+            Theo dõi nhiệt độ thùng xe lạnh theo thời gian thực (cảm biến IoT), quản lý lộ trình xe và biểu phí
           </p>
         </div>
       </div>
@@ -320,7 +321,7 @@ export const AdminShippingPage: React.FC = () => {
               className="data-[state=active]:border-brand data-[state=active]:text-brand border-b-2 border-transparent rounded-none px-1 pb-2.5 pt-1 text-xs font-semibold flex items-center gap-1.5"
             >
               <Info className="w-3.5 h-3.5" />
-              Biểu phí & Ngưỡng miễn phí
+              Biểu phí và ngưỡng miễn phí
             </TabsTrigger>
           </TabsList>
         </Tabs>

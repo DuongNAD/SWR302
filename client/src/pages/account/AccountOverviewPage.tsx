@@ -6,6 +6,7 @@ import { MOCK_ORDERS } from '@/mocks/orders'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Price, formatPrice } from '@/components/ui/price'
+import { ORDER_STATUS_LABEL } from '@/lib/labels'
 import {
   ShoppingBag,
   Award,
@@ -20,7 +21,9 @@ export const AccountOverviewPage: React.FC = () => {
   const { currentUser, role } = useAuth()
 
   const isWholesale = role === 'wholesale_client'
-  const recentOrders = MOCK_ORDERS.slice(0, 3)
+  const recentOrders = MOCK_ORDERS.filter(
+    (o) => o.customerName === (currentUser?.name || 'Trần Mai Anh')
+  ).slice(0, 3)
 
   return (
     <div className="space-y-6">
@@ -28,7 +31,6 @@ export const AccountOverviewPage: React.FC = () => {
       <div className="border border-line rounded-lg bg-surface p-6 space-y-5 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <span className="text-xs font-mono text-ink-3">SCR-15 · TÀI KHOẢN CỦA TÔI</span>
             <h1 className="text-xl sm:text-2xl font-bold text-ink">
               Xin chào, {currentUser?.name || 'Trần Mai Anh'}
             </h1>
@@ -122,7 +124,7 @@ export const AccountOverviewPage: React.FC = () => {
                     </Badge>
                   ) : (
                     <Badge variant="secondary" className="text-xs py-0">
-                      {order.status}
+                      {ORDER_STATUS_LABEL[order.status] || order.status}
                     </Badge>
                   )}
                 </div>

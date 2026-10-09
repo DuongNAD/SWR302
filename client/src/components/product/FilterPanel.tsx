@@ -171,6 +171,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
               <Input
                 type="number"
                 placeholder="Từ"
+                aria-label="Giá từ"
                 value={localMinPrice}
                 onChange={(e) => setLocalMinPrice(e.target.value)}
                 className="h-8 text-xs px-2"
@@ -180,6 +181,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
               <Input
                 type="number"
                 placeholder="Đến"
+                aria-label="Giá đến"
                 value={localMaxPrice}
                 onChange={(e) => setLocalMaxPrice(e.target.value)}
                 className="h-8 text-xs px-2"

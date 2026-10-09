@@ -26,7 +26,7 @@ import {
 } from 'lucide-react'
 
 export const SupportPage: React.FC = () => {
-  useDocumentTitle('Trung tâm hỗ trợ & Chính sách | Gia Hòa Phát Bakery Supply')
+  useDocumentTitle('Trung tâm hỗ trợ và chính sách | Gia Hòa Phát Bakery Supply')
 
   const faqs = [
     {
@@ -35,7 +35,7 @@ export const SupportPage: React.FC = () => {
     },
     {
       q: 'Chính sách miễn phí vận chuyển và miễn phí đóng gói xe lạnh?',
-      a: 'Đơn hàng có giá trị tạm tính từ 500.000₫ trở lên được MIỄN PHÍ phí vận chuyển tiêu chuẩn 25.000₫. Đối với đơn hàng có sản phẩm chuỗi lạnh, phí đóng gói thùng xốp đá gel (15.000₫) được MIỄN PHÍ hoàn toàn cho các đơn hàng từ 300.000₫ trở lên.',
+      a: 'Đơn hàng có giá trị tạm tính từ 500.000₫ trở lên được miễn phí phí vận chuyển tiêu chuẩn 25.000₫. Đối với đơn hàng có sản phẩm chuỗi lạnh, phí đóng gói thùng xốp đá gel (15.000₫) được miễn phí hoàn toàn cho các đơn hàng từ 300.000₫ trở lên.',
     },
     {
       q: 'Làm thế nào để yêu cầu xuất hóa đơn GTGT (VAT) điện tử?',
@@ -43,7 +43,7 @@ export const SupportPage: React.FC = () => {
     },
     {
       q: 'Chính sách đổi trả hàng bị hư hỏng hoặc biến dạng khi nhận?',
-      a: 'Gia Hòa Phát cam kết 1 đổi 1 hoặc hoàn tiền 100% nếu bơ/kem bị chảy tách nước, móp vỡ bao bì hoặc lỗi do quy trình vận chuyển của xe lạnh. Quý khách vui lòng đồng kiểm tra cùng shipper hoặc phản hồi qua hotline 1900 6899 trong vòng 24 giờ kể từ thời điểm nhận hàng.',
+      a: 'Gia Hòa Phát hỗ trợ 1 đổi 1 hoặc hoàn tiền 100% nếu bơ/kem bị chảy tách nước, móp vỡ bao bì hoặc lỗi do quy trình vận chuyển của xe lạnh. Quý khách vui lòng đồng kiểm tra cùng shipper hoặc phản hồi qua hotline 1900 6899 trong vòng 24 giờ kể từ thời điểm nhận hàng.',
     },
     {
       q: 'Làm sao để đăng ký mua sỉ và mở hạn mức công nợ 30 ngày?',
@@ -52,7 +52,7 @@ export const SupportPage: React.FC = () => {
   ]
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-8">
+    <div className="wrap py-4 md:py-6 space-y-8">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -70,9 +70,8 @@ export const SupportPage: React.FC = () => {
 
       {/* Header */}
       <div className="space-y-1.5 border-b border-line pb-4">
-        <span className="text-xs font-mono text-ink-3">SCR-23 · HỖ TRỢ & CHÍNH SÁCH</span>
         <h1 className="text-2xl font-bold text-ink">
-          Trung tâm hỗ trợ & Câu hỏi thường gặp
+          Trung tâm hỗ trợ và câu hỏi thường gặp
         </h1>
         <p className="text-xs text-ink-2 max-w-2xl leading-relaxed">
           Giải đáp các thắc mắc về quy trình bảo quản chuỗi lạnh, chính sách giao hàng xe tải chuyên dụng và hỗ trợ hóa đơn doanh nghiệp
@@ -87,7 +86,7 @@ export const SupportPage: React.FC = () => {
           </div>
           <h3 className="text-sm font-bold text-ink">Chính sách chuỗi lạnh</h3>
           <p className="text-xs text-ink-2 leading-relaxed">
-            Quy trình kiểm soát nhiệt độ nghiêm ngặt từ kho tổng đến xe tải lạnh. Đền bù 100% nếu sản phẩm bơ kem bị suy giảm chất lượng.
+            Quy trình kiểm soát nhiệt độ nghiêm ngặt từ kho tổng đến xe tải lạnh, duy trì dải nhiệt 2–8°C cho sản phẩm bơ sữa.
           </p>
         </div>
 
@@ -105,9 +104,9 @@ export const SupportPage: React.FC = () => {
           <div className="w-9 h-9 rounded-md bg-ok/10 text-ok flex items-center justify-center">
             <FileText className="w-5 h-5" />
           </div>
-          <h3 className="text-sm font-bold text-ink">Hóa đơn & Nguồn gốc</h3>
+          <h3 className="text-sm font-bold text-ink">Hóa đơn và nguồn gốc</h3>
           <p className="text-xs text-ink-2 leading-relaxed">
-            100% sản phẩm có tem phụ tiếng Việt, chứng nhận kiểm dịch và an toàn thực phẩm. Hóa đơn điện tử xuất chuẩn xác theo quy định.
+            Mọi sản phẩm đều có tem phụ tiếng Việt, chứng nhận kiểm dịch và an toàn thực phẩm. Hóa đơn điện tử xuất chuẩn xác theo quy định.
           </p>
         </div>
       </div>
@@ -149,7 +148,7 @@ export const SupportPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <Button variant="outline" size="sm" asChild>
             <a href="tel:19006899">
               <Phone className="w-3.5 h-3.5 mr-1.5" />

@@ -125,7 +125,7 @@ export const OrderTrackingPage: React.FC = () => {
     })
     showToast({
       type: 'success',
-      message: `Đã thêm ${initialOrder.items.length} món từ đơn #${orderNumber} vào giỏ hàng!`,
+      message: `Đã thêm ${initialOrder.items.length} món từ đơn #${orderNumber} vào giỏ hàng.`,
     })
   }
 
@@ -138,7 +138,7 @@ export const OrderTrackingPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-6">
+    <div className="wrap py-4 md:py-6 space-y-6">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -192,7 +192,7 @@ export const OrderTrackingPage: React.FC = () => {
           </div>
           <p className="text-xs text-ink-3">
             Thời gian đặt: {initialOrder.createdAt} · Phương thức:{' '}
-            {initialOrder.shippingMethod === 'chilled_express' ? 'Xe lạnh Chilled Express' : 'Tiêu chuẩn'}
+            {initialOrder.shippingMethod === 'chilled_express' ? 'Giao xe lạnh chuyên dụng' : 'Tiêu chuẩn'}
           </p>
         </div>
 
@@ -250,7 +250,7 @@ export const OrderTrackingPage: React.FC = () => {
               <div className="flex items-center justify-between border-b border-line pb-2.5">
                 <span className="text-xs font-semibold text-ink flex items-center gap-1.5">
                   <Truck className="w-4 h-4 text-brand" />
-                  Thông tin xe tải lạnh & Nhiệt độ bảo quản
+                  Thông tin xe tải lạnh và nhiệt độ bảo quản
                 </span>
                 <span className="text-xs text-ink-3 tabular-nums">
                   {driverInfo.lastTelemetryTime}
@@ -286,7 +286,7 @@ export const OrderTrackingPage: React.FC = () => {
                     {driverInfo.compartmentTemp.toFixed(1)}°C
                   </div>
                   <p className="text-xs text-ink-2">
-                    Cảm biến IoT xe lạnh đo liên tục. Cam kết bơ lạt & kem tươi không bị chảy mềm.
+                    Cảm biến IoT xe lạnh đo liên tục, duy trì nhiệt độ bảo quản 2–8°C cho bơ sữa và kem tươi.
                   </p>
                 </div>
               </div>
@@ -403,7 +403,7 @@ export const OrderTrackingPage: React.FC = () => {
           {/* Logistics & Delivery details */}
           <div className="border border-line rounded-lg bg-surface p-5 space-y-4 text-xs">
             <h3 className="text-sm font-semibold text-ink border-b border-line pb-2.5">
-              Địa chỉ & Giao nhận
+              Địa chỉ và giao nhận
             </h3>
 
             <div className="space-y-2.5 text-ink-2">

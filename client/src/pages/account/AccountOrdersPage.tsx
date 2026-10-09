@@ -7,6 +7,7 @@ import { Order } from '@/types'
 import { Price, formatPrice } from '@/components/ui/price'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { ORDER_STATUS_LABEL } from '@/lib/labels'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   ShoppingBag,
@@ -23,7 +24,9 @@ export const AccountOrdersPage: React.FC = () => {
   const { addItem } = useCart()
   const { showToast } = useToast()
 
-  const [orders, setOrders] = useState<Order[]>(MOCK_ORDERS)
+  const [orders, setOrders] = useState<Order[]>(() =>
+    MOCK_ORDERS.filter((o) => o.customerName === 'Trần Mai Anh')
+  )
   const [filterTab, setFilterTab] = useState<string>('all')
 
   const filteredOrders = useMemo(() => {
@@ -50,7 +53,7 @@ export const AccountOrdersPage: React.FC = () => {
     })
     showToast({
       type: 'success',
-      message: `Đã thêm ${order.items.length} món từ đơn #${order.orderNumber} vào giỏ!`,
+      message: `Đã thêm ${order.items.length} món từ đơn #${order.orderNumber} vào giỏ hàng.`,
     })
   }
 
@@ -67,13 +70,15 @@ export const AccountOrdersPage: React.FC = () => {
 
       {/* Filter Tabs */}
       <Tabs value={filterTab} onValueChange={setFilterTab}>
-        <TabsList className="bg-page border border-line">
-          <TabsTrigger value="all">Tất cả ({orders.length})</TabsTrigger>
-          <TabsTrigger value="shipping">Đang giao</TabsTrigger>
-          <TabsTrigger value="packing">Đóng gói</TabsTrigger>
-          <TabsTrigger value="delivered">Đã giao</TabsTrigger>
-          <TabsTrigger value="cancelled">Đã hủy</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto max-w-full">
+          <TabsList className="bg-page border border-line">
+            <TabsTrigger value="all">Tất cả ({orders.length})</TabsTrigger>
+            <TabsTrigger value="shipping">Đang giao</TabsTrigger>
+            <TabsTrigger value="packing">Đóng gói</TabsTrigger>
+            <TabsTrigger value="delivered">Đã giao</TabsTrigger>
+            <TabsTrigger value="cancelled">Đã hủy</TabsTrigger>
+          </TabsList>
+        </div>
       </Tabs>
 
       {/* Orders List */}
@@ -124,7 +129,7 @@ export const AccountOrdersPage: React.FC = () => {
                       </Badge>
                     ) : (
                       <Badge variant="secondary" className="text-xs">
-                        {order.status}
+                        {ORDER_STATUS_LABEL[order.status] || order.status}
                       </Badge>
                     )}
                   </div>

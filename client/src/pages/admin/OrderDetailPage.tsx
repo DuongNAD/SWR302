@@ -240,7 +240,7 @@ export const AdminOrderDetailPage: React.FC = () => {
           {/* Customer & Delivery */}
           <div className="border border-line rounded-lg bg-surface p-5 space-y-3.5 text-xs shadow-xs">
             <h3 className="text-sm font-bold text-ink border-b border-line pb-2.5">
-              Khách hàng & Giao nhận
+              Khách hàng và giao nhận
             </h3>
 
             <div className="space-y-2 text-ink-2">

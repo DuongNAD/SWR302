@@ -10,6 +10,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
   Dialog,
@@ -27,7 +34,7 @@ import {
 import { useToast } from '@/context/ToastContext'
 
 export const AdminInventoryPage: React.FC = () => {
-  useDocumentTitle('Tồn kho & Quản lý lô FEFO | Quản trị Gia Hòa Phát')
+  useDocumentTitle('Tồn kho và quản lý lô FEFO | Quản trị Gia Hòa Phát')
 
   const { showToast } = useToast()
 
@@ -122,7 +129,7 @@ export const AdminInventoryPage: React.FC = () => {
   // Columns: Tab 1 - Stock
   const stockColumns: ColumnDef<Product>[] = [
     {
-      header: 'Sản phẩm & SKU',
+      header: 'Sản phẩm và SKU',
       className: 'max-w-[280px]',
       cell: (p) => (
         <div className="space-y-0.5 truncate">
@@ -225,7 +232,7 @@ export const AdminInventoryPage: React.FC = () => {
       accessorKey: 'batchNumber',
     },
     {
-      header: 'Sản phẩm & Quy cách',
+      header: 'Sản phẩm và quy cách',
       cell: (b) => (
         <div>
           <span className="font-semibold text-ink block">{b.productName}</span>
@@ -345,9 +352,8 @@ export const AdminInventoryPage: React.FC = () => {
       {/* 1. Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
         <div>
-          <span className="text-xs font-mono text-ink-3">SCR-A07 · QUẢN LÝ KHO & LÔ HÀNG</span>
           <h1 className="text-2xl font-bold text-ink">
-            Quản trị tồn kho & Hạn dùng (FEFO)
+            Quản trị tồn kho và hạn dùng (FEFO)
           </h1>
           <p className="text-xs text-ink-3">
             Kiểm soát nguyên tắc First Expired - First Out, điều chỉnh số lượng tồn và quản lý phiếu nhập xuất
@@ -364,7 +370,7 @@ export const AdminInventoryPage: React.FC = () => {
       <Tabs value={activeTab} onValueChange={(val) => setActiveTab(val as any)}>
         <TabsList className="bg-surface border border-line">
           <TabsTrigger value="stock">Tồn kho theo sản phẩm ({stockList.length})</TabsTrigger>
-          <TabsTrigger value="fefo">Lô hàng & Hạn dùng (FEFO) ({batches.length})</TabsTrigger>
+          <TabsTrigger value="fefo">Lô hàng và hạn dùng (FEFO) ({batches.length})</TabsTrigger>
           <TabsTrigger value="transactions">Nhật ký nhập / xuất ({transactions.length})</TabsTrigger>
         </TabsList>
       </Tabs>
@@ -432,18 +438,18 @@ export const AdminInventoryPage: React.FC = () => {
           <form onSubmit={handleInboundSubmit} className="space-y-4 py-2 text-xs">
             <div className="space-y-1.5">
               <Label htmlFor="in-prd">Chọn sản phẩm nhập kho</Label>
-              <select
-                id="in-prd"
-                value={inboundProduct}
-                onChange={(e) => setInboundProduct(e.target.value)}
-                className="w-full h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
-              >
-                {PRODUCTS.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name} ({p.unit})
-                  </option>
-                ))}
-              </select>
+              <Select value={inboundProduct} onValueChange={setInboundProduct}>
+                <SelectTrigger id="in-prd" className="w-full h-10 text-xs">
+                  <SelectValue placeholder="Chọn sản phẩm" />
+                </SelectTrigger>
+                <SelectContent>
+                  {PRODUCTS.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.name} ({p.unit})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-1.5">

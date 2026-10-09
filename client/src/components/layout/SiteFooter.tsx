@@ -31,7 +31,7 @@ export const SiteFooter: React.FC = () => {
               </li>
               <li>
                 <Link to="/san-pham?danh-muc=bo-sua-pho-mai" className="hover:text-white transition-colors">
-                  Bơ sữa & Phô mai tươi
+                  Bơ sữa và phô mai tươi
                 </Link>
               </li>
               <li>

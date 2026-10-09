@@ -39,7 +39,7 @@ export const CartPage: React.FC = () => {
 
   if (items.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8 space-y-12">
+      <div className="wrap py-8 space-y-12">
         {/* Breadcrumb */}
         <Breadcrumb>
           <BreadcrumbList>
@@ -63,7 +63,7 @@ export const CartPage: React.FC = () => {
           <div className="space-y-1">
             <h2 className="text-xl font-bold text-ink">Giỏ hàng của bạn đang trống</h2>
             <p className="text-xs text-ink-2 leading-relaxed">
-              Bạn chưa thêm sản phẩm hoặc nguyên liệu làm bánh nào vào giỏ. Hãy chọn nguyên liệu tươi ngon nhất từ Gia Hòa Phát!
+              Bạn chưa thêm sản phẩm hoặc nguyên liệu làm bánh nào vào giỏ. Hãy chọn nguyên liệu tươi ngon từ Gia Hòa Phát.
             </p>
           </div>
           <div className="pt-2">
@@ -93,7 +93,7 @@ export const CartPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-6">
+    <div className="wrap py-4 md:py-6 space-y-6">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -141,7 +141,7 @@ export const CartPage: React.FC = () => {
                 <Truck className="w-4 h-4 text-brand" />
                 {amountNeededForFreeShip > 0
                   ? `Mua thêm ${formatPrice(amountNeededForFreeShip)} để được miễn phí vận chuyển`
-                  : 'Đơn hàng của bạn đã đủ điều kiện MIỄN PHÍ VẬN CHUYỂN tiêu chuẩn!'}
+                  : 'Đơn hàng của bạn đã đủ điều kiện miễn phí vận chuyển tiêu chuẩn.'}
               </span>
               <span className="font-semibold text-brand tabular-nums">
                 {freeShippingProgress}%

@@ -29,7 +29,7 @@ export const OrderLookupPage: React.FC = () => {
 
     const cleanCode = orderCode.trim().toUpperCase()
     if (!cleanCode) {
-      setErrorMessage('Vui lòng nhập mã đơn hàng!')
+      setErrorMessage('Vui lòng nhập mã đơn hàng.')
       return
     }
 
@@ -44,7 +44,7 @@ export const OrderLookupPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12 max-w-lg space-y-6">
+    <div className="wrap py-8 md:py-12 space-y-6">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -60,7 +60,8 @@ export const OrderLookupPage: React.FC = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Header */}
+      <div className="max-w-lg mx-auto space-y-6">
+        {/* Header */}
       <div className="text-center space-y-2">
         <div className="w-12 h-12 rounded-full bg-brand-soft border border-brand/30 flex items-center justify-center mx-auto text-brand">
           <Truck className="w-6 h-6" />
@@ -141,5 +142,6 @@ export const OrderLookupPage: React.FC = () => {
         </div>
       </div>
     </div>
+  </div>
   )
 }

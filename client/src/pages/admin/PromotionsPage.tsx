@@ -9,6 +9,13 @@ import { Switch } from '@/components/ui/switch'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -118,7 +125,7 @@ export const AdminPromotionsPage: React.FC = () => {
 
     setVouchers([created, ...vouchers])
     setIsCreateOpen(false)
-    showToast({ message: `Đã tạo mã khuyến mãi ${created.code} thành công!`, type: 'success' })
+    showToast({ message: `Đã tạo mã khuyến mãi ${created.code} thành công.`, type: 'success' })
 
     // Reset form
     setNewCode('')
@@ -230,7 +237,8 @@ export const AdminPromotionsPage: React.FC = () => {
     },
     {
       header: 'Thao tác',
-      className: 'text-right',
+      sticky: 'right',
+      className: 'w-[64px] min-w-[64px] text-right',
       cell: (item) => (
         <div className="flex items-center justify-end">
           <Button
@@ -277,19 +285,23 @@ export const AdminPromotionsPage: React.FC = () => {
         searchPlaceholder="Tìm kiếm mã hoặc nội dung..."
         filterSlot={
           <div className="flex items-center gap-2">
-            <select
+            <Select
               value={typeFilter}
-              onChange={(e) => {
-                setTypeFilter(e.target.value as any)
+              onValueChange={(val) => {
+                setTypeFilter(val as any)
                 setCurrentPage(1)
               }}
-              className="h-9 px-2.5 text-xs bg-surface border border-line rounded-md text-ink"
             >
-              <option value="all">Tất cả loại voucher</option>
-              <option value="fixed">Giảm số tiền cố định</option>
-              <option value="percent">Giảm theo tỷ lệ %</option>
-              <option value="free_shipping">Miễn phí vận chuyển</option>
-            </select>
+              <SelectTrigger className="h-9 w-[180px] text-xs">
+                <SelectValue placeholder="Tất cả loại voucher" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả loại voucher</SelectItem>
+                <SelectItem value="fixed">Giảm số tiền cố định</SelectItem>
+                <SelectItem value="percent">Giảm theo tỷ lệ %</SelectItem>
+                <SelectItem value="free_shipping">Miễn phí vận chuyển</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         }
         hasActiveFilters={Boolean(searchQuery || typeFilter !== 'all')}
@@ -352,15 +364,19 @@ export const AdminPromotionsPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label className="text-xs font-semibold text-ink">Loại giảm giá</Label>
-                  <select
+                  <Select
                     value={newType}
-                    onChange={(e) => setNewType(e.target.value as VoucherType)}
-                    className="mt-1 w-full h-8 px-2 text-xs bg-surface border border-line rounded-md text-ink"
+                    onValueChange={(val) => setNewType(val as VoucherType)}
                   >
-                    <option value="fixed">Giảm số tiền cố định (₫)</option>
-                    <option value="percent">Giảm theo tỷ lệ %</option>
-                    <option value="free_shipping">Miễn phí giao hàng</option>
-                  </select>
+                    <SelectTrigger className="mt-1 w-full h-8 text-xs">
+                      <SelectValue placeholder="Chọn loại giảm giá" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="fixed">Giảm số tiền cố định (₫)</SelectItem>
+                      <SelectItem value="percent">Giảm theo tỷ lệ %</SelectItem>
+                      <SelectItem value="free_shipping">Miễn phí giao hàng</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div>

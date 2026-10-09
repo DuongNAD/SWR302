@@ -19,11 +19,6 @@ import {
   Heart,
   User,
   LogOut,
-  Phone,
-  Clock,
-  Store,
-  FileSearch,
-  HelpCircle,
 } from 'lucide-react'
 
 export const SiteHeader: React.FC = () => {
@@ -34,48 +29,7 @@ export const SiteHeader: React.FC = () => {
 
   return (
     <>
-      {/* 1. Top Utility Bar (Desktop only, 36px, does NOT stick) */}
-      <div className="h-9 border-b border-line bg-surface text-ink-2 text-xs hidden lg:block">
-        <div className="wrap flex items-center justify-between h-full">
-          <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-1.5">
-              <Phone className="h-3.5 w-3.5 text-brand" />
-              <span>Hotline 1900 6899</span>
-            </span>
-            <span className="text-line-strong">•</span>
-            <span className="inline-flex items-center gap-1.5">
-              <Clock className="h-3.5 w-3.5 text-ink-3" />
-              <span>07:30–21:00 hằng ngày</span>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-5">
-            <Link
-              to="/cua-hang"
-              className="inline-flex items-center gap-1 hover:text-ink transition-colors"
-            >
-              <Store className="h-3.5 w-3.5" />
-              <span>Hệ thống cửa hàng</span>
-            </Link>
-            <Link
-              to="/tra-cuu-don-hang"
-              className="inline-flex items-center gap-1 hover:text-ink transition-colors"
-            >
-              <FileSearch className="h-3.5 w-3.5" />
-              <span>Tra cứu đơn hàng</span>
-            </Link>
-            <Link
-              to="/ho-tro"
-              className="inline-flex items-center gap-1 hover:text-ink transition-colors"
-            >
-              <HelpCircle className="h-3.5 w-3.5" />
-              <span>Hỗ trợ</span>
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      {/* 2. Sticky Header (64px desktop, 56px mobile) */}
+      {/* 1. Main Header (64px desktop, 56px mobile) */}
       <header className="sticky top-0 z-40 h-14 lg:h-16 border-b border-line bg-surface">
         <div className="wrap flex items-center justify-between h-full gap-4">
           {/* Mobile Menu Button + Logo */}

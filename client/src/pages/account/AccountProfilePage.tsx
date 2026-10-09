@@ -25,18 +25,18 @@ export const AccountProfilePage: React.FC = () => {
     e.preventDefault()
     showToast({
       type: 'success',
-      message: 'Đã cập nhật thông tin cá nhân thành công!',
+      message: 'Đã cập nhật thông tin cá nhân thành công.',
     })
   }
 
   const handleChangePassword = (e: React.FormEvent) => {
     e.preventDefault()
     if (!newPassword.trim()) {
-      showToast({ type: 'error', message: 'Vui lòng nhập mật khẩu mới!' })
+      showToast({ type: 'error', message: 'Vui lòng nhập mật khẩu mới.' })
       return
     }
     if (newPassword !== confirmPassword) {
-      showToast({ type: 'error', message: 'Mật khẩu xác nhận không khớp!' })
+      showToast({ type: 'error', message: 'Mật khẩu xác nhận không khớp.' })
       return
     }
     setCurrentPassword('')
@@ -44,7 +44,7 @@ export const AccountProfilePage: React.FC = () => {
     setConfirmPassword('')
     showToast({
       type: 'success',
-      message: 'Đã thay đổi mật khẩu tài khoản thành công!',
+      message: 'Đã thay đổi mật khẩu tài khoản thành công.',
     })
   }
 

@@ -13,6 +13,13 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import {
@@ -34,7 +41,7 @@ import {
 import { useToast } from '@/context/ToastContext'
 
 export const AdminStaffPage: React.FC = () => {
-  useDocumentTitle('Nhân viên & Phân quyền | Quản trị Gia Hòa Phát')
+  useDocumentTitle('Nhân viên và phân quyền | Quản trị Gia Hòa Phát')
   const { showToast } = useToast()
 
   const [activeTab, setActiveTab] = useState<'staff' | 'matrix'>('staff')
@@ -185,7 +192,8 @@ export const AdminStaffPage: React.FC = () => {
     },
     {
       header: 'Thao tác',
-      className: 'text-right',
+      sticky: 'right',
+      className: 'w-[90px] min-w-[90px] text-right',
       cell: (item) => (
         <div className="flex items-center justify-end">
           <Button
@@ -208,7 +216,7 @@ export const AdminStaffPage: React.FC = () => {
         <div>
           <h1 className="text-xl font-bold tracking-tight text-ink flex items-center gap-2">
             <UserCheck className="w-5 h-5 text-brand" />
-            Nhân viên & Phân quyền hệ thống
+            Nhân viên và phân quyền hệ thống
           </h1>
           <p className="text-xs text-ink-2 mt-0.5">
             Quản trị tài khoản nhân viên nội bộ, chi nhánh phân công và ma trận kiểm soát quyền truy cập
@@ -260,20 +268,24 @@ export const AdminStaffPage: React.FC = () => {
             }}
             searchPlaceholder="Tìm theo tên, email, SĐT..."
             filterSlot={
-              <select
+              <Select
                 value={roleFilter}
-                onChange={(e) => {
-                  setRoleFilter(e.target.value as any)
+                onValueChange={(val) => {
+                  setRoleFilter(val as any)
                   setCurrentPage(1)
                 }}
-                className="h-9 px-2.5 text-xs bg-surface border border-line rounded-md text-ink"
               >
-                <option value="all">Tất cả vai trò</option>
-                <option value="admin">Quản trị viên</option>
-                <option value="warehouse">Quản lý kho lạnh</option>
-                <option value="sales">Bán hàng & CSKH</option>
-                <option value="accountant">Kế toán viên</option>
-              </select>
+                <SelectTrigger className="h-9 w-[170px] text-xs">
+                  <SelectValue placeholder="Tất cả vai trò" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tất cả vai trò</SelectItem>
+                  <SelectItem value="admin">Quản trị viên</SelectItem>
+                  <SelectItem value="warehouse">Quản lý kho lạnh</SelectItem>
+                  <SelectItem value="sales">Bán hàng và CSKH</SelectItem>
+                  <SelectItem value="accountant">Kế toán viên</SelectItem>
+                </SelectContent>
+              </Select>
             }
             hasActiveFilters={Boolean(searchQuery || roleFilter !== 'all')}
             onResetFilters={() => {
@@ -311,10 +323,10 @@ export const AdminStaffPage: React.FC = () => {
             <table className="w-full text-xs">
               <thead className="bg-page border-b border-line text-ink-2 font-semibold">
                 <tr>
-                  <th className="py-3 px-3.5 text-left w-2/5">Chức năng & Tác vụ hệ thống</th>
+                  <th className="py-3 px-3.5 text-left w-2/5">Chức năng và tác vụ hệ thống</th>
                   <th className="py-3 px-3.5 text-center">Quản trị</th>
                   <th className="py-3 px-3.5 text-center">Quản lý kho</th>
-                  <th className="py-3 px-3.5 text-center">Bán hàng & CSKH</th>
+                  <th className="py-3 px-3.5 text-center">Bán hàng và CSKH</th>
                   <th className="py-3 px-3.5 text-center">Kế toán</th>
                 </tr>
               </thead>
@@ -433,30 +445,38 @@ export const AdminStaffPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label className="text-xs font-semibold text-ink">Vai trò phân quyền</Label>
-                  <select
+                  <Select
                     value={newRole}
-                    onChange={(e) => setNewRole(e.target.value as StaffRole)}
-                    className="mt-1 w-full h-8 px-2 text-xs bg-surface border border-line rounded-md text-ink"
+                    onValueChange={(val) => setNewRole(val as StaffRole)}
                   >
-                    <option value="sales">Bán hàng & CSKH</option>
-                    <option value="warehouse">Quản lý kho lạnh</option>
-                    <option value="accountant">Kế toán viên</option>
-                    <option value="admin">Quản trị viên</option>
-                  </select>
+                    <SelectTrigger className="mt-1 w-full h-8 text-xs">
+                      <SelectValue placeholder="Chọn vai trò" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sales">Bán hàng và CSKH</SelectItem>
+                      <SelectItem value="warehouse">Quản lý kho lạnh</SelectItem>
+                      <SelectItem value="accountant">Kế toán viên</SelectItem>
+                      <SelectItem value="admin">Quản trị viên</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div>
                   <Label className="text-xs font-semibold text-ink">Cơ sở làm việc</Label>
-                  <select
+                  <Select
                     value={newStore}
-                    onChange={(e) => setNewStore(e.target.value)}
-                    className="mt-1 w-full h-8 px-2 text-xs bg-surface border border-line rounded-md text-ink"
+                    onValueChange={setNewStore}
                   >
-                    <option value="Kho Tổng 180 Cầu Giấy, Hà Nội">Kho Cầu Giấy, HN</option>
-                    <option value="Kho trung chuyển Q.5, TP.HCM">Kho Q.5, TP.HCM</option>
-                    <option value="Showroom 45 Nguyễn Trãi, Q.5, TP.HCM">Showroom TP.HCM</option>
-                    <option value="Tất cả chi nhánh">Tất cả chi nhánh</option>
-                  </select>
+                    <SelectTrigger className="mt-1 w-full h-8 text-xs">
+                      <SelectValue placeholder="Chọn cơ sở làm việc" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Kho Tổng 180 Cầu Giấy, Hà Nội">Kho Cầu Giấy, HN</SelectItem>
+                      <SelectItem value="Kho trung chuyển Q.5, TP.HCM">Kho Q.5, TP.HCM</SelectItem>
+                      <SelectItem value="Showroom 45 Nguyễn Trãi, Q.5, TP.HCM">Showroom TP.HCM</SelectItem>
+                      <SelectItem value="Tất cả chi nhánh">Tất cả chi nhánh</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>

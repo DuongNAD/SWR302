@@ -26,7 +26,7 @@ export const LoginPage: React.FC = () => {
     loginAs('customer')
     showToast({
       type: 'success',
-      message: 'Đăng nhập thành công! Chào mừng bạn quay trở lại.',
+      message: 'Đăng nhập thành công. Chào mừng bạn quay trở lại.',
     })
     navigate('/tai-khoan')
   }

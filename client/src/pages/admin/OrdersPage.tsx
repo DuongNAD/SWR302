@@ -8,10 +8,18 @@ import { DataTableToolbar } from '@/components/admin/DataTableToolbar'
 import { formatPrice } from '@/components/ui/price'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Snowflake, Eye, CheckCircle2 } from 'lucide-react'
 import { useToast } from '@/context/ToastContext'
+import { PAYMENT_LABEL } from '@/lib/labels'
 
 export const AdminOrdersPage: React.FC = () => {
   useDocumentTitle('Quản lý đơn hàng | Quản trị Gia Hòa Phát')
@@ -174,7 +182,7 @@ export const AdminOrdersPage: React.FC = () => {
       cell: (order) => (
         <div className="space-y-0.5">
           <span className="text-xs text-ink font-medium">
-            {order.paymentMethod}
+            {PAYMENT_LABEL[order.paymentMethod] || order.paymentMethod}
           </span>
           <span className="block text-xs text-ink-3">
             {order.paymentStatus === 'paid' ? 'Đã thu tiền' : 'Chưa thu (COD)'}
@@ -211,8 +219,9 @@ export const AdminOrdersPage: React.FC = () => {
       },
     },
     {
-      header: '',
-      className: 'w-16 text-right',
+      header: 'Thao tác',
+      sticky: 'right',
+      className: 'w-[56px] min-w-[56px] text-right',
       cell: (order) => (
         <Button variant="ghost" size="sm" asChild className="h-8 w-8 p-0">
           <Link to={`/admin/don-hang/${order.orderNumber}`} title="Xem chi tiết đơn">
@@ -228,7 +237,6 @@ export const AdminOrdersPage: React.FC = () => {
       {/* 1. Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
         <div>
-          <span className="text-xs font-mono text-ink-3">SCR-A02 · QUẢN LÝ ĐƠN HÀNG</span>
           <h1 className="text-2xl font-bold text-ink">
             Danh sách đơn hàng
           </h1>
@@ -257,15 +265,19 @@ export const AdminOrdersPage: React.FC = () => {
         onSearchChange={setSearchQuery}
         searchPlaceholder="Tìm mã đơn, tên khách, số điện thoại..."
         filterSlot={
-          <select
+          <Select
             value={shippingFilter}
-            onChange={(e) => setShippingFilter(e.target.value as any)}
-            className="h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
+            onValueChange={(val) => setShippingFilter(val as any)}
           >
-            <option value="all">Tất cả vận chuyển</option>
-            <option value="chilled_express">Xe lạnh (2–8°C)</option>
-            <option value="standard">Giao tiêu chuẩn</option>
-          </select>
+            <SelectTrigger className="h-9 w-[170px] text-xs">
+              <SelectValue placeholder="Tất cả vận chuyển" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tất cả vận chuyển</SelectItem>
+              <SelectItem value="chilled_express">Xe lạnh (2–8°C)</SelectItem>
+              <SelectItem value="standard">Giao tiêu chuẩn</SelectItem>
+            </SelectContent>
+          </Select>
         }
         onExportCsv={handleExportCsv}
         hasActiveFilters={searchQuery !== '' || shippingFilter !== 'all'}

@@ -6,9 +6,17 @@ import { CATEGORIES } from '@/data/categories'
 import { Product } from '@/types'
 import { DataTable, ColumnDef } from '@/components/admin/DataTable'
 import { DataTableToolbar } from '@/components/admin/DataTableToolbar'
+import { ProductImage } from '@/components/ui/product-image'
 import { formatPrice } from '@/components/ui/price'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import {
   Dialog,
   DialogContent,
@@ -87,20 +95,21 @@ export const AdminProductsPage: React.FC = () => {
   const columns: ColumnDef<Product>[] = [
     {
       header: 'Ảnh',
-      className: 'w-12',
+      className: 'w-[56px] min-w-[56px]',
       cell: (p) => (
         <div className="w-10 h-10 rounded-md border border-line bg-page overflow-hidden">
-          <img src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
+          <ProductImage src={p.imageUrl} alt={p.name} className="w-full h-full object-cover" />
         </div>
       ),
     },
     {
-      header: 'Tên sản phẩm & SKU',
-      className: 'max-w-[280px]',
+      header: 'Tên sản phẩm và SKU',
+      className: 'min-w-[200px]',
       cell: (p) => (
-        <div className="space-y-0.5 truncate">
+        <div className="space-y-0.5 truncate max-w-[260px]">
           <Link
             to={`/admin/san-pham/${p.id}`}
+            title={p.name}
             className="font-semibold text-ink hover:text-brand transition-colors truncate block"
           >
             {p.name}
@@ -115,18 +124,19 @@ export const AdminProductsPage: React.FC = () => {
     },
     {
       header: 'Danh mục',
-      cell: (p) => <span className="text-xs text-ink-2">{p.categoryName}</span>,
+      className: 'w-[160px] min-w-[160px]',
+      cell: (p) => <span className="text-xs text-ink-2 truncate block">{p.categoryName}</span>,
     },
     {
       header: <span className="block text-right">Giá bán lẻ</span>,
-      className: 'text-right',
+      className: 'w-[110px] min-w-[110px] text-right',
       cell: (p) => (
         <span className="font-bold text-ink tabular-nums">{formatPrice(p.price)}</span>
       ),
     },
     {
       header: <span className="block text-right">Tồn kho</span>,
-      className: 'text-right',
+      className: 'w-[140px] min-w-[140px] text-right',
       cell: (p) => {
         const isLow = p.stockQty <= p.lowStockThreshold
         return (
@@ -147,12 +157,13 @@ export const AdminProductsPage: React.FC = () => {
     },
     {
       header: 'Bảo quản',
+      className: 'w-[110px] min-w-[110px]',
       cell: (p) => (
         <div>
           {p.storageCondition !== 'ambient' ? (
             <span className="text-info font-medium text-xs flex items-center gap-1">
-              <Snowflake className="w-3 h-3" />
-              {p.storageCondition === 'frozen' ? 'Đông lạnh' : 'Mát 2–8°C'}
+              <Snowflake className="w-3 h-3 shrink-0" />
+              <span>{p.storageCondition === 'frozen' ? 'Đông lạnh' : 'Mát 2–8°C'}</span>
             </span>
           ) : (
             <span className="text-ink-3 text-xs">Kho thường</span>
@@ -162,12 +173,14 @@ export const AdminProductsPage: React.FC = () => {
     },
     {
       header: 'HSD',
+      className: 'w-[110px] min-w-[110px]',
       cell: (p) => (
         <span className="text-xs text-ink-3 tabular-nums">{p.expiryDate}</span>
       ),
     },
     {
       header: 'Trạng thái',
+      className: 'w-[100px] min-w-[100px]',
       cell: (p) => (
         <Badge
           variant={p.inStock ? 'outline' : 'secondary'}
@@ -179,7 +192,8 @@ export const AdminProductsPage: React.FC = () => {
     },
     {
       header: 'Thao tác',
-      className: 'w-24 text-right',
+      sticky: 'right',
+      className: 'w-[80px] min-w-[80px] text-right',
       cell: (p) => (
         <div className="flex items-center justify-end gap-1">
           <Button
@@ -224,9 +238,8 @@ export const AdminProductsPage: React.FC = () => {
       {/* 1. Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
         <div>
-          <span className="text-xs font-mono text-ink-3">SCR-A04 · QUẢN LÝ SẢN PHẨM</span>
           <h1 className="text-2xl font-bold text-ink">
-            Danh mục nguyên liệu & thiết bị
+            Danh mục nguyên liệu và thiết bị
           </h1>
           <p className="text-xs text-ink-3">
             Quản lý thông tin nguyên liệu, bảng giá bán lẻ, giá sỉ bậc thang và điều kiện bảo quản
@@ -248,28 +261,30 @@ export const AdminProductsPage: React.FC = () => {
         searchPlaceholder="Tìm theo tên, SKU, thương hiệu..."
         filterSlot={
           <>
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
-            >
-              <option value="all">Tất cả danh mục</option>
-              {CATEGORIES.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="h-9 w-[180px] text-xs">
+                <SelectValue placeholder="Tất cả danh mục" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả danh mục</SelectItem>
+                {CATEGORIES.map((c) => (
+                  <SelectItem key={c.id} value={c.id}>
+                    {c.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
-            <select
-              value={storageFilter}
-              onChange={(e) => setStorageFilter(e.target.value)}
-              className="h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
-            >
-              <option value="all">Tất cả bảo quản</option>
-              <option value="cold">Chuỗi lạnh (2–8°C / Đông)</option>
-              <option value="ambient">Kho thường</option>
-            </select>
+            <Select value={storageFilter} onValueChange={setStorageFilter}>
+              <SelectTrigger className="h-9 w-[180px] text-xs">
+                <SelectValue placeholder="Tất cả bảo quản" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả bảo quản</SelectItem>
+                <SelectItem value="cold">Chuỗi lạnh (2–8°C / Đông)</SelectItem>
+                <SelectItem value="ambient">Kho thường</SelectItem>
+              </SelectContent>
+            </Select>
 
             <button
               type="button"

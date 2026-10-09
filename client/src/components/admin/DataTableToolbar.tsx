@@ -34,6 +34,7 @@ export const DataTableToolbar: React.FC<DataTableToolbarProps> = ({
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={searchPlaceholder}
+            aria-label={searchPlaceholder}
             className="pl-8 h-9 text-xs bg-surface"
           />
         </div>

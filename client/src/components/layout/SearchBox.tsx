@@ -9,28 +9,28 @@ import { cn } from '@/lib/utils'
 export const SearchBox: React.FC<{ className?: string }> = ({ className }) => {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const [selectedCat, setSelectedCat] = useState('all')
   const [isOpen, setIsOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   // Filter products and categories
-  const filteredProducts = query.trim().length >= 2
-    ? PRODUCTS.filter((p) => {
-        const matchesQuery =
-          p.name.toLowerCase().includes(query.toLowerCase()) ||
-          p.brand.toLowerCase().includes(query.toLowerCase()) ||
-          p.sku.toLowerCase().includes(query.toLowerCase())
-        const matchesCat = selectedCat === 'all' || p.categoryId === selectedCat
-        return matchesQuery && matchesCat
-      }).slice(0, 5)
-    : []
+  const filteredProducts =
+    query.trim().length >= 2
+      ? PRODUCTS.filter((p) => {
+          return (
+            p.name.toLowerCase().includes(query.toLowerCase()) ||
+            p.brand.toLowerCase().includes(query.toLowerCase()) ||
+            p.sku.toLowerCase().includes(query.toLowerCase())
+          )
+        }).slice(0, 5)
+      : []
 
-  const filteredCategories = query.trim().length >= 2
-    ? CATEGORIES.filter((c) =>
-        c.name.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 3)
-    : []
+  const filteredCategories =
+    query.trim().length >= 2
+      ? CATEGORIES.filter((c) =>
+          c.name.toLowerCase().includes(query.toLowerCase())
+        ).slice(0, 3)
+      : []
 
   // Global Ctrl/Cmd + K shortcut
   useEffect(() => {
@@ -63,8 +63,7 @@ export const SearchBox: React.FC<{ className?: string }> = ({ className }) => {
     e?.preventDefault()
     if (!query.trim()) return
     setIsOpen(false)
-    const catQuery = selectedCat !== 'all' ? `&danh-muc=${selectedCat}` : ''
-    navigate(`/tim-kiem?q=${encodeURIComponent(query.trim())}${catQuery}`)
+    navigate(`/tim-kiem?q=${encodeURIComponent(query.trim())}`)
   }
 
   const handleSelectProduct = (id: string) => {
@@ -72,9 +71,9 @@ export const SearchBox: React.FC<{ className?: string }> = ({ className }) => {
     navigate(`/san-pham/${id}`)
   }
 
-  const handleSelectCategory = (slug: string) => {
+  const handleSelectCategory = (catId: string) => {
     setIsOpen(false)
-    navigate(`/san-pham?danh-muc=${slug}`)
+    navigate(`/san-pham?danh-muc=${catId}`)
   }
 
   const showSuggestions = isOpen && query.trim().length >= 2
@@ -85,21 +84,6 @@ export const SearchBox: React.FC<{ className?: string }> = ({ className }) => {
         onSubmit={handleSubmit}
         className="flex items-center h-10 w-full rounded-md border border-field bg-surface text-ink focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/20 transition-all overflow-hidden"
       >
-        {/* Category selector */}
-        <select
-          value={selectedCat}
-          onChange={(e) => setSelectedCat(e.target.value)}
-          aria-label="Chọn danh mục tìm kiếm"
-          className="h-full px-2.5 bg-page border-r border-line text-xs font-medium text-ink-2 hover:text-ink focus:outline-none cursor-pointer max-w-[130px] truncate shrink-0"
-        >
-          <option value="all">Tất cả danh mục</option>
-          {CATEGORIES.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-
         {/* Query Input */}
         <input
           ref={inputRef}
@@ -110,9 +94,17 @@ export const SearchBox: React.FC<{ className?: string }> = ({ className }) => {
             setIsOpen(true)
           }}
           onFocus={() => setIsOpen(true)}
-          placeholder="Tìm bột mì, bơ lạt, socola Bỉ, lò nướng... (Ctrl + K)"
-          className="flex-1 h-full px-3 text-sm bg-transparent text-ink placeholder:text-ink-3 focus:outline-none min-w-0"
+          placeholder="Tìm bột mì, bơ lạt, socola Bỉ, lò nướng..."
+          aria-label="Tìm kiếm sản phẩm"
+          className="flex-1 h-full px-3.5 text-sm bg-transparent text-ink placeholder:text-ink-3 focus:outline-none min-w-0"
         />
+
+        {/* Shortcut hint badge */}
+        <div className="hidden sm:flex items-center pr-2">
+          <kbd className="inline-flex items-center gap-0.5 rounded border border-line bg-page px-1.5 py-0.5 text-xs font-medium text-ink-3 select-none">
+            <span className="text-xs">⌘</span>K
+          </kbd>
+        </div>
 
         {/* Submit Button */}
         <button
@@ -143,7 +135,7 @@ export const SearchBox: React.FC<{ className?: string }> = ({ className }) => {
                     <button
                       key={c.id}
                       type="button"
-                      onClick={() => handleSelectCategory(c.slug)}
+                      onClick={() => handleSelectCategory(c.id)}
                       className="flex w-full items-center justify-between px-2 py-1.5 text-xs text-ink-2 hover:bg-page hover:text-ink rounded transition-colors text-left cursor-pointer"
                     >
                       <span className="font-medium text-ink">{c.name}</span>

@@ -24,6 +24,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { SlidersHorizontal, PackageOpen } from 'lucide-react'
 
 const PAGE_SIZE = 12
@@ -233,18 +240,21 @@ export const ProductListPage: React.FC = () => {
             {/* Sort Dropdown */}
             <div className="flex items-center gap-2 self-end sm:self-auto">
               <span className="text-xs text-ink-3 whitespace-nowrap">Sắp xếp:</span>
-              <select
+              <Select
                 value={sortBy}
-                onChange={(e) => updateParams({ 'sap-xep': e.target.value })}
-                className="h-8 px-2.5 rounded-md border border-field bg-surface text-xs text-ink focus:outline-none focus:border-brand cursor-pointer"
-                aria-label="Sắp xếp sản phẩm"
+                onValueChange={(val) => updateParams({ 'sap-xep': val })}
               >
-                <option value="bestseller">Bán chạy nhất</option>
-                <option value="price-asc">Giá tăng dần</option>
-                <option value="price-desc">Giá giảm dần</option>
-                <option value="rating">Đánh giá cao</option>
-                <option value="newest">Hàng mới nhất</option>
-              </select>
+                <SelectTrigger className="h-8 w-[140px] text-xs" aria-label="Sắp xếp sản phẩm">
+                  <SelectValue placeholder="Sắp xếp" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="bestseller">Bán chạy nhất</SelectItem>
+                  <SelectItem value="price-asc">Giá tăng dần</SelectItem>
+                  <SelectItem value="price-desc">Giá giảm dần</SelectItem>
+                  <SelectItem value="rating">Đánh giá cao</SelectItem>
+                  <SelectItem value="newest">Hàng mới nhất</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

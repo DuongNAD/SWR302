@@ -146,7 +146,6 @@ export const AdminCategoriesPage: React.FC = () => {
       {/* 1. Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
         <div>
-          <span className="text-xs font-mono text-ink-3">SCR-A06 · QUẢN LÝ DANH MỤC</span>
           <h1 className="text-2xl font-bold text-ink">
             Cấu trúc danh mục sản phẩm
           </h1>
@@ -198,7 +197,7 @@ export const AdminCategoriesPage: React.FC = () => {
                     setSlug(e.target.value.toLowerCase().replace(/\s+/g, '-'))
                   }
                 }}
-                placeholder="Ví dụ: Bơ sữa & Phô mai tươi"
+                placeholder="Ví dụ: Bơ sữa và phô mai tươi"
                 required
               />
             </div>

@@ -25,7 +25,7 @@ import {
 } from 'lucide-react'
 
 export const StoresPage: React.FC = () => {
-  useDocumentTitle('Hệ thống cửa hàng & Kho phân phối | Gia Hòa Phát Bakery Supply')
+  useDocumentTitle('Hệ thống cửa hàng và kho phân phối | Gia Hòa Phát Bakery Supply')
 
   const [cityFilter, setCityFilter] = useState<string>('all')
 
@@ -35,7 +35,7 @@ export const StoresPage: React.FC = () => {
   }, [cityFilter])
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-6">
+    <div className="wrap py-4 md:py-6 space-y-6">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -54,9 +54,8 @@ export const StoresPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-line pb-4">
         <div className="space-y-1">
-          <span className="text-xs font-mono text-ink-3">SCR-22 · HỆ THỐNG CỬA HÀNG</span>
           <h1 className="text-2xl font-bold text-ink">
-            Hệ thống cửa hàng & Kho phân phối
+            Hệ thống cửa hàng và kho phân phối
           </h1>
           <p className="text-xs text-ink-2 max-w-2xl leading-relaxed">
             Hệ thống 4 trung tâm phân phối và cửa hàng trải nghiệm nguyên liệu làm bánh tại Hà Nội và TP. Hồ Chí Minh với kho lạnh đạt chuẩn 2–8°C.
@@ -118,7 +117,7 @@ export const StoresPage: React.FC = () => {
               <div className="pt-2 border-t border-line/60 flex flex-wrap gap-2 text-xs text-ink-3">
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-sm bg-page border border-line">
                   <CheckCircle2 className="w-3 h-3 text-ok" />
-                  Nhận hàng tại quầy (Free)
+                  Nhận hàng tại quầy (miễn phí)
                 </span>
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-sm bg-page border border-line">
                   <Snowflake className="w-3 h-3 text-info" />
@@ -126,7 +125,7 @@ export const StoresPage: React.FC = () => {
                 </span>
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-sm bg-page border border-line">
                   <Wrench className="w-3 h-3 text-brand" />
-                  Kỹ thuật máy & thử lò
+                  Kỹ thuật máy và thử lò
                 </span>
               </div>
             </div>

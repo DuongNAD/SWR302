@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 
 export const AccountBusinessPage: React.FC = () => {
-  useDocumentTitle('Hồ sơ doanh nghiệp & Mua sỉ | Gia Hòa Phát Bakery Supply')
+  useDocumentTitle('Hồ sơ doanh nghiệp và mua sỉ | Gia Hòa Phát Bakery Supply')
 
   const { showToast } = useToast()
 
@@ -30,7 +30,7 @@ export const AccountBusinessPage: React.FC = () => {
     e.preventDefault()
     showToast({
       type: 'success',
-      message: 'Đã lưu thông tin doanh nghiệp xuất hóa đơn VAT!',
+      message: 'Đã lưu thông tin doanh nghiệp xuất hóa đơn VAT.',
     })
   }
 
@@ -40,9 +40,8 @@ export const AccountBusinessPage: React.FC = () => {
       <div className="border border-line rounded-lg bg-surface p-6 space-y-5 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
           <div className="space-y-1">
-            <span className="text-xs font-mono text-ink-3">SCR-20 · ĐẠI LÝ MUA SỈ TIỆM BÁNH</span>
             <h1 className="text-xl sm:text-2xl font-bold text-ink">
-              Hồ sơ doanh nghiệp & Công nợ
+              Hồ sơ doanh nghiệp và công nợ
             </h1>
             <p className="text-xs text-ink-3">
               Thông tin xuất hóa đơn VAT điện tử và hạn mức công nợ đại lý được cấp
@@ -198,28 +197,28 @@ export const AccountBusinessPage: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-line">
               <tr className="hover:bg-page/50">
-                <td className="py-2.5 px-4 font-semibold text-ink">Bơ sữa & Phô mai tươi</td>
+                <td className="py-2.5 px-4 font-semibold text-ink">Bơ sữa và phô mai tươi</td>
                 <td className="py-2.5 px-4 text-ink-2">Từ 10 thỏi / hộp</td>
                 <td className="py-2.5 px-4 font-semibold text-brand tabular-nums">Giảm 8% – 15%</td>
                 <td className="py-2.5 px-4 text-info font-medium">Bảo quản 2–8°C thùng đá gel</td>
               </tr>
               <tr className="hover:bg-page/50">
-                <td className="py-2.5 px-4 font-semibold text-ink">Bột mì, men nở & phụ gia</td>
+                <td className="py-2.5 px-4 font-semibold text-ink">Bột mì, men nở và phụ gia</td>
                 <td className="py-2.5 px-4 text-ink-2">Từ 5 bao (25kg)</td>
                 <td className="py-2.5 px-4 font-semibold text-brand tabular-nums">Giảm 10% – 18%</td>
                 <td className="py-2.5 px-4 text-ink-2">Giao pallet tận kho</td>
               </tr>
               <tr className="hover:bg-page/50">
-                <td className="py-2.5 px-4 font-semibold text-ink">Socola nguyên chất & Cacao</td>
+                <td className="py-2.5 px-4 font-semibold text-ink">Socola nguyên chất và cacao</td>
                 <td className="py-2.5 px-4 text-ink-2">Từ 10 gói 1kg</td>
                 <td className="py-2.5 px-4 font-semibold text-brand tabular-nums">Giảm 12% – 20%</td>
                 <td className="py-2.5 px-4 text-info font-medium">Xe lạnh chống chảy socola</td>
               </tr>
               <tr className="hover:bg-page/50">
-                <td className="py-2.5 px-4 font-semibold text-ink">Thiết bị & Máy móc làm bánh</td>
+                <td className="py-2.5 px-4 font-semibold text-ink">Thiết bị và máy móc làm bánh</td>
                 <td className="py-2.5 px-4 text-ink-2">Từ 1 máy</td>
                 <td className="py-2.5 px-4 font-semibold text-brand tabular-nums">Giảm 5%</td>
-                <td className="py-2.5 px-4 text-ok font-medium">Miễn phí lắp đặt & Hướng dẫn kỹ thuật</td>
+                <td className="py-2.5 px-4 text-ok font-medium">Miễn phí lắp đặt và hướng dẫn kỹ thuật</td>
               </tr>
             </tbody>
           </table>

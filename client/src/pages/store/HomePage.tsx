@@ -21,13 +21,16 @@ export const HomePage: React.FC = () => {
 
   // Products
   const bestSellers = PRODUCTS.filter((p) => p.isBestSeller).slice(0, 5)
-  const newArrivals = PRODUCTS.filter((p) => p.isNew || p.rating >= 4.9).slice(0, 5)
+  const bestSellerIds = new Set(bestSellers.map((p) => p.id))
+  const newArrivals = PRODUCTS.filter(
+    (p) => !bestSellerIds.has(p.id) && (p.isNew || p.rating >= 4.8),
+  ).slice(0, 5)
 
   // Anchor butter for wholesale tier demonstration
   const anchorProduct = PRODUCTS.find((p) => p.id === 'prod-01')
 
   return (
-    <div className="space-y-12 pb-16">
+    <div className="space-y-16 md:space-y-24 pb-16 md:pb-24">
       {/* 1. Banner chia đôi (Split Hero Banner) */}
       <section className="wrap pt-6">
         <div className="rounded-xl border border-line bg-surface overflow-hidden grid grid-cols-1 md:grid-cols-12 items-stretch">
@@ -57,9 +60,10 @@ export const HomePage: React.FC = () => {
 
           <div className="md:col-span-5 aspect-[16/9] md:aspect-auto relative bg-page">
             <img
-              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=80"
+              src="./img/banners/hero.webp"
               alt="Nguyên liệu làm bánh Gia Hòa Phát"
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
         </div>
@@ -105,12 +109,15 @@ export const HomePage: React.FC = () => {
       {/* 3. Danh mục sản phẩm (Categories Grid) */}
       <section className="wrap space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-ink">Danh mục sản phẩm</h2>
+          <div>
+            <h2 className="text-xl font-semibold text-ink">Danh mục sản phẩm</h2>
+            <p className="text-xs text-ink-2 mt-0.5">8 nhóm nguyên liệu và thiết bị làm bánh chuẩn tiệm</p>
+          </div>
           <Link
             to="/san-pham"
             className="text-xs font-medium text-brand hover:underline inline-flex items-center gap-1"
           >
-            <span>Tất cả sản phẩm</span>
+            <span>Xem tất cả</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -173,7 +180,7 @@ export const HomePage: React.FC = () => {
             to="/combo"
             className="text-xs font-medium text-brand hover:underline inline-flex items-center gap-1"
           >
-            <span>Xem tất cả combo</span>
+            <span>Xem tất cả</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -297,7 +304,7 @@ export const HomePage: React.FC = () => {
       <section className="wrap space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-ink">Hàng mới về & Đánh giá cao</h2>
+            <h2 className="text-xl font-semibold text-ink">Mới về</h2>
             <p className="text-xs text-ink-2 mt-0.5">Các nguyên liệu tươi mới cập bến tuần này</p>
           </div>
           <Link
@@ -315,12 +322,15 @@ export const HomePage: React.FC = () => {
       {/* 8. Hệ thống cửa hàng (Stores Info) */}
       <section className="wrap space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-ink">Hệ thống kho & Cửa hàng</h2>
+          <div>
+            <h2 className="text-xl font-semibold text-ink">Hệ thống kho và cửa hàng</h2>
+            <p className="text-xs text-ink-2 mt-0.5">Ghé trực tiếp để kiểm tra chất lượng và nhận tư vấn</p>
+          </div>
           <Link
             to="/cua-hang"
             className="text-xs font-medium text-brand hover:underline inline-flex items-center gap-1"
           >
-            <span>Xem chi tiết cửa hàng</span>
+            <span>Xem tất cả</span>
             <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -329,7 +339,7 @@ export const HomePage: React.FC = () => {
           <div className="rounded-lg border border-line bg-surface p-5 space-y-2">
             <div className="flex items-center gap-2">
               <Store className="h-4 w-4 text-brand" />
-              <h3 className="text-sm font-semibold text-ink">Kho Tổng & Cửa Hàng Hà Nội</h3>
+              <h3 className="text-sm font-semibold text-ink">Kho tổng và cửa hàng Hà Nội</h3>
             </div>
             <p className="text-xs text-ink-2 leading-relaxed">
               120 Cầu Giấy, P. Quan Hoa, Q. Cầu Giấy, Hà Nội
@@ -343,7 +353,7 @@ export const HomePage: React.FC = () => {
           <div className="rounded-lg border border-line bg-surface p-5 space-y-2">
             <div className="flex items-center gap-2">
               <Store className="h-4 w-4 text-brand" />
-              <h3 className="text-sm font-semibold text-ink">Chi Nhánh Nam & Cửa Hàng TP.HCM</h3>
+              <h3 className="text-sm font-semibold text-ink">Chi nhánh miền Nam và cửa hàng TP.HCM</h3>
             </div>
             <p className="text-xs text-ink-2 leading-relaxed">
               452 Sư Vạn Hạnh, P.9, Quận 10, TP. Hồ Chí Minh

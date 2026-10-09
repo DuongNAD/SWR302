@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
+import { SlidersHorizontal } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export const DemoWidget: React.FC = () => {
@@ -8,6 +9,10 @@ export const DemoWidget: React.FC = () => {
   const [open, setOpen] = useState(false)
   const popoverRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const showOnMobile =
+    location.search.includes('demo=1') || location.hash.includes('demo=1')
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -36,19 +41,20 @@ export const DemoWidget: React.FC = () => {
   return (
     <div
       ref={popoverRef}
-      className="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-50"
+      className={cn('fixed bottom-6 right-6 z-50', !showOnMobile && 'hidden sm:block')}
     >
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="h-8 px-3 rounded-md bg-ink text-white text-xs font-medium shadow-pop hover:bg-stone-800 transition-colors cursor-pointer flex items-center gap-1.5"
-        aria-label="Mở bảng điều khiển demo"
+        className="w-10 h-10 rounded-full bg-ink text-white shadow-pop hover:bg-stone-800 transition-colors cursor-pointer flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+        aria-label="Đổi vai trò và công cụ demo"
+        title={`Demo: ${roleLabels[role] || 'Khách'}`}
       >
-        <span>Demo: {roleLabels[role] || 'Khách'}</span>
+        <SlidersHorizontal className="h-5 w-5" />
       </button>
 
       {open && (
-        <div className="absolute left-0 bottom-full mb-2 w-72 rounded-lg border border-line bg-surface p-4 shadow-modal text-ink space-y-4">
+        <div className="absolute right-0 bottom-full mb-2 w-72 rounded-lg border border-line bg-surface p-4 shadow-modal text-ink space-y-4">
           <div>
             <span className="text-xs font-semibold text-ink-3 block">
               Vai trò hiện tại
@@ -119,13 +125,6 @@ export const DemoWidget: React.FC = () => {
               className="block text-ink-2 hover:text-brand font-medium transition-colors"
             >
               Bộ thành phần giao diện
-            </Link>
-            <Link
-              to="/legacy"
-              onClick={() => setOpen(false)}
-              className="block text-ink-3 hover:text-ink transition-colors"
-            >
-              Bản giao diện cũ (Legacy)
             </Link>
           </div>
         </div>

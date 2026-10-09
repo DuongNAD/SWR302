@@ -30,7 +30,7 @@ export const AccountWishlistPage: React.FC = () => {
     addItem(product, 1)
     showToast({
       type: 'success',
-      message: `Đã thêm 1 ${product.unit} “${product.name}” vào giỏ hàng!`,
+      message: `Đã thêm 1 ${product.unit} “${product.name}” vào giỏ hàng.`,
     })
   }
 

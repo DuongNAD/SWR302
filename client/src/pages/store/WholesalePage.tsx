@@ -8,6 +8,13 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
@@ -26,7 +33,7 @@ import {
 } from 'lucide-react'
 
 export const WholesalePage: React.FC = () => {
-  useDocumentTitle('Mua sỉ cho tiệm bánh & Khách hàng doanh nghiệp | Gia Hòa Phát')
+  useDocumentTitle('Mua sỉ cho tiệm bánh và khách hàng doanh nghiệp | Gia Hòa Phát')
 
   const { showToast } = useToast()
 
@@ -41,18 +48,18 @@ export const WholesalePage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!bakeryName.trim() || !contactName.trim() || !phone.trim()) {
-      showToast({ type: 'error', message: 'Vui lòng điền đầy đủ các thông tin bắt buộc!' })
+      showToast({ type: 'error', message: 'Vui lòng điền đầy đủ các thông tin bắt buộc.' })
       return
     }
     setIsSubmitted(true)
     showToast({
       type: 'success',
-      message: 'Đăng ký thành công! Chuyên viên B2B Gia Hòa Phát sẽ liên hệ báo giá trong vòng 2 giờ làm việc.',
+      message: 'Đăng ký thành công. Chuyên viên B2B Gia Hòa Phát sẽ liên hệ báo giá trong vòng 2 giờ làm việc.',
     })
   }
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-8">
+    <div className="wrap py-4 md:py-6 space-y-8">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -74,11 +81,10 @@ export const WholesalePage: React.FC = () => {
           <Badge variant="outline" className="bg-brand-soft text-brand border-brand/40 text-xs px-2.5 py-0.5 font-semibold">
             Chương trình B2B Bakery Supply
           </Badge>
-          <span className="text-xs text-ink-3 font-mono">SCR-21</span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-bold text-ink max-w-2xl leading-snug">
-          Giải pháp cung ứng nguyên liệu làm bánh toàn diện cho tiệm bánh & chuỗi xưởng
+          Giải pháp cung ứng nguyên liệu làm bánh toàn diện cho tiệm bánh và chuỗi xưởng
         </h1>
 
         <p className="text-xs sm:text-sm text-ink-2 max-w-3xl leading-relaxed">
@@ -122,9 +128,9 @@ export const WholesalePage: React.FC = () => {
           <div className="w-8 h-8 rounded-md bg-warn/10 text-warn flex items-center justify-center">
             <FileCheck2 className="w-4 h-4" />
           </div>
-          <h3 className="font-semibold text-sm text-ink">Hóa đơn VAT & VSATTP</h3>
+          <h3 className="font-semibold text-sm text-ink">Hóa đơn VAT và VSATTP</h3>
           <p className="text-xs text-ink-2 leading-relaxed">
-            100% sản phẩm có hồ sơ tự công bố chất lượng, tem phụ tiếng Việt và hóa đơn điện tử tự động xuất trong ngày.
+            Sản phẩm có hồ sơ tự công bố chất lượng, tem phụ tiếng Việt và hóa đơn điện tử tự động xuất trong ngày.
           </p>
         </div>
       </div>
@@ -246,17 +252,17 @@ export const WholesalePage: React.FC = () => {
 
                 <div className="space-y-1">
                   <Label htmlFor="ws-city">Khu vực tiệm bánh</Label>
-                  <select
-                    id="ws-city"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="w-full h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
-                  >
-                    <option value="Hà Nội">Hà Nội & Miền Bắc</option>
-                    <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh & Miền Nam</option>
-                    <option value="Đà Nẵng">Đà Nẵng & Miền Trung</option>
-                    <option value="Tỉnh thành khác">Tỉnh thành khác</option>
-                  </select>
+                  <Select value={city} onValueChange={setCity}>
+                    <SelectTrigger id="ws-city" className="w-full h-10 text-xs">
+                      <SelectValue placeholder="Chọn khu vực tiệm bánh" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Hà Nội">Hà Nội và miền Bắc</SelectItem>
+                      <SelectItem value="TP. Hồ Chí Minh">TP. Hồ Chí Minh và miền Nam</SelectItem>
+                      <SelectItem value="Đà Nẵng">Đà Nẵng và miền Trung</SelectItem>
+                      <SelectItem value="Tỉnh thành khác">Tỉnh thành khác</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-1">

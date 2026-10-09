@@ -71,7 +71,7 @@ export const ComboDetailPage: React.FC = () => {
     if (selectedCount === 0) {
       showToast({
         type: 'error',
-        message: 'Vui lòng chọn ít nhất một nguyên liệu trong bộ combo!',
+        message: 'Vui lòng chọn ít nhất một nguyên liệu trong bộ combo.',
       })
       return
     }
@@ -82,12 +82,12 @@ export const ComboDetailPage: React.FC = () => {
 
     showToast({
       type: 'success',
-      message: `Đã thêm ${selectedCount} nguyên liệu làm bánh “${bundle.name}” vào giỏ hàng!`,
+      message: `Đã thêm ${selectedCount} nguyên liệu làm bánh “${bundle.name}” vào giỏ hàng.`,
     })
   }
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-8">
+    <div className="wrap py-4 md:py-6 space-y-8">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>

@@ -14,6 +14,13 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Price, formatPrice } from '@/components/ui/price'
 import { Spinner } from '@/components/ui/spinner'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
   Truck,
   Snowflake,
   QrCode,
@@ -113,7 +120,7 @@ export const CheckoutPage: React.FC = () => {
     if (deliveryType === 'ship' && (!fullName.trim() || !phone.trim() || !address.trim())) {
       showToast({
         type: 'error',
-        message: 'Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ nhận hàng!',
+        message: 'Vui lòng điền đầy đủ họ tên, số điện thoại và địa chỉ nhận hàng.',
       })
       return
     }
@@ -184,13 +191,14 @@ export const CheckoutPage: React.FC = () => {
   const stepsList = [
     { id: 1, title: 'Thông tin nhận hàng' },
     { id: 2, title: 'Phương thức vận chuyển' },
-    { id: 3, title: 'Thanh toán & Xác nhận' },
+    { id: 3, title: 'Thanh toán và xác nhận' },
   ]
 
   const animationClass = ''
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 max-w-6xl space-y-8">
+    <div className="wrap py-4 md:py-6 space-y-8">
+      <h1 className="sr-only">Thanh toán</h1>
       {/* 1. Stepper Header */}
       <div className="border border-line rounded-lg bg-surface p-4">
         <Stepper
@@ -342,17 +350,17 @@ export const CheckoutPage: React.FC = () => {
 
                         <div className="space-y-1.5">
                           <Label htmlFor="chk-city">Tỉnh / Thành phố</Label>
-                          <select
-                            id="chk-city"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            className="w-full h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
-                          >
-                            <option value="Hà Nội">Hà Nội</option>
-                            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
-                            <option value="Đà Nẵng">Đà Nẵng</option>
-                            <option value="Hải Phòng">Hải Phòng</option>
-                          </select>
+                          <Select value={city} onValueChange={setCity}>
+                            <SelectTrigger id="chk-city" className="w-full h-10 text-xs">
+                              <SelectValue placeholder="Chọn Tỉnh / Thành phố" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Hà Nội">Hà Nội</SelectItem>
+                              <SelectItem value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</SelectItem>
+                              <SelectItem value="Đà Nẵng">Đà Nẵng</SelectItem>
+                              <SelectItem value="Hải Phòng">Hải Phòng</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
 
                         <div className="space-y-1.5">
@@ -585,13 +593,13 @@ export const CheckoutPage: React.FC = () => {
                         <div className="space-y-1">
                           <span className="font-semibold text-ink text-sm flex items-center gap-1.5">
                             <Snowflake className="w-4 h-4 text-info" />
-                            Giao xe lạnh chuyên dụng (Chilled Express)
+                            Giao xe lạnh chuyên dụng
                           </span>
                           <span className="text-ink-2 block">
                             Thời gian giao: 2–4 giờ nội thành · Thùng xốp cách nhiệt đá gel 2–8°C
                           </span>
                           <span className="text-xs text-info font-medium block">
-                            Cam kết hoàn tiền 100% nếu bơ/kem bị chảy do nhiệt độ
+                            Duy trì nhiệt độ 2–8°C trong suốt quá trình vận chuyển
                           </span>
                         </div>
                       </div>
@@ -804,7 +812,7 @@ export const CheckoutPage: React.FC = () => {
                     <p className="font-semibold text-ink">Thông tin chuyển khoản ngân hàng:</p>
                     <p className="text-ink-2">Ngân hàng: <strong>Techcombank - Chi nhánh Ba Đình</strong></p>
                     <p className="text-ink-2 font-mono">Số tài khoản: <strong>1903 8888 6688 99</strong></p>
-                    <p className="text-ink-2">Chủ tài khoản: <strong>CONG TY CO PHAN GIA HOA PHAT</strong></p>
+                    <p className="text-ink-2">Chủ tài khoản: <strong>Công ty Cổ phần Gia Hòa Phát</strong></p>
                     <p className="text-xs text-ink-3">Nội dung CK: Tên bạn + SĐT (Hệ thống duyệt tự động trong 2 phút)</p>
                   </div>
                 )}
@@ -829,7 +837,7 @@ export const CheckoutPage: React.FC = () => {
                   </Button>
 
                   <p className="text-center text-xs text-ink-3">
-                    Bằng việc bấm Đặt hàng, bạn đồng ý với Điều khoản mua bán & Chính sách bảo mật của Gia Hòa Phát.
+                    Bằng việc bấm Đặt hàng, bạn đồng ý với Điều khoản mua bán và chính sách bảo mật của Gia Hòa Phát.
                   </p>
                 </div>
               </div>
@@ -921,7 +929,7 @@ export const CheckoutPage: React.FC = () => {
 
             <div className="border-t border-line/60 pt-3 flex items-center gap-2 text-xs text-ink-3">
               <ShieldCheck className="w-4 h-4 text-ok shrink-0" />
-              <span>Giao dịch bảo mật chuẩn PCI-DSS 256-bit</span>
+              <span>Giao xe lạnh 2–8°C, hạn dùng ghi trên từng lô hàng</span>
             </div>
           </div>
         </div>

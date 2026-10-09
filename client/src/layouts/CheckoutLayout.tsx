@@ -1,6 +1,6 @@
 import React from 'react'
 import { Outlet, Link } from 'react-router-dom'
-import { ShieldCheck, ArrowLeft } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { PageTransition } from '@/components/layout/PageTransition'
 import { DemoWidget } from '@/components/layout/DemoWidget'
 
@@ -15,11 +15,6 @@ export const CheckoutLayout: React.FC = () => {
           </Link>
 
           <div className="flex items-center gap-6">
-            <div className="hidden sm:flex items-center gap-1.5 text-xs text-ink-2">
-              <ShieldCheck className="h-4 w-4 text-ok" />
-              <span>Thanh toán an toàn SSL</span>
-            </div>
-
             <Link
               to="/gio-hang"
               className="inline-flex items-center gap-1.5 text-sm text-ink-2 hover:text-ink transition-colors"
@@ -33,7 +28,9 @@ export const CheckoutLayout: React.FC = () => {
 
       <main className="flex-1 py-8">
         <PageTransition>
-          <Outlet />
+          <React.Suspense fallback={null}>
+            <Outlet />
+          </React.Suspense>
         </PageTransition>
       </main>
 

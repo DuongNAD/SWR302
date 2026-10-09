@@ -15,7 +15,7 @@ export const AccountLayout: React.FC = () => {
     { to: '/tai-khoan/don-hang', label: 'Đơn hàng của tôi', icon: ShoppingBag },
     { to: '/tai-khoan/dia-chi', label: 'Sổ địa chỉ', icon: MapPin },
     { to: '/tai-khoan/yeu-thich', label: 'Sản phẩm yêu thích', icon: Heart },
-    { to: '/tai-khoan/ho-so', label: 'Hồ sơ & bảo mật', icon: User },
+    { to: '/tai-khoan/ho-so', label: 'Hồ sơ và bảo mật', icon: User },
     ...(isWholesale
       ? [{ to: '/tai-khoan/doanh-nghiep', label: 'Hồ sơ doanh nghiệp', icon: Building2 }]
       : []),
@@ -37,7 +37,7 @@ export const AccountLayout: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
         {/* Navigation Sidebar */}
-        <aside className="lg:col-span-1 rounded-lg border border-line bg-surface p-2 overflow-x-auto">
+        <aside className="lg:col-span-1 rounded-lg border border-line bg-surface p-2 overflow-x-auto min-w-0 max-w-full">
           <nav className="flex lg:flex-col gap-1 min-w-max lg:min-w-0">
             {navItems.map((item) => {
               const Icon = item.icon
@@ -64,9 +64,11 @@ export const AccountLayout: React.FC = () => {
         </aside>
 
         {/* Content Column */}
-        <div className="lg:col-span-3">
+        <div className="lg:col-span-3 min-w-0 max-w-full">
           <PageTransition>
-            <Outlet />
+            <React.Suspense fallback={null}>
+              <Outlet />
+            </React.Suspense>
           </PageTransition>
         </div>
       </div>

@@ -11,6 +11,14 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Switch } from '@/components/ui/switch'
+import {
   ArrowLeft,
   Save,
   Plus,
@@ -53,8 +61,7 @@ export const AdminProductFormPage: React.FC = () => {
   const [expiryDate, setExpiryDate] = useState(existingProduct?.expiryDate || '28/11/2026')
   const [batchNumber, setBatchNumber] = useState(existingProduct?.batchNumber || 'LOT-2026-NZ8')
   const [imageUrl, setImageUrl] = useState(
-    existingProduct?.imageUrl ||
-      'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=600&q=80'
+    existingProduct?.imageUrl || './img/products/prod-01.webp'
   )
   const [description, setDescription] = useState(existingProduct?.description || '')
   const [ingredients, setIngredients] = useState(existingProduct?.ingredients || '')
@@ -102,15 +109,15 @@ export const AdminProductFormPage: React.FC = () => {
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim() || !sku.trim()) {
-      showToast({ type: 'error', message: 'Vui lòng điền tên sản phẩm và mã SKU!' })
+      showToast({ type: 'error', message: 'Vui lòng điền tên sản phẩm và mã SKU.' })
       return
     }
 
     showToast({
       type: 'success',
       message: isEditing
-        ? `Đã cập nhật sản phẩm “${name}” thành công!`
-        : `Đã thêm sản phẩm mới “${name}” vào hệ thống!`,
+        ? `Đã cập nhật sản phẩm “${name}” thành công.`
+        : `Đã thêm sản phẩm mới “${name}” vào hệ thống.`,
     })
     navigate('/admin/san-pham')
   }
@@ -175,18 +182,18 @@ export const AdminProductFormPage: React.FC = () => {
 
               <div className="space-y-1.5">
                 <Label htmlFor="prd-cat">Danh mục sản phẩm</Label>
-                <select
-                  id="prd-cat"
-                  value={categoryId}
-                  onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full h-9 rounded-md border border-line bg-surface px-3 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-brand"
-                >
-                  {CATEGORIES.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
+                <Select value={categoryId} onValueChange={setCategoryId}>
+                  <SelectTrigger id="prd-cat" className="w-full h-10 text-xs">
+                    <SelectValue placeholder="Chọn danh mục" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CATEGORIES.map((c) => (
+                      <SelectItem key={c.id} value={c.id}>
+                        {c.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-1.5">
@@ -276,7 +283,7 @@ export const AdminProductFormPage: React.FC = () => {
           {/* Section 2: Giá bán & Giá sỉ bậc thang */}
           <div className="border border-line rounded-lg bg-surface p-6 space-y-4 shadow-xs">
             <h2 className="text-base font-bold text-ink border-b border-line pb-2.5">
-              2. Giá bán lẻ & Bảng giá sỉ bậc thang
+              2. Giá bán lẻ và bảng giá sỉ bậc thang
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -328,6 +335,7 @@ export const AdminProductFormPage: React.FC = () => {
                         <td className="py-2 px-3">
                           <Input
                             type="number"
+                            aria-label={`Số lượng tối thiểu mốc ${idx + 1}`}
                             value={t.minQty}
                             onChange={(e) =>
                               handleUpdateTier(idx, 'minQty', parseInt(e.target.value) || 1)
@@ -338,6 +346,7 @@ export const AdminProductFormPage: React.FC = () => {
                         <td className="py-2 px-3">
                           <Input
                             type="number"
+                            aria-label={`Đơn giá sỉ mốc ${idx + 1}`}
                             value={t.price}
                             onChange={(e) =>
                               handleUpdateTier(idx, 'price', parseInt(e.target.value) || 0)
@@ -355,6 +364,7 @@ export const AdminProductFormPage: React.FC = () => {
                             size="icon"
                             disabled={tiers.length <= 1}
                             onClick={() => handleRemoveTier(idx)}
+                            aria-label={`Xóa mốc sỉ ${t.minQty}`}
                             className="h-6 w-6 text-ink-3 hover:text-danger"
                           >
                             <Trash2 className="w-3 h-3" />
@@ -371,7 +381,7 @@ export const AdminProductFormPage: React.FC = () => {
           {/* Section 3: Kho hàng & Lô sản xuất */}
           <div className="border border-line rounded-lg bg-surface p-6 space-y-4 shadow-xs">
             <h2 className="text-base font-bold text-ink border-b border-line pb-2.5">
-              3. Kho hàng & Điều kiện bảo quản
+              3. Kho hàng và điều kiện bảo quản
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -465,19 +475,11 @@ export const AdminProductFormPage: React.FC = () => {
             <h3 className="text-sm font-bold text-ink">Trạng thái kinh doanh</h3>
             <div className="flex items-center justify-between">
               <span className="text-xs text-ink-2">Hiển thị trên gian hàng</span>
-              <button
-                type="button"
-                onClick={() => setInStock(!inStock)}
-                className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${
-                  inStock ? 'bg-brand' : 'bg-line-strong'
-                }`}
-              >
-                <span
-                  className={`block w-5 h-5 rounded-full bg-surface shadow-xs transition-transform absolute top-0.5 ${
-                    inStock ? 'right-0.5' : 'left-0.5'
-                  }`}
-                />
-              </button>
+              <Switch
+                checked={inStock}
+                onCheckedChange={setInStock}
+                aria-label="Hiển thị trên gian hàng"
+              />
             </div>
             <p className="text-xs text-ink-3">
               {inStock ? 'Sản phẩm đang được mở bán cho khách hàng.' : 'Sản phẩm đang tạm ẩn.'}
@@ -503,8 +505,7 @@ export const AdminProductFormPage: React.FC = () => {
                 alt="Xem trước ảnh"
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.currentTarget.src =
-                    'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?auto=format&fit=crop&w=600&q=80'
+                  e.currentTarget.src = './img/placeholder.svg'
                 }}
               />
             </div>
@@ -535,7 +536,7 @@ export const AdminProductFormPage: React.FC = () => {
         </div>
 
         {/* Sticky Bottom Action Bar */}
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-surface border-t border-line p-3 shadow-pop flex items-center justify-between container mx-auto">
+        <div className="fixed bottom-0 left-0 right-0 lg:left-64 z-40 bg-surface border-t border-line p-3 shadow-pop flex items-center justify-between px-4 sm:px-6">
           <Button
             type="button"
             variant="ghost"

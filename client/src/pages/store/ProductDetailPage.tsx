@@ -70,25 +70,23 @@ export const ProductDetailPage: React.FC = () => {
 
   const reviewsTabRef = useRef<HTMLDivElement>(null)
 
+  if (!product) {
+    return <NotFoundPage />
+  }
+
   // Current tier price calculation
-  const currentTierInfo = useMemo(() => {
-    if (!product || !product.wholesaleTiers || product.wholesaleTiers.length === 0) {
-      return { price: product?.price || 0, discountPercent: 0 }
-    }
+  let currentTierInfo = { price: product.price, discountPercent: 0 }
+  if (product.wholesaleTiers && product.wholesaleTiers.length > 0) {
     const sorted = [...product.wholesaleTiers].sort((a, b) => b.minQty - a.minQty)
     for (let i = 0; i < sorted.length; i++) {
       if (qty >= sorted[i].minQty) {
-        return {
+        currentTierInfo = {
           price: sorted[i].price,
           discountPercent: sorted[i].discountPercent,
         }
+        break
       }
     }
-    return { price: product.price, discountPercent: 0 }
-  }, [product, qty])
-
-  if (!product) {
-    return <NotFoundPage />
   }
 
   // Equipment extras (if machine category)
@@ -96,9 +94,24 @@ export const ProductDetailPage: React.FC = () => {
   const storeAvailability = getStoreAvailability(product.id, product.stockQty)
 
   const category = CATEGORIES.find((c) => c.id === product.categoryId)
-  const relatedProducts = PRODUCTS.filter(
+  const galleryImages = [product.imageUrl].filter(Boolean)
+
+  const sameCategoryProducts = PRODUCTS.filter(
     (p) => p.categoryId === product.categoryId && p.id !== product.id
-  ).slice(0, 5)
+  )
+  let relatedProducts = sameCategoryProducts.slice(0, 5)
+  let relatedTitle = 'Sản phẩm cùng danh mục'
+
+  if (sameCategoryProducts.length < 4) {
+    const supplement = PRODUCTS.filter(
+      (p) =>
+        p.id !== product.id &&
+        p.categoryId !== product.categoryId &&
+        p.storageCondition === product.storageCondition
+    )
+    relatedProducts = [...sameCategoryProducts, ...supplement].slice(0, 4)
+    relatedTitle = 'Có thể bạn cần'
+  }
 
   const handleAddToCart = () => {
     if (!product.inStock) return
@@ -140,7 +153,7 @@ export const ProductDetailPage: React.FC = () => {
   const isLowStock = product.inStock && product.stockQty <= product.lowStockThreshold
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-8 pb-24 lg:pb-8">
+    <div className="wrap py-4 md:py-6 space-y-8 pb-24 lg:pb-8">
       {/* 1. Breadcrumbs */}
       <Breadcrumb>
         <BreadcrumbList>
@@ -154,7 +167,7 @@ export const ProductDetailPage: React.FC = () => {
             <>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to={`/danh-muc/${category.slug}`}>{category.name}</Link>
+                  <Link to={`/san-pham?danh-muc=${category.id}`}>{category.name}</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
@@ -210,18 +223,23 @@ export const ProductDetailPage: React.FC = () => {
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="w-16 h-16 rounded-md border-2 border-brand overflow-hidden p-0.5"
-            >
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                className="w-full h-full object-cover rounded-xs"
-              />
-            </button>
-          </div>
+          {galleryImages.length > 1 && (
+            <div className="flex items-center gap-2">
+              {galleryImages.map((img, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  className="w-16 h-16 rounded-md border-2 border-brand overflow-hidden p-0.5"
+                >
+                  <img
+                    src={img}
+                    alt={`${product.name} ${idx + 1}`}
+                    className="w-full h-full object-cover rounded-xs"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Right: Product Buy Box */}
@@ -258,48 +276,51 @@ export const ProductDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Pricing Box */}
-          <div className="p-4 rounded-lg bg-page border border-line space-y-1">
-            <div className="flex items-baseline gap-3">
-              <Price
-                price={currentTierInfo.price}
-                size="lg"
-                className="text-2xl font-bold text-brand"
-              />
-              {product.originalPrice && product.originalPrice > currentTierInfo.price && (
+          {/* Khối 1: Giá + Bảng giá bậc thang */}
+          <div className="rounded-lg bg-page border border-line p-4 space-y-4">
+            <div className="space-y-1">
+              <div className="flex items-baseline gap-3">
                 <Price
-                  price={product.originalPrice}
-                  size="sm"
-                  originalPrice={product.originalPrice}
-                  className="text-sm text-ink-3"
+                  price={currentTierInfo.price}
+                  size="lg"
+                  className="text-2xl font-bold text-brand"
                 />
-              )}
-              {discountPercent && discountPercent > 0 && (
-                <Badge variant="outline" className="text-xs text-brand border-brand/30">
-                  Tiết kiệm {discountPercent}%
-                </Badge>
-              )}
+                {product.originalPrice && product.originalPrice > currentTierInfo.price && (
+                  <Price
+                    price={product.originalPrice}
+                    size="sm"
+                    originalPrice={product.originalPrice}
+                    className="text-sm text-ink-3"
+                  />
+                )}
+                {discountPercent && discountPercent > 0 && (
+                  <Badge variant="outline" className="text-xs text-brand border-brand/30">
+                    Tiết kiệm {discountPercent}%
+                  </Badge>
+                )}
+              </div>
+              <p className="text-xs text-ink-3">
+                Giá niêm yết đã bao gồm thuế GTGT (VAT 8% - 10%). Hỗ trợ xuất hóa đơn điện tử cho tiệm bánh.
+              </p>
             </div>
-            <p className="text-xs text-ink-3">
-              Giá niêm yết đã bao gồm thuế GTGT (VAT 8% - 10%). Hỗ trợ xuất hóa đơn điện tử cho tiệm bánh.
-            </p>
+
+            {product.wholesaleTiers && product.wholesaleTiers.length > 0 && (
+              <div className="pt-3 border-t border-line">
+                <WholesaleTierTable
+                  tiers={product.wholesaleTiers}
+                  currentQty={qty}
+                  unit={product.unit}
+                  onSelectQty={(minQty) => setQty(minQty)}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Wholesale Tier Table */}
-          {product.wholesaleTiers && product.wholesaleTiers.length > 0 && (
-            <WholesaleTierTable
-              tiers={product.wholesaleTiers}
-              currentQty={qty}
-              unit={product.unit}
-              onSelectQty={(minQty) => setQty(minQty)}
-            />
-          )}
-
-          {/* Cold chain storage note */}
+          {/* Khối 2: Ghi chú bảo quản */}
           <StorageNote condition={product.storageCondition} />
 
-          {/* Stock, Expiry & Batch info */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 py-2 border-y border-line text-xs">
+          {/* Phân cách đường kẻ: Tồn kho & Đặt mua */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 py-3 border-y border-line text-xs">
             <div>
               <span className="text-ink-3 block text-xs">Tình trạng kho:</span>
               {product.inStock ? (
@@ -330,7 +351,7 @@ export const ProductDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Purchase Actions */}
+          {/* Nút hành động mua */}
           <div className="space-y-3 pt-1">
             <div className="flex flex-wrap items-center gap-3">
               <div className="flex items-center gap-2">
@@ -352,13 +373,13 @@ export const ProductDetailPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 pt-1">
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 pt-1">
               <Button
                 type="button"
                 size="lg"
                 disabled={!product.inStock}
                 onClick={handleAddToCart}
-                className="flex-1 sm:flex-initial sm:px-6"
+                className="flex-1 min-w-[140px] px-4"
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 Thêm vào giỏ
@@ -370,7 +391,7 @@ export const ProductDetailPage: React.FC = () => {
                 size="lg"
                 disabled={!product.inStock}
                 onClick={handleBuyNow}
-                className="flex-1 sm:flex-initial sm:px-6 border-brand text-brand hover:bg-brand-soft"
+                className="flex-1 min-w-[120px] px-4 border-brand text-brand hover:bg-brand-soft"
               >
                 <Zap className="w-4 h-4 mr-2" />
                 Mua ngay
@@ -391,55 +412,56 @@ export const ProductDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Shipping Methods Summary */}
-          <div className="rounded-lg border border-line p-3.5 bg-surface text-xs space-y-2">
-            <div className="flex items-center justify-between text-ink-2">
-              <span className="flex items-center gap-1.5 font-medium text-ink">
-                <Truck className="w-4 h-4 text-brand shrink-0" />
-                Giao hàng tiêu chuẩn:
-              </span>
-              <span>24–48 giờ · 25.000₫ (Miễn phí từ 500k)</span>
-            </div>
-            {product.storageCondition !== 'ambient' && (
-              <div className="flex items-center justify-between text-info border-t border-line/60 pt-2">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <Snowflake className="w-4 h-4 text-info shrink-0" />
-                  Giao xe lạnh chuyên dụng:
+          {/* Khối 3: Giao hàng và tình trạng cửa hàng */}
+          <div className="rounded-lg border border-line p-3.5 bg-surface text-xs space-y-3">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-ink-2">
+                <span className="flex items-center gap-1.5 font-medium text-ink">
+                  <Truck className="w-4 h-4 text-brand shrink-0" />
+                  Giao hàng tiêu chuẩn:
                 </span>
-                <span>2–4 giờ · 45.000₫ (Thùng xốp đá gel)</span>
+                <span>24–48 giờ · 25.000₫ (Miễn phí từ 500k)</span>
               </div>
-            )}
-          </div>
-
-          {/* Store Availability preview */}
-          <div className="rounded-lg border border-line p-3.5 bg-surface space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-ink flex items-center gap-1.5">
-                <Store className="w-4 h-4 text-brand" />
-                Tình trạng tại cửa hàng
-              </span>
-              <Link to="/cua-hang" className="text-xs text-brand hover:underline flex items-center">
-                Xem hệ thống <ChevronRight className="w-3 h-3 ml-0.5" />
-              </Link>
+              {product.storageCondition !== 'ambient' && (
+                <div className="flex items-center justify-between text-info border-t border-line/60 pt-2">
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <Snowflake className="w-4 h-4 text-info shrink-0" />
+                    Giao xe lạnh chuyên dụng:
+                  </span>
+                  <span>2–4 giờ · 45.000₫ (Thùng xốp đá gel)</span>
+                </div>
+              )}
             </div>
 
-            <div className="divide-y divide-line/60 text-xs">
-              {storeAvailability.slice(0, 3).map(({ store, status, qtyHint }) => (
-                <div key={store.id} className="py-1.5 flex items-center justify-between">
-                  <span className="text-ink-2 truncate pr-2">{store.name}</span>
-                  <span
-                    className={`shrink-0 font-medium tabular-nums ${
-                      status === 'Còn hàng'
-                        ? 'text-ok'
-                        : status === 'Sắp hết'
-                        ? 'text-warn'
-                        : 'text-ink-3'
-                    }`}
-                  >
-                    {qtyHint}
-                  </span>
-                </div>
-              ))}
+            <div className="border-t border-line/60 pt-3 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-ink flex items-center gap-1.5">
+                  <Store className="w-4 h-4 text-brand" />
+                  Tình trạng tại cửa hàng
+                </span>
+                <Link to="/cua-hang" className="text-xs text-brand hover:underline flex items-center">
+                  Xem hệ thống <ChevronRight className="w-3 h-3 ml-0.5" />
+                </Link>
+              </div>
+
+              <div className="divide-y divide-line/60">
+                {storeAvailability.slice(0, 3).map(({ store, status, qtyHint }) => (
+                  <div key={store.id} className="py-1.5 flex items-center justify-between">
+                    <span className="text-ink-2 truncate pr-2">{store.name}</span>
+                    <span
+                      className={`shrink-0 font-medium tabular-nums ${
+                        status === 'Còn hàng'
+                          ? 'text-ok'
+                          : status === 'Sắp hết'
+                          ? 'text-warn'
+                          : 'text-ink-3'
+                      }`}
+                    >
+                      {qtyHint}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -448,7 +470,8 @@ export const ProductDetailPage: React.FC = () => {
       {/* 3. Underline Tabs: Description, Ingredients, Storage & Usage, Specifications, Reviews */}
       <div ref={reviewsTabRef} className="pt-4 border-t border-line">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="border-b border-line bg-transparent p-0 w-full justify-start rounded-none h-auto gap-6 overflow-x-auto scrollbar-none">
+          <div className="overflow-x-auto max-w-full">
+            <TabsList className="border-b border-line bg-transparent p-0 w-full min-w-max justify-start rounded-none h-auto gap-6">
             <TabsTrigger
               value="desc"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-brand data-[state=active]:text-brand px-1 py-3 text-sm font-semibold bg-transparent shadow-none"
@@ -465,7 +488,7 @@ export const ProductDetailPage: React.FC = () => {
               value="usage"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-brand data-[state=active]:text-brand px-1 py-3 text-sm font-semibold bg-transparent shadow-none"
             >
-              Bảo quản & Sử dụng
+              Bảo quản và sử dụng
             </TabsTrigger>
             <TabsTrigger
               value="specs"
@@ -480,6 +503,7 @@ export const ProductDetailPage: React.FC = () => {
               Đánh giá ({product.reviewCount})
             </TabsTrigger>
           </TabsList>
+        </div>
 
           {/* Tab 1: Description */}
           <TabsContent value="desc" className="focus-visible:outline-none">
@@ -488,10 +512,10 @@ export const ProductDetailPage: React.FC = () => {
               <div className="p-4 bg-page border border-line rounded-lg space-y-2">
                 <h4 className="font-semibold text-ink text-sm flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-ok" />
-                  Cam kết chất lượng từ Gia Hòa Phát
+                  Tiêu chuẩn chất lượng tại Gia Hòa Phát
                 </h4>
                 <ul className="list-disc pl-5 space-y-1 text-xs text-ink-2">
-                  <li>100% sản phẩm có nguồn gốc xuất xứ rõ ràng, đầy đủ công bố an toàn thực phẩm.</li>
+                  <li>Sản phẩm có nguồn gốc xuất xứ rõ ràng, đầy đủ hồ sơ công bố an toàn thực phẩm.</li>
                   <li>Hạn sử dụng luôn đảm bảo tối thiểu trên 60% thời hạn kể từ ngày sản xuất.</li>
                   <li>Vận chuyển bằng xe lạnh đối với bơ, kem sữa tươi, phô mai đảm bảo nhiệt độ chuẩn 2–8°C.</li>
                 </ul>
@@ -656,10 +680,10 @@ export const ProductDetailPage: React.FC = () => {
       {relatedProducts.length > 0 && (
         <div className="space-y-4 pt-6 border-t border-line">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-ink">Sản phẩm cùng danh mục</h3>
+            <h3 className="text-lg font-semibold text-ink">{relatedTitle}</h3>
             {category && (
               <Link
-                to={`/danh-muc/${category.slug}`}
+                to={`/san-pham?danh-muc=${category.id}`}
                 className="text-xs text-brand font-medium hover:underline flex items-center"
               >
                 Xem thêm trong danh mục <ChevronRight className="w-3.5 h-3.5 ml-0.5" />

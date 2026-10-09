@@ -15,6 +15,7 @@ export interface ColumnDef<T> {
   accessorKey?: keyof T
   cell?: (item: T, index: number) => React.ReactNode
   className?: string
+  sticky?: 'right'
 }
 
 interface DataTableProps<T> {
@@ -50,12 +51,16 @@ export function DataTable<T>({
       {/* Table container with horizontal scroll overflow */}
       <div className="border border-line rounded-lg overflow-x-auto bg-surface shadow-xs">
         <Table className="w-full text-xs">
-          <TableHeader className="bg-page border-b border-line">
+          <TableHeader className="bg-page border-b border-line sticky top-0 z-10">
             <TableRow className="hover:bg-transparent">
               {columns.map((col, idx) => (
                 <TableHead
                   key={idx}
-                  className={`py-3 px-3.5 text-ink-2 font-semibold text-xs whitespace-nowrap ${col.className || ''}`}
+                  className={`py-3 px-3.5 text-ink-2 font-semibold text-xs whitespace-nowrap ${
+                    col.sticky === 'right'
+                      ? 'sticky right-0 bg-page z-20 border-l border-line shadow-[-3px_0_5px_-2px_rgba(0,0,0,0.05)]'
+                      : ''
+                  } ${col.className || ''}`}
                 >
                   {col.header}
                 </TableHead>
@@ -83,7 +88,11 @@ export function DataTable<T>({
                   {columns.map((col, colIdx) => (
                     <TableCell
                       key={colIdx}
-                      className={`py-2.5 px-3.5 text-ink whitespace-nowrap ${col.className || ''}`}
+                      className={`py-2.5 px-3.5 text-ink whitespace-nowrap ${
+                        col.sticky === 'right'
+                          ? 'sticky right-0 bg-surface z-10 border-l border-line shadow-[-3px_0_5px_-2px_rgba(0,0,0,0.05)]'
+                          : ''
+                      } ${col.className || ''}`}
                     >
                       {col.cell
                         ? col.cell(item, rowIdx)

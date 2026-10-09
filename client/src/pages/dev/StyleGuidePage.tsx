@@ -37,6 +37,18 @@ export const StyleGuidePage: React.FC = () => {
 
   return (
     <div className="wrap py-8 space-y-12">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="#/">Trang chủ</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Bộ thành phần giao diện</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       <PageHeader
         title="Bộ thành phần giao diện (Design System Style Guide)"
         description="Mọi thành phần giao diện tuân thủ quy tắc 01_design_rules.md, chuẩn token và phẳng không AI."
@@ -303,11 +315,13 @@ export const StyleGuidePage: React.FC = () => {
           />
 
           <Tabs defaultValue="desc">
-            <TabsList>
-              <TabsTrigger value="desc">Mô tả sản phẩm</TabsTrigger>
-              <TabsTrigger value="specs">Thông số kỹ thuật</TabsTrigger>
-              <TabsTrigger value="reviews">Đánh giá (12)</TabsTrigger>
-            </TabsList>
+            <div className="overflow-x-auto max-w-full">
+              <TabsList className="min-w-max">
+                <TabsTrigger value="desc">Mô tả sản phẩm</TabsTrigger>
+                <TabsTrigger value="specs">Thông số kỹ thuật</TabsTrigger>
+                <TabsTrigger value="reviews">Đánh giá (12)</TabsTrigger>
+              </TabsList>
+            </div>
             <TabsContent value="desc">
               <p className="text-sm text-ink-2">Bơ lạt nhập khẩu từ New Zealand, chất lượng tiêu chuẩn quốc tế.</p>
             </TabsContent>
@@ -319,25 +333,27 @@ export const StyleGuidePage: React.FC = () => {
             </TabsContent>
           </Tabs>
 
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink isActive>1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink>2</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink>3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <div className="overflow-x-auto max-w-full">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious />
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink isActive>1</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink>2</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationLink>3</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                  <PaginationNext />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
         </div>
       </section>
 
@@ -367,7 +383,7 @@ export const StyleGuidePage: React.FC = () => {
           <div className="space-y-4">
             <div>
               <span className="text-xs text-ink-3 block mb-1">Hộp thoại (Dialog & Sheet)</span>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button variant="outline">Mở Dialog xác nhận</Button>
@@ -411,7 +427,7 @@ export const StyleGuidePage: React.FC = () => {
         <h2 className="text-xl font-semibold text-ink border-b border-line pb-2">
           8. Bảng dữ liệu chuẩn (48px Row, chữ chuẩn)
         </h2>
-        <Card>
+        <Card className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>

@@ -78,13 +78,14 @@ export const OrderSuccessPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12 max-w-xl space-y-6">
-      {/* 1. Success Message Box */}
+    <div className="wrap py-8 md:py-12">
+      <div className="max-w-xl mx-auto space-y-6">
+        {/* 1. Success Message Box */}
       <div className="text-center space-y-3">
         <CheckCircle2 className="w-10 h-10 text-ok mx-auto" />
         <div className="space-y-1">
           <h1 className="text-2xl sm:text-3xl font-bold text-ink">
-            Đặt hàng thành công!
+            Đặt hàng thành công
           </h1>
           <p className="text-xs text-ink-3">
             Mã đơn hàng:{' '}
@@ -238,5 +239,6 @@ export const OrderSuccessPage: React.FC = () => {
         </div>
       </div>
     </div>
+  </div>
   )
 }

@@ -1,95 +1,88 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Menu, ChevronDown } from 'lucide-react'
 import { CATEGORIES } from '@/data/categories'
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from '@/components/ui/dropdown-menu'
 
 export const CategoryMenu: React.FC = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  const navigate = useNavigate()
 
   return (
     <div className="h-10 border-b border-line bg-surface text-ink hidden lg:block">
       <div className="wrap flex items-center justify-between h-full text-xs">
         {/* Left: Dropdown + Quick Category Links */}
-        <div className="flex items-center gap-6 h-full">
+        <div className="flex items-center gap-6 h-full min-w-0">
           {/* Category Dropdown */}
-          <div ref={menuRef} className="relative h-full flex items-center">
-            <button
-              type="button"
-              onClick={() => setDropdownOpen((prev) => !prev)}
-              className="flex items-center gap-2 font-semibold text-ink hover:text-brand transition-colors h-full cursor-pointer pr-4 border-r border-line"
-            >
-              <Menu className="h-4 w-4 text-brand" />
-              <span>Tất cả danh mục</span>
-              <ChevronDown className="h-3.5 w-3.5 text-ink-3" />
-            </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="flex items-center gap-2 font-semibold text-ink hover:text-brand transition-colors h-full cursor-pointer pr-4 border-r border-line shrink-0 select-none outline-none focus-visible:ring-1 focus-visible:ring-brand"
+              >
+                <Menu className="h-4 w-4 text-brand" />
+                <span>Tất cả danh mục</span>
+                <ChevronDown className="h-3.5 w-3.5 text-ink-3" />
+              </button>
+            </DropdownMenuTrigger>
 
-            {dropdownOpen && (
-              <div className="absolute left-0 top-full mt-1 w-64 rounded-lg border border-line bg-surface p-1.5 shadow-pop z-50">
-                {CATEGORIES.map((cat) => (
-                  <Link
-                    key={cat.id}
-                    to={`/san-pham?danh-muc=${cat.slug}`}
-                    onClick={() => setDropdownOpen(false)}
-                    className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-page transition-colors text-ink hover:text-brand"
-                  >
-                    <span className="font-medium text-xs">{cat.name}</span>
-                    <span className="text-xs text-ink-3 tabular-nums">
-                      {cat.productCount}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+            <DropdownMenuContent align="start" sideOffset={6} className="w-64 p-1.5 shadow-pop">
+              {CATEGORIES.map((cat) => (
+                <DropdownMenuItem
+                  key={cat.id}
+                  onClick={() => navigate(`/san-pham?danh-muc=${cat.id}`)}
+                  className="flex items-center justify-between px-3 py-2 rounded-md hover:bg-page transition-colors cursor-pointer text-ink hover:text-brand"
+                >
+                  <span className="font-medium text-xs">{cat.name}</span>
+                  <span className="text-xs text-ink-3 tabular-nums">
+                    {cat.productCount}
+                  </span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {/* Quick links */}
-          <nav className="flex items-center gap-5">
+          <nav className="flex items-center gap-5 whitespace-nowrap overflow-x-auto no-scrollbar py-1">
             <Link
-              to="/san-pham?danh-muc=bo-sua-pho-mai"
-              className="text-ink-2 hover:text-ink font-medium transition-colors"
+              to="/san-pham?danh-muc=cat-dairy"
+              className="text-ink-2 hover:text-ink font-medium transition-colors shrink-0"
             >
-              Bơ sữa & Phô mai
+              Bơ sữa và phô mai
             </Link>
             <Link
-              to="/san-pham?danh-muc=bot-men-lam-banh"
-              className="text-ink-2 hover:text-ink font-medium transition-colors"
+              to="/san-pham?danh-muc=cat-flour"
+              className="text-ink-2 hover:text-ink font-medium transition-colors shrink-0"
             >
-              Bột mì & Men nở
+              Bột mì và men nở
             </Link>
             <Link
-              to="/san-pham?danh-muc=socola-cacao-matcha"
-              className="text-ink-2 hover:text-ink font-medium transition-colors"
+              to="/san-pham?danh-muc=cat-chocolate"
+              className="text-ink-2 hover:text-ink font-medium transition-colors shrink-0"
             >
-              Socola & Cacao
+              Socola và cacao
             </Link>
             <Link
-              to="/san-pham?danh-muc=dung-cu-khuon-khay"
-              className="text-ink-2 hover:text-ink font-medium transition-colors"
+              to="/san-pham?danh-muc=cat-tools"
+              className="text-ink-2 hover:text-ink font-medium transition-colors shrink-0"
             >
-              Dụng cụ & Khuôn
+              Dụng cụ và khuôn
             </Link>
             <Link
-              to="/san-pham?danh-muc=thiet-bi-may-moc"
-              className="text-ink-2 hover:text-ink font-medium transition-colors"
+              to="/san-pham?danh-muc=cat-machinery"
+              className="text-ink-2 hover:text-ink font-medium transition-colors shrink-0"
             >
-              Thiết bị & Máy móc
+              Thiết bị và máy móc
             </Link>
           </nav>
         </div>
 
         {/* Right Links */}
-        <div className="flex items-center gap-5 font-medium text-ink-2">
+        <div className="flex items-center gap-5 font-medium text-ink-2 shrink-0 whitespace-nowrap pl-4">
           <Link
             to="/combo"
             className="hover:text-brand transition-colors flex items-center gap-1.5"

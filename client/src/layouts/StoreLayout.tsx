@@ -12,7 +12,9 @@ export const StoreLayout: React.FC = () => {
       <SiteHeader />
       <main className="flex-1">
         <PageTransition>
-          <Outlet />
+          <React.Suspense fallback={null}>
+            <Outlet />
+          </React.Suspense>
         </PageTransition>
       </main>
       <SiteFooter />

@@ -85,7 +85,7 @@ export const AdminCustomersPage: React.FC = () => {
       prev.map((c) => (c.id === customerId ? { ...c, status: 'active', type: 'wholesale' } : c))
     )
     setIsReviewOpen(false)
-    showToast({ message: 'Đã phê duyệt tài khoản khách sỉ thành công!', type: 'success' })
+    showToast({ message: 'Đã phê duyệt tài khoản khách sỉ thành công.', type: 'success' })
   }
 
   // Reject wholesale customer
@@ -183,7 +183,8 @@ export const AdminCustomersPage: React.FC = () => {
     },
     {
       header: 'Thao tác',
-      className: 'text-right',
+      sticky: 'right',
+      className: 'w-[110px] min-w-[110px] text-right',
       cell: (item) => (
         <div className="flex items-center justify-end gap-1.5">
           {item.businessProfile ? (

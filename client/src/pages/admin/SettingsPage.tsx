@@ -48,22 +48,22 @@ export const AdminSettingsPage: React.FC = () => {
 
   const handleSaveStore = (e: React.FormEvent) => {
     e.preventDefault()
-    showToast({ message: 'Đã lưu thông tin cửa hàng thành công!', type: 'success' })
+    showToast({ message: 'Đã lưu thông tin cửa hàng thành công.', type: 'success' })
   }
 
   const handleSaveShipping = (e: React.FormEvent) => {
     e.preventDefault()
-    showToast({ message: 'Đã cập nhật biểu phí và định mức vận chuyển!', type: 'success' })
+    showToast({ message: 'Đã cập nhật biểu phí và định mức vận chuyển.', type: 'success' })
   }
 
   const handleSavePayment = (e: React.FormEvent) => {
     e.preventDefault()
-    showToast({ message: 'Đã cập nhật cấu hình cổng thanh toán!', type: 'success' })
+    showToast({ message: 'Đã cập nhật cấu hình cổng thanh toán.', type: 'success' })
   }
 
   const handleSaveNotification = (e: React.FormEvent) => {
     e.preventDefault()
-    showToast({ message: 'Đã cập nhật tùy chọn thông báo tự động!', type: 'success' })
+    showToast({ message: 'Đã cập nhật tùy chọn thông báo tự động.', type: 'success' })
   }
 
   return (
@@ -84,7 +84,7 @@ export const AdminSettingsPage: React.FC = () => {
         <div className="flex items-center justify-between pb-3 border-b border-line">
           <div className="flex items-center gap-2">
             <Store className="w-4 h-4 text-brand" />
-            <h2 className="text-sm font-bold text-ink">Thông tin doanh nghiệp & Cửa hàng</h2>
+            <h2 className="text-sm font-bold text-ink">Thông tin doanh nghiệp và cửa hàng</h2>
           </div>
           <Button type="submit" size="sm" className="h-8 text-xs px-3 bg-brand text-brand-contrast hover:bg-brand-hover gap-1.5">
             <Save className="w-3.5 h-3.5" />
@@ -160,7 +160,7 @@ export const AdminSettingsPage: React.FC = () => {
         <div className="flex items-center justify-between pb-3 border-b border-line">
           <div className="flex items-center gap-2">
             <Truck className="w-4 h-4 text-brand" />
-            <h2 className="text-sm font-bold text-ink">Biểu phí vận chuyển & Chuỗi lạnh</h2>
+            <h2 className="text-sm font-bold text-ink">Biểu phí vận chuyển và chuỗi lạnh</h2>
           </div>
           <Button type="submit" size="sm" className="h-8 text-xs px-3 bg-brand text-brand-contrast hover:bg-brand-hover gap-1.5">
             <Save className="w-3.5 h-3.5" />
@@ -279,7 +279,7 @@ export const AdminSettingsPage: React.FC = () => {
         <div className="flex items-center justify-between pb-3 border-b border-line">
           <div className="flex items-center gap-2">
             <Bell className="w-4 h-4 text-brand" />
-            <h2 className="text-sm font-bold text-ink">Thông báo tự động & Cảnh báo an toàn</h2>
+            <h2 className="text-sm font-bold text-ink">Thông báo tự động và cảnh báo an toàn</h2>
           </div>
           <Button type="submit" size="sm" className="h-8 text-xs px-3 bg-brand text-brand-contrast hover:bg-brand-hover gap-1.5">
             <Save className="w-3.5 h-3.5" />

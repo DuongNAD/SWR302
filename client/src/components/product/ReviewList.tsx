@@ -58,7 +58,7 @@ export const ReviewList: React.FC<ReviewListProps> = ({
   const handleSubmitReview = (e: React.FormEvent) => {
     e.preventDefault()
     if (!newComment.trim()) {
-      showToast({ type: 'error', message: 'Vui lòng nhập nội dung đánh giá!' })
+      showToast({ type: 'error', message: 'Vui lòng nhập nội dung đánh giá.' })
       return
     }
 
@@ -77,7 +77,7 @@ export const ReviewList: React.FC<ReviewListProps> = ({
     setModalOpen(false)
     showToast({
       type: 'success',
-      message: 'Cảm ơn bạn đã gửi đánh giá sản phẩm!',
+      message: 'Cảm ơn bạn đã gửi đánh giá sản phẩm.',
     })
   }
 

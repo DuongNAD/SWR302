@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { CartItem } from '@/types'
 import { Price, formatPrice } from '@/components/ui/price'
 import { QuantityStepper } from '@/components/ui/quantity-stepper'
+import { ProductImage } from '@/components/ui/product-image'
 import { Button } from '@/components/ui/button'
 import { Snowflake, Trash2, ArrowUpRight } from 'lucide-react'
 
@@ -44,7 +45,7 @@ export const CartLine: React.FC<CartLineProps> = ({
           to={`/san-pham/${product.id}`}
           className="w-16 h-16 rounded-md border border-line bg-page overflow-hidden shrink-0 block"
         >
-          <img
+          <ProductImage
             src={product.imageUrl}
             alt={product.name}
             className="w-full h-full object-cover"
@@ -79,13 +80,13 @@ export const CartLine: React.FC<CartLineProps> = ({
           </div>
 
           {/* Controls: Price + Stepper + Line total + Delete */}
-          <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-xs">
+          <div className="pt-2 flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 text-xs">
               <span className="text-ink-3">Đơn giá:</span>
               <Price price={selectedPrice} size="sm" className="font-medium text-ink" />
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-3">
               <QuantityStepper
                 value={quantity}
                 min={1}
@@ -93,7 +94,7 @@ export const CartLine: React.FC<CartLineProps> = ({
                 onChange={onUpdateQuantity}
               />
 
-              <div className="w-24 text-right">
+              <div className="min-w-[64px] text-right">
                 <Price
                   price={selectedPrice * quantity}
                   size="sm"
@@ -105,8 +106,9 @@ export const CartLine: React.FC<CartLineProps> = ({
                 variant="ghost"
                 size="icon"
                 onClick={onRemove}
+                aria-label={`Xóa ${product.name} khỏi giỏ`}
                 title="Xóa sản phẩm"
-                className="h-8 w-8 text-ink-3 hover:text-danger hover:bg-danger-soft cursor-pointer"
+                className="h-8 w-8 text-ink-3 hover:text-danger hover:bg-danger-soft cursor-pointer shrink-0"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </Button>
@@ -117,9 +119,11 @@ export const CartLine: React.FC<CartLineProps> = ({
 
       {/* Next wholesale tier hint */}
       {nextTierHint && (
-        <div className="ml-20 text-xs text-brand bg-brand-soft/60 px-2.5 py-1 rounded-sm inline-flex items-center gap-1 font-medium">
-          <ArrowUpRight className="w-3 h-3" />
-          Mua thêm {nextTierHint.neededQty} {nextTierHint.unit} để giá sỉ chỉ còn {formatPrice(nextTierHint.nextPrice)}
+        <div className="ml-0 sm:ml-20 text-xs text-brand bg-brand-soft/60 px-2.5 py-1 rounded-sm inline-flex items-center gap-1 font-medium">
+          <ArrowUpRight className="w-3 h-3 shrink-0" />
+          <span>
+            Mua thêm {nextTierHint.neededQty} {nextTierHint.unit} để giá sỉ chỉ còn {formatPrice(nextTierHint.nextPrice)}
+          </span>
         </div>
       )}
     </div>

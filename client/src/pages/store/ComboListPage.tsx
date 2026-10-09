@@ -20,7 +20,7 @@ export const ComboListPage: React.FC = () => {
   useDocumentTitle('Combo nguyên liệu theo món bánh | Gia Hòa Phát')
 
   return (
-    <div className="container mx-auto px-4 py-4 md:py-6 space-y-6">
+    <div className="wrap py-4 md:py-6 space-y-6">
       {/* Breadcrumb */}
       <Breadcrumb>
         <BreadcrumbList>

@@ -61,6 +61,7 @@ export const VoucherBox: React.FC = () => {
             value={inputCode}
             onChange={(e) => setInputCode(e.target.value.toUpperCase())}
             placeholder="Nhập mã ưu đãi..."
+            aria-label="Nhập mã ưu đãi"
             className="font-mono text-xs h-9 bg-surface"
           />
           <Button type="submit" variant="outline" size="sm" className="h-9 px-4 shrink-0 font-medium">

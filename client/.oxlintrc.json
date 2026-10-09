@@ -4,5 +4,16 @@
   "rules": {
     "react/rules-of-hooks": "error",
     "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+  },
+  "ignorePatterns": [
+    "ui-spec/**"
+  ],
+  "overrides": [
+    {
+      "files": ["src/components/ui/**", "src/context/**"],
+      "rules": {
+        "react/only-export-components": "off"
+      }
+    }
+  ]
 }

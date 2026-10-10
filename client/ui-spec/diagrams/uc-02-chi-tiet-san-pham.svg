@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="978" height="942" viewBox="0 0 978 942" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title>Sơ đồ use case phân rã — Xem chi tiết sản phẩm</title>
+<defs>
+  <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#292524" stroke-width="1.5"/></marker>
+  <marker id="tri" viewBox="0 0 16 14" refX="15" refY="7" markerWidth="15" markerHeight="13" orient="auto"><path d="M1 1 L15 7 L1 13 Z" fill="#fff" stroke="#292524" stroke-width="1.5"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<rect x="728.4" y="17" width="189.6" height="27" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="823.2" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Xem chi tiết sản phẩm</text>
+<rect x="272" y="44" width="646" height="828" fill="#fff" stroke="#292524" stroke-width="1.8"/>
+<line x1="131.0" y1="447.0" x2="312.0" y2="458.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="516.7" y1="434.9" x2="642.0" y2="218.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="546.0" y1="451.8" x2="642.0" y2="410.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="546.0" y1="464.2" x2="642.0" y2="506.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="533.2" y1="474.5" x2="642.0" y2="602.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="516.7" y1="481.1" x2="642.0" y2="698.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="502.2" y1="484.9" x2="642.0" y2="794.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="642.0" y1="122.0" x2="502.2" y2="431.1" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="760.0" y1="280.0" x2="760.0" y2="252.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="610.9" y="348.7" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
+<text x="593.6" y="407.8" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
+<text x="613.6" y="470.4" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
+<text x="635.5" y="545.5" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
+<text x="623.4" y="597.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
+<text x="552.2" y="689.7" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
+<text x="554.9" y="235.6" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="796.4" y="270.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<g><circle cx="110" cy="424" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 435 V468 M89 447 H131 M110 468 L94 496 M110 468 L126 496" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="516" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách vãng lai</text><text x="110" y="533" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Guest)</text></g>
+<g><ellipse cx="430" cy="458" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="453.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.1</text><text x="430" y="469.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem chi tiết sản phẩm</text></g>
+<g><ellipse cx="760" cy="122" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="117.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.2</text><text x="760" y="133.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Phóng to ảnh sản phẩm</text></g>
+<g><ellipse cx="760" cy="218" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="205.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.3</text><text x="760" y="221.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem bảng giá sỉ</text><text x="760" y="237.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">bậc thang</text></g>
+<g><ellipse cx="760" cy="314" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="301.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.4</text><text x="760" y="317.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Chọn nhanh số lượng</text><text x="760" y="333.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">theo bậc giá</text></g>
+<g><ellipse cx="760" cy="410" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="397.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.5</text><text x="760" y="413.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem hạn dùng, số</text><text x="760" y="429.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">lô và tồn kho</text></g>
+<g><ellipse cx="760" cy="506" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="493.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.6</text><text x="760" y="509.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem tình trạng hàng</text><text x="760" y="525.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">tại các cửa hàng</text></g>
+<g><ellipse cx="760" cy="602" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="589.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.7</text><text x="760" y="605.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem mô tả, thành</text><text x="760" y="621.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">phần và thông số</text></g>
+<g><ellipse cx="760" cy="698" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="685.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.8</text><text x="760" y="701.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem đánh giá</text><text x="760" y="717.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">của khách hàng</text></g>
+<g><ellipse cx="760" cy="794" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="781.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-2.9</text><text x="760" y="797.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem món bánh phù hợp</text><text x="760" y="813.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">và sản phẩm liên quan</text></g>
+<g transform="translate(24,918)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp</text></g>
+<g transform="translate(138.8,918)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
+</svg>

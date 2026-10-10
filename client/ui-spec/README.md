@@ -11,7 +11,7 @@ Bộ tài liệu giao việc cho **Antigravity** để làm lại giao diện `c
 | `README.md` | Bối cảnh đề bài, luật bắt buộc, **thư viện được phép**, prompt dán cho Antigravity *(file này)* |
 | **`06_review_round2.md`** | **Vòng 2 — đọc trước.** Kết luận, số đo, 27 lỗi, **16 task R1 → R16** với tiêu chí nghiệm thu đo được, prompt vòng 2 |
 | **`07_image_guide.md`** | **Ảnh** — được tự tạo hoặc tìm trên mạng; danh sách 28 ảnh, phong cách, prompt mẫu, cách kiểm tra |
-| `05_use_case_diagram.md` | **Sơ đồ use case** (hình người que, 1 tổng quan + 6 phân rã), 5 tác nhân, 41 use case ↔ màn hình ↔ yêu cầu. Tài liệu tham chiếu |
+| `05_use_case_diagram.md` | **Sơ đồ use case** (hình người que): 1 tổng quan + 19 sơ đồ phân rã, phủ **146 thao tác** người dùng làm được; chức năng của từng tác nhân; use case ↔ màn hình ↔ yêu cầu. Tài liệu tham chiếu |
 | `01_design_rules.md` | Nguyên tắc **"không giống AI"**, design tokens, cách retheme shadcn/ui, quy cách thành phần, cách viết nội dung |
 | `02_pages.md` | **Danh sách đủ các trang** (40 màn hình + 1 trang dev tùy chọn): đường dẫn, bố cục, thành phần, trạng thái, dữ liệu |
 | `03_tasks.md` | Vòng 1: 18 task (T0 → T17, đã xong) + T18 tùy chọn |
@@ -197,7 +197,7 @@ client/
 ├── THIRD_PARTY.md           # danh sách thư viện / mã / ảnh mở đã dùng + giấy phép
 ├── public/
 │   ├── img/                 # MỌI ảnh: products/ categories/ combos/ banners/ + placeholder.svg (07_image_guide.md)
-│   └── diagrams/            # (T18, tùy chọn) 7 sơ đồ use case .svg
+│   └── diagrams/            # (T18, tùy chọn) 20 sơ đồ use case .svg
 └── src/
     ├── main.tsx             # Providers + HashRouter
     ├── router.tsx           # bảng route (xem 02_pages.md)

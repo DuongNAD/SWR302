@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="978" height="654" viewBox="0 0 978 654" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title>Sơ đồ use case phân rã — Quản lý khách hàng</title>
+<defs>
+  <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#292524" stroke-width="1.5"/></marker>
+  <marker id="tri" viewBox="0 0 16 14" refX="15" refY="7" markerWidth="15" markerHeight="13" orient="auto"><path d="M1 1 L15 7 L1 13 Z" fill="#fff" stroke="#292524" stroke-width="1.5"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<rect x="751.2" y="17" width="166.79999999999998" height="27" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="834.6" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Quản lý khách hàng</text>
+<rect x="272" y="44" width="646" height="540" fill="#fff" stroke="#292524" stroke-width="1.8"/>
+<line x1="131.0" y1="303.0" x2="312.0" y2="314.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="642.0" y1="122.0" x2="524.9" y2="293.8" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="642.0" y1="218.0" x2="540.7" y2="302.2" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="642.0" y1="410.0" x2="540.7" y2="325.8" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="760.0" y1="348.0" x2="760.0" y2="376.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="760.0" y1="472.0" x2="760.0" y2="444.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<text x="567.9" y="176.2" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="620.2" y="278.2" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="620.2" y="357.8" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="796.4" y="366.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="796.4" y="462.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<g><circle cx="110" cy="280" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 291 V324 M89 303 H131 M110 324 L94 352 M110 324 L126 352" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="372" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Quản trị viên</text><text x="110" y="389" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Admin)</text></g>
+<g><ellipse cx="430" cy="314" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="309.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-16.1</text><text x="430" y="325.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem danh sách khách hàng</text></g>
+<g><ellipse cx="760" cy="122" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="109.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-16.2</text><text x="760" y="125.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Lọc khách hàng (tất</text><text x="760" y="141.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">cả, sỉ, chờ duyệt)</text></g>
+<g><ellipse cx="760" cy="218" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="205.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-16.3</text><text x="760" y="221.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xuất danh sách</text><text x="760" y="237.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">khách hàng ra CSV</text></g>
+<g><ellipse cx="760" cy="410" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="397.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-16.4</text><text x="760" y="413.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem hồ sơ doanh nghiệp</text><text x="760" y="429.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">và giấy phép</text></g>
+<g><ellipse cx="760" cy="314" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="309.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-16.5</text><text x="760" y="325.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Duyệt tài khoản khách sỉ</text></g>
+<g><ellipse cx="760" cy="506" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="493.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-16.6</text><text x="760" y="509.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Từ chối yêu</text><text x="760" y="525.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">cầu đăng ký sỉ</text></g>
+<g transform="translate(24,630)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp</text></g>
+<g transform="translate(138.8,630)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
+</svg>

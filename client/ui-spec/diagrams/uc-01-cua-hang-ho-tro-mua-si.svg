@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1196" height="962" viewBox="0 0 1196 962" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title>Sơ đồ use case phân rã — Cửa hàng, hỗ trợ và mua sỉ</title>
+<defs>
+  <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#292524" stroke-width="1.5"/></marker>
+  <marker id="tri" viewBox="0 0 16 14" refX="15" refY="7" markerWidth="15" markerHeight="13" orient="auto"><path d="M1 1 L15 7 L1 13 Z" fill="#fff" stroke="#292524" stroke-width="1.5"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<rect x="690.4" y="17" width="227.6" height="27" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="804.2" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Cửa hàng, hỗ trợ và mua sỉ</text>
+<rect x="272" y="44" width="646" height="848" fill="#fff" stroke="#292524" stroke-width="1.8"/>
+<line x1="131.0" y1="537.0" x2="312.0" y2="218.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="537.0" x2="312.0" y2="414.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="537.0" x2="312.0" y2="514.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="537.0" x2="312.0" y2="614.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="537.0" x2="312.0" y2="714.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="537.0" x2="312.0" y2="814.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="642.0" y1="122.0" x2="540.7" y2="206.2" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="642.0" y1="218.0" x2="548.0" y2="218.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="642.0" y1="314.0" x2="540.7" y2="229.8" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="642.0" y1="414.0" x2="548.0" y2="414.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
+<line x1="548.0" y1="614.0" x2="980.0" y2="614.0" stroke="#292524" stroke-width="1.4"/>
+<text x="582.7" y="137.2" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="604.4" y="209.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="620.2" y="261.8" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<text x="604.4" y="405.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
+<g><circle cx="110" cy="514" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 525 V558 M89 537 H131 M110 558 L94 586 M110 558 L126 586" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="606" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách vãng lai</text><text x="110" y="623" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Guest)</text></g>
+<g><ellipse cx="430" cy="218" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="213.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.1</text><text x="430" y="229.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem hệ thống cửa hàng</text></g>
+<g><ellipse cx="760" cy="122" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="109.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.2</text><text x="760" y="125.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Lọc cửa hàng</text><text x="760" y="141.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">theo khu vực</text></g>
+<g><ellipse cx="760" cy="218" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="205.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.3</text><text x="760" y="221.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem chỉ đường</text><text x="760" y="237.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">đến cửa hàng</text></g>
+<g><ellipse cx="760" cy="314" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="309.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.4</text><text x="760" y="325.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Gọi điện đến cửa hàng</text></g>
+<g><ellipse cx="430" cy="414" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="401.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.5</text><text x="430" y="417.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem trung tâm hỗ</text><text x="430" y="433.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">trợ và chính sách</text></g>
+<g><ellipse cx="760" cy="414" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="401.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.6</text><text x="760" y="417.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem câu hỏi</text><text x="760" y="433.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">thường gặp (FAQ)</text></g>
+<g><ellipse cx="430" cy="514" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="509.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.7</text><text x="430" y="525.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem giới thiệu công ty</text></g>
+<g><ellipse cx="430" cy="614" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="609.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.8</text><text x="430" y="625.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Gửi liên hệ, góp ý</text></g>
+<g><ellipse cx="430" cy="714" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="701.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.9</text><text x="430" y="717.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem quyền lợi và bảng</text><text x="430" y="733.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">chiết khấu mua sỉ</text></g>
+<g><ellipse cx="430" cy="814" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="801.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-1.10</text><text x="430" y="817.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Gửi yêu cầu đăng ký</text><text x="430" y="833.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">đại lý mua sỉ</text></g>
+<g><rect x="980" y="583" width="176" height="62" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="1068" y="598" text-anchor="middle" font-size="11" font-style="italic" fill="#57534E">«hệ thống ngoài»</text><text x="1068" y="620" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Dịch vụ Email / SMS</text></g>
+<g transform="translate(24,938)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp</text></g>
+<g transform="translate(138.8,938)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
+</svg>

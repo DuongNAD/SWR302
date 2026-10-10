@@ -289,7 +289,7 @@ Mọi bảng admin: tìm kiếm + bộ lọc + phân trang theo `01_design_rules
 - Nội dung `SWRMatrixDrawer` chuyển thành trang đầy đủ: bảng responsive, cột *Mã · Tên & loại · Mô tả · Minh chứng trên giao diện (link tới trang tương ứng) · Trạng thái*. Cập nhật chuỗi `verifiedInClient` theo bảng ánh xạ dưới đây (T16).
 
 ### SCR-D03 · Sơ đồ use case · `/dev/use-cases` · P2 *(tùy chọn — T18)*
-- `h1` "Sơ đồ use case"; 7 tab (*Tổng quan · Tài khoản · Duyệt và tìm kiếm · Giỏ hàng và đặt hàng · Theo dõi đơn · Kho và vận hành · Quản trị*), mỗi tab một sơ đồ SVG trong `public/diagrams/` (cuộn ngang trong khung nếu rộng hơn); dưới tab là bảng 5 tác nhân. Nội dung và hình: `05_use_case_diagram.md`. Chi tiết việc làm: `03_tasks.md` T18.
+- `h1` "Sơ đồ use case"; **danh sách chọn** 20 sơ đồ (cột trái ở ≥ lg, ô chọn `Select` ở mobile): *Tổng quan* rồi *2.1 → 2.19* theo tên nhóm chức năng; vùng phải hiện sơ đồ SVG trong `public/diagrams/` (cuộn ngang trong khung nếu rộng hơn); dưới đó là bảng 5 tác nhân (tên, vai trò, số chức năng). Nội dung và hình: `05_use_case_diagram.md`. Chi tiết việc làm: `03_tasks.md` T18.
 
 ---
 
@@ -310,7 +310,7 @@ Mọi bảng admin: tìm kiếm + bộ lọc + phân trang theo `01_design_rules
 | BR-RULE-01 | Giỏ hàng, thanh toán, `/san-pham/:id` — hàng lạnh → xe lạnh + phí đóng gói |
 | BR-RULE-02 | `/san-pham/:id`, `/gio-hang` — giá tự hạ theo mốc số lượng |
 
-**Use case ↔ màn hình:** mỗi màn hình ở trên phục vụ use case nào — xem cột "Màn hình" ở `05_use_case_diagram.md` mục 6 (41 use case, sơ đồ tổng quan và 6 sơ đồ phân rã).
+**Use case ↔ màn hình:** mỗi màn hình ở trên phục vụ use case nào — xem cột "Màn hình" ở `05_use_case_diagram.md` mục 7 (146 use case, 1 sơ đồ tổng quan và 19 sơ đồ phân rã).
 
 **Màn hình chưa có FR tương ứng trong ma trận** (SCR-10, 14, 17–22, 24; SCR-A06, A08–A13): ghi chú trong báo cáo là *"đề xuất FR mới"* để nhóm bổ sung vào SRS nếu giữ lại — Antigravity **không** tự sửa tài liệu SRS.
 

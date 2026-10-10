@@ -1,240 +1,228 @@
 #!/usr/bin/env node
-// Dựng SƠ ĐỒ USE CASE (UML) cho Topic 1 — Gia Hòa Phát Bakery Supply.
-// Bố cục theo tài liệu mẫu của nhóm: khung hệ thống có thẻ tên ở góc trên phải, cột use case hình elip ở giữa,
-// actor hình người que ở hai bên, đường kết hợp tỏa ra từ actor, mũi tên tam giác rỗng cho quan hệ kế thừa.
+// Dựng SƠ ĐỒ USE CASE (UML) cho Topic 1 — Gia Hòa Phát Bakery Supply, từ dữ liệu ở `use-case-data.mjs`.
+// Bố cục theo tài liệu mẫu của nhóm: khung hệ thống có thẻ tên ở góc trên phải, cột use case hình elip,
+// actor hình người que ở hai bên, mũi tên tam giác rỗng cho quan hệ kế thừa. Một sơ đồ TỔNG QUAN (mỗi elip là một
+// nhóm chức năng) và các sơ đồ PHÂN RÃ (mỗi nhóm một hình, đủ mọi thao tác người dùng làm được).
 //
-//   node ui-spec/diagrams/build-use-cases.mjs        → ghi uc-*.svg và uc-*.png (nét x2) cạnh file này
-//   node ui-spec/diagrams/build-use-cases.mjs --md          → in hai bảng markdown (chức năng tổng quan, danh mục 41 use case)
-//   node ui-spec/diagrams/build-use-cases.mjs --write-doc   → ghi hai bảng đó vào 05_use_case_diagram.md (giữa các cặp dấu <!-- uc:… -->)
+//   node ui-spec/diagrams/build-use-cases.mjs              → ghi uc-*.svg và uc-*.png (nét x2) cạnh file này
+//   node ui-spec/diagrams/build-use-cases.mjs --write-doc  → cập nhật các bảng và hình trong ../05_use_case_diagram.md
+//   node ui-spec/diagrams/build-use-cases.mjs --no-png     → chỉ ghi SVG (không cần Chrome)
 //
-// Sửa sơ đồ = sửa phần DỮ LIỆU bên dưới rồi chạy lại. Script tự báo khi một đường nối xuyên qua use case khác
-// và đếm số đường cắt nhau. Cần Chrome để xuất PNG (đặt CHROME_PATH nếu Chrome ở chỗ khác; không có thì chỉ ra SVG).
+// Script tự bố trí từng nhóm, rồi tự kiểm tra: báo ⚠ nếu một đường nối xuyên qua elip khác, in số đường cắt nhau.
+// Cần Chrome để xuất PNG (đặt CHROME_PATH nếu Chrome ở chỗ khác; đặt UC_TMPDIR để đổi thư mục tạm).
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { SYSTEM_NAME, ACTORS, ACTOR_PARENT, SYSTEMS, GROUPS } from './use-case-data.mjs';
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
-const SYSTEM_NAME = 'Gia Hòa Phát Bakery Supply';
-
-// ═══════════════════════════ DỮ LIỆU ═══════════════════════════
-
-// Tác nhân (người). Vai trò tiếng Anh khớp `role` trong AuthContext: customer · wholesale_client · staff · admin.
-const ACTORS = {
-  KV: { name: ['Khách vãng lai'], role: 'Guest', note: 'Người chưa đăng nhập, đang xem hoặc tra cứu' },
-  KL: { name: ['Khách hàng lẻ'], role: 'Customer', note: 'Thợ làm bánh tại gia; có tài khoản' },
-  KS: { name: ['Khách hàng sỉ'], role: 'Wholesale', note: 'Chủ tiệm bánh, nhà hàng, đại lý; tài khoản doanh nghiệp đã được duyệt' },
-  NV: { name: ['Nhân viên kho', 'và vận hành'], role: 'Staff', note: 'Xử lý đơn, kho, vận chuyển' },
-  AD: { name: ['Quản trị viên'], role: 'Admin', note: 'Toàn quyền quản trị hệ thống' },
-};
-// Hệ thống ngoài (hình chữ nhật «hệ thống ngoài»).
-const SYSTEMS = {
-  PAY: ['Cổng thanh toán', 'VNPay / MoMo'],
-  MAIL: ['Dịch vụ Email / SMS'],
-  EINV: ['Dịch vụ hóa đơn', 'điện tử'],
-  IOT: ['Cảm biến nhiệt độ', 'xe lạnh'],
-};
-
-// Danh mục 41 use case: [mã, tên, tác nhân, chức năng tổng quan, sơ đồ phân rã, màn hình, yêu cầu, mô tả ngắn]
-const UCS = [
-  ['01', 'Đăng ký tài khoản', 'KV', 'F01', 'uc-01', 'SCR-13', 'FR-AUTH-01', 'Tạo tài khoản bằng họ tên, email hoặc SĐT và mật khẩu; chọn loại tài khoản cá nhân hoặc doanh nghiệp.'],
-  ['02', 'Xác thực OTP', 'KV', 'F01', 'uc-01', 'SCR-13 (bước 2)', 'FR-AUTH-01', 'Nhập mã 6 số gửi qua email hoặc SMS để hoàn tất đăng ký.'],
-  ['03', 'Đăng nhập', 'KV, NV', 'F02', 'uc-01', 'SCR-12', 'FR-AUTH-01', 'Đăng nhập bằng email hoặc SĐT và mật khẩu; mọi vai trò dùng chung một màn hình.'],
-  ['04', 'Quên / đặt lại mật khẩu', 'KV', 'F02', 'uc-01', 'SCR-14', 'đề xuất FR mới', 'Nhập email để nhận liên kết đặt lại mật khẩu và xem thông báo đã gửi.'],
-  ['05', 'Quản lý hồ sơ và sổ địa chỉ', 'KL', 'F06', 'uc-01', 'SCR-15, SCR-17, SCR-19', 'đề xuất FR mới', 'Sửa thông tin cá nhân, đổi mật khẩu, thêm / sửa / xóa địa chỉ giao hàng.'],
-  ['06', 'Đăng ký tài khoản mua sỉ', 'KS', 'F11', 'uc-01', 'SCR-21, SCR-13, SCR-20', 'BR-RULE-02, đề xuất FR mới', 'Gửi hồ sơ doanh nghiệp (mã số thuế, giấy phép) để được duyệt và hưởng giá sỉ.'],
-  ['07', 'Xem trang chủ và danh mục', 'KV', 'F03', 'uc-02', 'SCR-01', 'FR-SRC-01, FR-KIT-04', 'Xem banner, danh mục, sản phẩm bán chạy và mới về, combo, cửa hàng.'],
-  ['08', 'Tìm kiếm sản phẩm', 'KV', 'F03', 'uc-02', 'SCR-03 (và ô tìm kiếm ở đầu trang)', 'FR-SRC-01', 'Tìm theo tên, thương hiệu, SKU; có gợi ý tức thì và phím tắt Ctrl/⌘ + K.'],
-  ['09', 'Lọc và sắp xếp sản phẩm', 'KV', 'F03', 'uc-02', 'SCR-02', 'FR-FIL-02', 'Lọc theo danh mục, điều kiện bảo quản, thương hiệu, giá, tình trạng; sắp xếp; kết quả nằm trên URL.'],
-  ['10', 'Xem chi tiết sản phẩm', 'KV', 'F03', 'uc-02', 'SCR-04', 'FR-PROD-03', 'Xem ảnh, giá, mô tả, thông số, đánh giá và sản phẩm liên quan.'],
-  ['11', 'Xem giá sỉ bậc thang', 'KV', 'F03', 'uc-02', 'SCR-04, SCR-21', 'FR-PROD-03, BR-RULE-02', 'Xem bảng đơn giá giảm dần theo số lượng; dòng đang áp dụng được tô nổi.'],
-  ['12', 'Xem HSD, lô và tồn kho theo cửa hàng', 'KV', 'F03', 'uc-02', 'SCR-04, SCR-22', 'FR-PROD-03', 'Xem hạn dùng, số lô, số lượng còn và tình trạng hàng ở từng cửa hàng.'],
-  ['13', 'Xem combo công thức', 'KV', 'F03', 'uc-02', 'SCR-05, SCR-06', 'FR-KIT-04', 'Xem combo nguyên liệu theo món bánh, chọn hoặc bỏ nguyên liệu, xem cách làm.'],
-  ['14', 'Viết đánh giá sản phẩm', 'KL', 'F07', 'uc-02', 'SCR-04 (tab Đánh giá)', 'đề xuất FR mới', 'Chấm sao và viết nhận xét cho sản phẩm.'],
-  ['15', 'Quản lý sản phẩm yêu thích', 'KL', 'F07', 'uc-02', 'SCR-18 (và nút ♡ ở thẻ sản phẩm)', 'đề xuất FR mới', 'Thêm hoặc bỏ sản phẩm yêu thích, xem danh sách đã lưu.'],
-  ['16', 'Xem hệ thống cửa hàng', 'KV', 'F04', 'uc-02', 'SCR-22', 'đề xuất FR mới', 'Xem địa chỉ, giờ mở cửa, dịch vụ từng cửa hàng; kiểm tra tồn kho theo cửa hàng.'],
-  ['17', 'Xem hỗ trợ và chính sách', 'KV', 'F04', 'uc-02', 'SCR-23, SCR-24', 'đề xuất FR mới', 'Đọc hướng dẫn đặt hàng, giao hàng lạnh, đổi trả, câu hỏi thường gặp; gửi liên hệ.'],
-  ['18', 'Quản lý giỏ hàng', 'KL', 'F08', 'uc-03', 'SCR-07 (và giỏ mini)', 'FR-CART-05, BR-RULE-01, BR-RULE-02', 'Thêm, xóa, đổi số lượng; xem gợi ý bậc giá kế tiếp và tiến độ miễn phí vận chuyển.'],
-  ['19', 'Thêm cả combo vào giỏ', 'KL', 'F08', 'uc-03', 'SCR-06', 'FR-KIT-04', 'Thêm các nguyên liệu đã chọn của một combo vào giỏ trong một thao tác.'],
-  ['20', 'Áp dụng mã giảm giá', 'KL', 'F08', 'uc-03', 'SCR-07 (giảm giá hiện lại ở SCR-08)', 'FR-CART-05', 'Nhập voucher (BAKING2026, GHPVIP, FREESHIP) và xem số tiền được giảm.'],
-  ['21', 'Đặt hàng', 'KL', 'F09', 'uc-03', 'SCR-08, SCR-09', 'FR-CHK-06', 'Điền thông tin nhận hàng, chọn vận chuyển và thanh toán, xác nhận đơn.'],
-  ['22', 'Chọn phương thức vận chuyển', 'KL', 'F09', 'uc-03', 'SCR-08 (bước 2)', 'FR-CHK-06, BR-RULE-01', 'Giao tiêu chuẩn 25.000₫ hoặc xe lạnh 45.000₫ cho hàng cần bảo quản lạnh.'],
-  ['23', 'Thanh toán trực tuyến', 'KL', 'F09', 'uc-03', 'SCR-08 (bước 3)', 'FR-CHK-06', 'Chọn VNPay (hiện mã QR), MoMo hoặc chuyển khoản; thanh toán khi nhận hàng (COD) không qua cổng.'],
-  ['24', 'Yêu cầu xuất hóa đơn VAT', 'KS', 'F11', 'uc-03', 'SCR-08 (bước 1), SCR-11', 'FR-CHK-06', 'Nhập mã số thuế, tên và địa chỉ công ty, email nhận hóa đơn điện tử.'],
-  ['25', 'Theo dõi hành trình đơn hàng', 'KL', 'F10', 'uc-04', 'SCR-11', 'FR-TRK-07', 'Xem 5 mốc xử lý, tài xế, xe và nhiệt độ thùng lạnh của đơn.'],
-  ['26', 'Tra cứu đơn hàng', 'KV', 'F05', 'uc-04', 'SCR-10 → SCR-11', 'FR-TRK-07', 'Nhập mã đơn và SĐT để xem tình trạng đơn mà không cần đăng nhập.'],
-  ['27', 'Xem lịch sử đơn và mua lại', 'KL', 'F10', 'uc-04', 'SCR-16', 'FR-TRK-07', 'Xem danh sách đơn theo trạng thái; mua lại một đơn cũ.'],
-  ['28', 'Hủy đơn hàng', 'KL', 'F10', 'uc-04', 'SCR-11, SCR-16', 'FR-TRK-07', 'Hủy đơn khi còn ở trạng thái chờ xác nhận hoặc đã xác nhận.'],
-  ['29', 'Tải và in hóa đơn', 'KL', 'F10', 'uc-04', 'SCR-11, SCR-09', 'FR-TRK-07', 'Tải hóa đơn điện tử (PDF) hoặc in phiếu của đơn.'],
-  ['30', 'Xem tổng quan kinh doanh', 'AD', 'F18', 'uc-06', 'SCR-A01', 'FR-ADM-08', 'Xem doanh thu, đơn cần xử lý, cảnh báo tồn kho và HSD, chuyến xe lạnh trong ngày.'],
-  ['31', 'Quản lý đơn hàng', 'NV', 'F12', 'uc-05', 'SCR-A02, SCR-A03', 'FR-ADM-08', 'Xem danh sách đơn, đổi trạng thái, in phiếu xuất kho, kiểm tra đóng gói lạnh.'],
-  ['32', 'Quản lý sản phẩm và giá sỉ', 'AD', 'F15', 'uc-06', 'SCR-A04, SCR-A05', 'FR-ADM-08', 'Thêm, sửa, ẩn sản phẩm; đặt giá bán và bảng giá bậc thang.'],
-  ['33', 'Quản lý danh mục', 'AD', 'F15', 'uc-06', 'SCR-A06', 'FR-ADM-08', 'Thêm, sửa, ẩn danh mục sản phẩm.'],
-  ['34', 'Quản lý tồn kho và lô hàng', 'NV', 'F13', 'uc-05', 'SCR-A07', 'FR-ADM-08', 'Nhập xuất kho, sửa số lượng, theo dõi lô và hạn dùng theo nguyên tắc hết hạn trước xuất trước.'],
-  ['35', 'Cảnh báo hạn dùng và tồn kho thấp', 'NV', 'F13', 'uc-05', 'SCR-A01, SCR-A07', 'FR-ADM-08', 'Làm nổi lô sắp hết hạn (≤ 30 ngày, ≤ 7 ngày) và sản phẩm dưới ngưỡng tồn.'],
-  ['36', 'Quản lý khách hàng, duyệt khách sỉ', 'AD', 'F16', 'uc-06', 'SCR-A08', 'đề xuất FR mới', 'Xem danh sách khách; duyệt hoặc từ chối hồ sơ doanh nghiệp mua sỉ.'],
-  ['37', 'Quản lý khuyến mãi và voucher', 'AD', 'F17', 'uc-06', 'SCR-A09', 'đề xuất FR mới', 'Tạo, bật hoặc tắt voucher giảm cố định, giảm phần trăm, giảm phí vận chuyển.'],
-  ['38', 'Giám sát vận chuyển và chuỗi lạnh', 'NV', 'F14', 'uc-05', 'SCR-A10', 'BR-RULE-01, đề xuất FR mới', 'Theo dõi chuyến xe lạnh, nhiệt độ thùng và cảnh báo khi vượt 8°C.'],
-  ['39', 'Xem báo cáo', 'AD', 'F18', 'uc-06', 'SCR-A11', 'đề xuất FR mới', 'Xem báo cáo doanh thu, sản phẩm bán chạy, cơ cấu khách; xuất CSV.'],
-  ['40', 'Quản lý nhân viên và phân quyền', 'AD', 'F19', 'uc-06', 'SCR-A12', 'đề xuất FR mới', 'Mời nhân viên, gán vai trò, chỉnh ma trận quyền.'],
-  ['41', 'Cấu hình hệ thống', 'AD', 'F19', 'uc-06', 'SCR-A13', 'đề xuất FR mới', 'Sửa thông tin cửa hàng, phí vận chuyển, cổng thanh toán, thông báo email.'],
-];
-const NAME = Object.fromEntries(UCS.map((u) => [u[0], u[1]]));
-
-// 19 chức năng chính (mỗi chức năng = một elip ở sơ đồ tổng quan), theo thứ tự từ trên xuống:
-// nhóm khách vãng lai → khách lẻ → khách sỉ → nhân viên → quản trị.
-const FEATURES = [
-  ['F01', 'Đăng ký tài khoản', ['01', '02']],
-  ['F02', 'Đăng nhập, khôi phục mật khẩu', ['03', '04']],
-  ['F03', 'Duyệt, tìm kiếm và xem sản phẩm', ['07', '08', '09', '10', '11', '12', '13']],
-  ['F04', 'Xem cửa hàng và hỗ trợ', ['16', '17']],
-  ['F05', 'Tra cứu đơn hàng', ['26']],
-  ['F06', 'Quản lý hồ sơ và sổ địa chỉ', ['05']],
-  ['F07', 'Đánh giá, yêu thích sản phẩm', ['14', '15']],
-  ['F08', 'Quản lý giỏ hàng', ['18', '19', '20']],
-  ['F09', 'Đặt hàng và thanh toán', ['21', '22', '23']],
-  ['F10', 'Theo dõi và quản lý đơn của tôi', ['25', '27', '28', '29']],
-  ['F11', 'Mua sỉ và hóa đơn VAT', ['06', '24']],
-  ['F12', 'Quản lý đơn hàng', ['31']],
-  ['F13', 'Quản lý kho và hạn dùng', ['34', '35']],
-  ['F14', 'Giám sát vận chuyển, chuỗi lạnh', ['38']],
-  ['F15', 'Quản lý sản phẩm và danh mục', ['32', '33']],
-  ['F16', 'Quản lý khách hàng', ['36']],
-  ['F17', 'Quản lý khuyến mãi, voucher', ['37']],
-  ['F18', 'Xem tổng quan và báo cáo', ['30', '39']],
-  ['F19', 'Quản lý nhân viên và cấu hình', ['40', '41']],
-];
-
-const FIG = { 'uc-00': 'Hình 1', 'uc-01': 'Hình 2', 'uc-02': 'Hình 3', 'uc-03': 'Hình 4', 'uc-04': 'Hình 5', 'uc-05': 'Hình 6', 'uc-06': 'Hình 7' };
-
-// ═══════════════════════════ TIỆN ÍCH ═══════════════════════════
+const pad2 = (n) => String(n).padStart(2, '0');
+const figOf = (gi) => `Hình 2.${gi + 1}`;
+const codeOf = (gi, u) => `UC-${gi + 1}.${u.id}`;
+const fileOf = (gi) => `uc-${pad2(gi + 1)}-${GROUPS[gi].slug}`;
+const actorName = (k) => ACTORS[k].name.join(' ');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const sgn = (v) => (v < 0 ? -1 : 1);
+const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+
+// ═══════════════════════════ NGẮT DÒNG ═══════════════════════════
 // Cụm từ không được ngắt dòng ở giữa; dòng đầu không nên kết thúc bằng từ nối.
 const KEEP = ['sản phẩm', 'đơn hàng', 'giỏ hàng', 'hóa đơn', 'mật khẩu', 'tài khoản', 'hệ thống', 'cửa hàng', 'khách hàng', 'tồn kho', 'chuỗi lạnh', 'giá sỉ', 'giảm giá', 'vận chuyển', 'phương thức',
-  'nhân viên', 'danh mục', 'tổng quan', 'kinh doanh', 'trang chủ', 'bậc thang', 'hạn dùng', 'lô hàng', 'hành trình', 'theo dõi', 'giám sát', 'khuyến mãi', 'hồ sơ', 'địa chỉ', 'lịch sử', 'mua lại', 'phân quyền', 'công thức', 'yêu thích', 'đánh giá'];
-const STOP = new Set(['và', 'của', 'theo', 'cho', 'trong', 'tại']);
-function wrap(text, max) { // tối đa 2 dòng, ngắt cân bằng
+  'nhân viên', 'danh mục', 'tổng quan', 'kinh doanh', 'trang chủ', 'bậc thang', 'hạn dùng', 'lô hàng', 'hành trình', 'theo dõi', 'giám sát', 'khuyến mãi', 'hồ sơ', 'địa chỉ', 'lịch sử', 'mua lại', 'phân quyền',
+  'công thức', 'yêu thích', 'đánh giá', 'đăng ký', 'đăng nhập', 'thông tin', 'số lượng', 'doanh nghiệp', 'nhận hàng', 'thanh toán', 'xuất kho', 'nhập kho', 'báo cáo', 'chi tiết'];
+const STOP = new Set(['và', 'của', 'theo', 'cho', 'trong', 'tại', 'hoặc', 'ở']);
+function wrap(text, max = 24) { // tối đa 2 dòng, ngắt cân bằng
   if (text.length <= max) return [text];
-  let t = text; for (const p of KEEP) t = t.replace(new RegExp(p, 'gi'), (m) => m.replace(' ', ' '));
+  let t = text; for (const p of KEEP) t = t.replace(new RegExp(p, 'gi'), (m) => m.replace(' ', '\u00A0'));
   const w = t.split(' '); let best = null;
   for (let i = 1; i < w.length; i++) {
     const a = w.slice(0, i).join(' '), b = w.slice(i).join(' ');
-    const last = a.split(/[\s ]/).pop().replace(/[,.;]$/, '');
+    const last = a.split(/[\s\u00A0]/).pop().replace(/[,.;]$/, '');
     const s = Math.max(a.length, b.length) + (STOP.has(last) ? 6 : 0);
     if (!best || s <= best.s) best = { a, b, s };
   }
-  return [best.a, best.b].map((l) => l.replace(/ /g, ' '));
-}
-function ucLabel(codes) { // ['07','08','09','10'] → "UC-07 … UC-10"
-  const n = codes.map(Number), out = []; let i = 0;
-  while (i < n.length) { let j = i; while (j + 1 < n.length && n[j + 1] === n[j] + 1) j++; const f = (v) => 'UC-' + String(v).padStart(2, '0'); out.push(j - i >= 2 ? `${f(n[i])} … ${f(n[j])}` : n.slice(i, j + 1).map(f).join(', ')); i = j + 1; }
-  return out.join(', ');
+  return [best.a, best.b].map((l) => l.replace(/\u00A0/g, ' '));
 }
 
-// Nút (node)
-const P = (id, x, y) => ({ id, type: 'person', x, y, lines: ACTORS[id].name, role: ACTORS[id].role });
-const S = (id, x, y) => ({ id, type: 'system', x, y, lines: SYSTEMS[id] });
-const U = (code, x, y) => ({ id: 'UC' + code, type: 'uc', x, y, rx: 118, ry: 34, lines: [{ t: 'UC-' + code, k: 'id' }, ...wrap(NAME[code], 24).map((t) => ({ t, k: 'name' }))] });
-const F = (key, x, y) => { const f = FEATURES.find((v) => v[0] === key); return { id: key, type: 'uc', x, y, rx: 176, ry: 27, big: true, lines: [{ t: f[1], k: 'name' }, { t: ucLabel(f[2]), k: 'id' }] }; };
+// ═══════════════════════════ MÔ HÌNH ═══════════════════════════
+const ancestors = (a) => { const o = []; for (let p = ACTOR_PARENT[a]; p; p = ACTOR_PARENT[p]) o.push(p); return o; };
 
-// ═══════════════════════════ SƠ ĐỒ ═══════════════════════════
-const DIAGRAMS = [];
+function analyse(g, gi) {
+  const byId = new Map(g.ucs.map((u) => [u.id, u]));
+  const order = new Map(g.ucs.map((u, i) => [u.id, i]));
+  if (byId.size !== g.ucs.length) throw new Error(`Nhóm ${gi + 1}: trùng id use case`);
+  const edges = [];
+  for (const u of g.ucs) for (const [type, to] of u.rel || []) {
+    const t = String(to);
+    if (!byId.has(t)) throw new Error(`Nhóm ${gi + 1} (${g.title}): UC ${u.id} nối tới UC ${t} không tồn tại`);
+    if (type !== 'include' && type !== 'extend') throw new Error(`Nhóm ${gi + 1}: quan hệ lạ "${type}"`);
+    edges.push({ type, from: u.id, to: t });
+  }
+  for (const u of g.ucs) for (const a of u.by) if (!ACTORS[a]) throw new Error(`Nhóm ${gi + 1}: tác nhân lạ ${a}`);
+  for (const u of g.ucs) for (const s of u.sys || []) if (!SYSTEMS[s] || !g.systems.includes(s)) throw new Error(`Nhóm ${gi + 1}: UC ${u.id} dùng hệ thống ${s} chưa khai báo ở nhóm`);
+  const nbr = new Map(g.ucs.map((u) => [u.id, new Set()]));
+  for (const e of edges) { nbr.get(e.from).add(e.to); nbr.get(e.to).add(e.from); }
+  const depth = new Map(); g.ucs.forEach((u) => u.by.length && depth.set(u.id, 0));
+  for (let ch = true; ch;) {
+    ch = false;
+    for (const u of g.ucs) if (!depth.has(u.id)) {
+      const ds = [...nbr.get(u.id)].filter((n) => depth.has(n)).map((n) => depth.get(n));
+      if (ds.length) { depth.set(u.id, Math.min(...ds) + 1); ch = true; }
+    }
+  }
+  for (const u of g.ucs) if (!depth.has(u.id)) throw new Error(`Nhóm ${gi + 1} (${g.title}): UC ${u.id} không nối với use case nào có tác nhân`);
+  const baseIds = (id) => [...nbr.get(id)].filter((n) => depth.get(n) === depth.get(id) - 1).sort((a, b) => order.get(a) - order.get(b));
+  const kids = new Map(g.ucs.map((u) => [u.id, []]));
+  for (const u of g.ucs) if (depth.get(u.id) > 0) kids.get(baseIds(u.id)[0]).push(u.id);
+  // tác nhân của use case: trực tiếp, hoặc thừa hưởng từ use case gốc mà nó nối tới
+  const actorsOf = (id, seen = new Set()) => {
+    const u = byId.get(id); if (u.by.length) return u.by;
+    if (seen.has(id)) return []; seen.add(id);
+    return [...new Set(baseIds(id).flatMap((b) => actorsOf(b, seen)))];
+  };
+  return { byId, order, edges, depth, kids, baseIds, actorsOf };
+}
+const MODEL = GROUPS.map((g, gi) => ({ g, gi, ...analyse(g, gi) }));
 
-// ── Hình 1 · Tổng quan ──
-{
-  const X = 500, Y0 = 108, PITCH = 64, row = (i) => Y0 + i * PITCH;
-  const nodes = FEATURES.map((f, i) => F(f[0], X, row(i)));
-  nodes.push(P('KV', 895, row(2)), P('KL', 895, row(7)), P('KS', 895, row(10)), P('NV', 105, row(12)), P('AD', 105, row(16)));
-  const bottom = row(18) + 27 + 34;
-  DIAGRAMS.push({
-    file: 'uc-00-tong-quan', tab: SYSTEM_NAME, title: `Sơ đồ use case tổng quan — ${SYSTEM_NAME} (Topic 1)`,
-    w: 1000, h: bottom + 62, box: { x: 290, y: 44, w: 420, h: bottom - 44 }, nodes,
-    links: [
-      ...['F01', 'F02', 'F03', 'F04', 'F05'].map((f) => ['KV', f]),
-      ...['F06', 'F07', 'F08', 'F09', 'F10'].map((f) => ['KL', f]),
-      ['KS', 'F11'],
-      ...['F02', 'F12', 'F13', 'F14'].map((f) => ['NV', f]),
-      ...['F15', 'F16', 'F17', 'F18', 'F19'].map((f) => ['AD', f]),
-      ['KL', 'KV', 'general'], ['KS', 'KL', 'general'], ['AD', 'NV', 'general'],
-    ],
-  });
+// ═══════════════════════════ NÚT ═══════════════════════════
+const RX = 118, RY = 34, ROW = 88, COL_X = [430, 760, 1090], SYS_W = 176, SYS_H = 62;
+const personNode = (k, x, y) => ({ id: 'p:' + k, type: 'person', x, y, lines: ACTORS[k].name, role: ACTORS[k].role });
+const sysNode = (k, x, y) => ({ id: 'sys:' + k, type: 'system', x, y, lines: SYSTEMS[k].lines });
+const ucNode = (gi, u, x, y) => ({ id: 'uc:' + u.id, type: 'uc', x, y, rx: RX, ry: RY, lines: [{ t: codeOf(gi, u), k: 'id' }, ...wrap(u.name).map((t) => ({ t, k: 'name' }))] });
+
+// ═══════════════════════════ BỐ TRÍ MỘT NHÓM ═══════════════════════════
+// Mỗi use case có tác nhân (cột 0) cùng các use case phụ của nó tạo thành một "khối". Khối xếp chồng theo thứ tự dữ liệu.
+// Use case phụ nằm cột 1; nếu nó có ≤ 2 use case phụ con thì các con nằm cùng cột (trên/dưới), nhiều hơn thì sang cột 2.
+function blockOf(m, id, col) {
+  const ks = m.kids.get(id), node = m.byId.get(id);
+  const items = [{ id, col, dy: 0 }];
+  if (!ks.length) return { items, top: -44, bottom: 44 };
+  const sameCol = col > 0 && ks.length <= 2;
+  const kcol = sameCol ? col : col + 1;
+  const blocks = ks.map((k) => blockOf(m, k, kcol));
+  const put = (b, dy) => b.items.forEach((it) => items.push({ ...it, dy: it.dy + dy }));
+  let top = -44, bottom = 44;
+  if (sameCol) {
+    if (blocks.length === 1) { const dy = 44 + 8 - blocks[0].top; put(blocks[0], dy); bottom = Math.max(bottom, dy + blocks[0].bottom); }
+    else {
+      const d1 = -(44 + 8 + blocks[0].bottom), d2 = 44 + 8 - blocks[1].top;
+      put(blocks[0], d1); put(blocks[1], d2);
+      top = Math.min(top, d1 + blocks[0].top); bottom = Math.max(bottom, d2 + blocks[1].bottom);
+    }
+    return { items, top, bottom };
+  }
+  const gap = (node.sys || []).length > 0 && col === 0 ? 100 : 0; // chừa lối đi cho đường nối tới hệ thống ngoài
+  const up = gap ? Math.ceil(blocks.length / 2) : 0;
+  if (gap) {
+    let end = -gap / 2;
+    for (let i = up - 1; i >= 0; i--) { const dy = end - blocks[i].bottom; put(blocks[i], dy); end = dy + blocks[i].top - 8; top = Math.min(top, dy + blocks[i].top); }
+    let cur = gap / 2;
+    for (let i = up; i < blocks.length; i++) { const dy = cur - blocks[i].top; put(blocks[i], dy); cur = dy + blocks[i].bottom + 8; bottom = Math.max(bottom, dy + blocks[i].bottom); }
+  } else {
+    const H = blocks.reduce((t, b) => t + b.bottom - b.top + 8, -8);
+    let cur = -H / 2;
+    for (const b of blocks) { const dy = cur - b.top; put(b, dy); cur = dy + b.bottom + 8; top = Math.min(top, dy + b.top); bottom = Math.max(bottom, dy + b.bottom); }
+  }
+  return { items, top, bottom };
 }
 
-// ── Hình 2 · Tài khoản và xác thực ──
-DIAGRAMS.push({
-  file: 'uc-01-tai-khoan', tab: 'Tài khoản và xác thực', title: 'Sơ đồ use case phân rã — Tài khoản và xác thực',
-  w: 1180, h: 840, box: { x: 270, y: 44, w: 640, h: 626 },
-  nodes: [P('KV', 110, 250), P('KL', 110, 490), P('KS', 110, 700),
-    U('03', 430, 140), U('04', 430, 250), U('01', 430, 360), U('05', 430, 490), U('06', 430, 600),
-    U('02', 760, 360), S('MAIL', 1060, 305)],
-  links: [['KV', 'UC03'], ['KV', 'UC04'], ['KV', 'UC01'], ['KL', 'UC05'], ['KS', 'UC06'],
-    ['KL', 'KV', 'general'], ['KS', 'KL', 'general'],
-    ['UC01', 'UC02', 'include'], ['UC02', 'MAIL'], ['UC04', 'MAIL']],
-});
+function layoutGroup(m) {
+  const { g, gi, depth, kids, baseIds, edges } = m;
+  const bases = g.ucs.filter((u) => depth.get(u.id) === 0);
+  const pos = new Map();
+  let cursor = 0;
+  for (const b of bases) {
+    const blk = blockOf(m, b.id, 0), y = cursor - blk.top;
+    blk.items.forEach((it) => pos.set(it.id, { x: COL_X[it.col], y: y + it.dy }));
+    cursor = y + blk.bottom + 12;
+  }
+  // use case phụ nối tới nhiều use case gốc: đặt ở giữa các use case gốc đó (kéo theo các con của nó)
+  const shift = (id, dy) => { pos.get(id).y += dy; for (const k of kids.get(id)) shift(k, dy); };
+  for (const u of g.ucs) if (depth.get(u.id) === 1) {
+    const bs = baseIds(u.id).filter((b) => depth.get(b) === 0);
+    if (bs.length > 1) shift(u.id, mean(bs.map((b) => pos.get(b).y)) - pos.get(u.id).y);
+  }
+  for (const x of COL_X.slice(1)) { // chống chồng nhau trong từng cột phụ
+    const col = g.ucs.filter((u) => pos.get(u.id).x === x).sort((a, b) => pos.get(a.id).y - pos.get(b.id).y);
+    for (let i = 1; i < col.length; i++) { const p = pos.get(col[i - 1].id), c = pos.get(col[i].id); if (c.y - p.y < ROW - 8) c.y = p.y + ROW - 8; }
+  }
+  const maxCol = Math.max(...g.ucs.map((u) => COL_X.indexOf(pos.get(u.id).x)));
+  // tác nhân: đặt theo trung bình các use case làm trực tiếp, cách nhau ≥ 215, cha trên con
+  const actorY = new Map(); let prev = -Infinity;
+  for (const a of g.actors) {
+    const ys = g.ucs.filter((u) => u.by.includes(a)).map((u) => pos.get(u.id).y);
+    let t = ys.length ? mean(ys) : (prev === -Infinity ? 100 : prev + 215);
+    if (t < prev + 215) t = prev + 215;
+    actorY.set(a, t); prev = t;
+  }
+  // hệ thống ngoài: mỗi cụm use case nối tới (cùng cột, cách nhau ≤ 130) dùng một hộp, đặt ngang tầm cụm đó
+  const sysInst = [];
+  for (const s of g.systems) {
+    const att = g.ucs.filter((u) => (u.sys || []).includes(s)).map((u) => ({ id: u.id, y: pos.get(u.id).y, x: pos.get(u.id).x })).sort((a, b) => a.y - b.y);
+    let cl = [];
+    const flush = () => { if (cl.length) { sysInst.push({ s, ids: cl.map((c) => c.id), y: mean(cl.map((c) => c.y)) }); cl = []; } };
+    for (const a of att) { const l = cl[cl.length - 1]; if (l && l.x === a.x && a.y - l.y <= 130) cl.push(a); else { flush(); cl = [a]; } }
+    flush();
+  }
+  sysInst.sort((a, b) => a.y - b.y);
+  let sp = -Infinity; for (const si of sysInst) { si.y = Math.max(si.y, sp + 84); sp = si.y; }
 
-// ── Hình 3 · Duyệt, tìm kiếm và xem sản phẩm ──
-DIAGRAMS.push({
-  file: 'uc-02-duyet-tim-kiem', tab: 'Duyệt, tìm kiếm và xem sản phẩm', title: 'Sơ đồ use case phân rã — Duyệt, tìm kiếm và xem sản phẩm',
-  w: 1180, h: 1060, box: { x: 270, y: 44, w: 640, h: 956 },
-  nodes: [P('KV', 110, 410), P('KL', 110, 880),
-    U('07', 430, 130), U('08', 430, 240), U('13', 430, 350), U('16', 430, 450), U('17', 430, 550), U('10', 430, 670), U('14', 430, 820), U('15', 430, 930),
-    U('09', 760, 240), U('11', 760, 620), U('12', 760, 720)],
-  links: [['KV', 'UC07'], ['KV', 'UC08'], ['KV', 'UC13'], ['KV', 'UC16'], ['KV', 'UC17'], ['KV', 'UC10'], ['KL', 'UC14'], ['KL', 'UC15'],
-    ['KL', 'KV', 'general'],
-    ['UC09', 'UC08', 'extend'], ['UC10', 'UC11', 'include'], ['UC10', 'UC12', 'include'], ['UC14', 'UC10', 'extend']],
-});
+  const ys = g.ucs.map((u) => pos.get(u.id).y);
+  const tw = Math.max(150, g.title.length * 7.6 + 30);
+  const left = COL_X[0] - RX - 40;
+  let right = COL_X[maxCol] + RX + 40;
+  if (right - left < tw) right = left + tw;
+  const dy = 44 - (Math.min(...ys) - RY - 44);
+  const top = 44, bottom = Math.max(...ys) + dy + RY + 44;
 
-// ── Hình 4 · Giỏ hàng, đặt hàng và thanh toán ──
-DIAGRAMS.push({
-  file: 'uc-03-gio-hang-dat-hang', tab: 'Giỏ hàng, đặt hàng và thanh toán', title: 'Sơ đồ use case phân rã — Giỏ hàng, đặt hàng và thanh toán',
-  w: 1180, h: 880, box: { x: 270, y: 44, w: 640, h: 746 },
-  nodes: [P('KL', 110, 300), P('KS', 110, 720),
-    U('19', 430, 130), U('18', 430, 250), U('21', 430, 420), U('24', 430, 720),
-    U('20', 760, 300), U('22', 760, 520), U('23', 760, 650),
-    S('MAIL', 1060, 420), S('PAY', 1060, 650), S('EINV', 1060, 765)],
-  links: [['KL', 'UC19'], ['KL', 'UC18'], ['KL', 'UC21'], ['KS', 'UC24'], ['KS', 'KL', 'general'],
-    ['UC19', 'UC18', 'extend'], ['UC21', 'UC22', 'include'], ['UC20', 'UC21', 'extend'], ['UC23', 'UC21', 'extend'], ['UC24', 'UC21', 'extend'],
-    ['UC21', 'MAIL'], ['UC23', 'PAY'], ['UC24', 'EINV']],
-});
+  const nodes = [];
+  for (const a of g.actors) nodes.push(personNode(a, 110, actorY.get(a) + dy));
+  for (const u of g.ucs) nodes.push(ucNode(gi, u, pos.get(u.id).x, pos.get(u.id).y + dy));
+  sysInst.forEach((si, n) => { si.node = { ...sysNode(si.s, right + 150, si.y + dy), id: `sys:${si.s}:${n}` }; nodes.push(si.node); });
+  const links = [];
+  for (const u of g.ucs) for (const a of u.by) if (g.actors.includes(a)) links.push(['p:' + a, 'uc:' + u.id]);
+  for (const a of g.actors) if (ACTOR_PARENT[a] && g.actors.includes(ACTOR_PARENT[a])) links.push(['p:' + a, 'p:' + ACTOR_PARENT[a], 'general']);
+  for (const e of edges) links.push(['uc:' + e.from, 'uc:' + e.to, e.type]);
+  for (const si of sysInst) for (const id of si.ids) links.push(['uc:' + id, si.node.id]);
 
-// ── Hình 5 · Theo dõi đơn hàng và hậu mãi ──
-DIAGRAMS.push({
-  file: 'uc-04-theo-doi-don-hang', tab: 'Theo dõi đơn hàng và hậu mãi', title: 'Sơ đồ use case phân rã — Theo dõi đơn hàng và hậu mãi',
-  w: 1180, h: 620, box: { x: 270, y: 44, w: 640, h: 506 },
-  nodes: [P('KV', 110, 140), P('KL', 110, 420),
-    U('26', 430, 140), U('25', 430, 300), U('27', 430, 480), U('28', 760, 220), U('29', 760, 380),
-    S('IOT', 1060, 300)],
-  links: [['KV', 'UC26'], ['KL', 'UC25'], ['KL', 'UC27'], ['KL', 'KV', 'general'],
-    ['UC26', 'UC25', 'include'], ['UC28', 'UC25', 'extend'], ['UC29', 'UC25', 'extend'], ['UC25', 'IOT']],
-});
+  const maxPersonBottom = Math.max(...g.actors.map((a) => actorY.get(a) + dy + 58 + 17 * (ACTORS[a].name.length + 1) + 12));
+  const maxSysBottom = sysInst.length ? Math.max(...sysInst.map((si) => si.node.y + SYS_H / 2)) : 0;
+  const h = Math.max(bottom, maxPersonBottom, maxSysBottom) + 70;
+  const w = sysInst.length ? right + 150 + SYS_W / 2 + 40 : right + 60;
+  return { file: fileOf(gi), tab: g.title, title: `Sơ đồ use case phân rã — ${g.title}`, w: Math.max(w, 720), h, box: { x: left, y: top, w: right - left, h: bottom - top }, nodes, links };
+}
 
-// ── Hình 6 · Vận hành kho và đơn hàng ──
-DIAGRAMS.push({
-  file: 'uc-05-van-hanh-kho', tab: 'Vận hành kho và đơn hàng', title: 'Sơ đồ use case phân rã — Vận hành kho và đơn hàng',
-  w: 1180, h: 750, box: { x: 270, y: 44, w: 640, h: 546 },
-  nodes: [P('NV', 110, 330), P('AD', 110, 600),
-    U('31', 430, 140), U('34', 430, 320), U('38', 430, 520), U('35', 760, 320),
-    S('MAIL', 1060, 140), S('IOT', 1060, 520)],
-  links: [['NV', 'UC31'], ['NV', 'UC34'], ['NV', 'UC38'], ['AD', 'NV', 'general'],
-    ['UC34', 'UC35', 'include'], ['UC31', 'MAIL'], ['UC38', 'IOT']],
-});
-
-// ── Hình 7 · Quản trị cửa hàng ──
-DIAGRAMS.push({
-  file: 'uc-06-quan-tri', tab: 'Quản trị cửa hàng', title: 'Sơ đồ use case phân rã — Quản trị cửa hàng',
-  w: 720, h: 880, box: { x: 270, y: 44, w: 320, h: 786 },
-  nodes: [P('AD', 110, 445),
-    U('30', 430, 130), U('39', 430, 220), U('32', 430, 310), U('33', 430, 400), U('36', 430, 490), U('37', 430, 580), U('40', 430, 670), U('41', 430, 760)],
-  links: ['30', '39', '32', '33', '36', '37', '40', '41'].map((c) => ['AD', 'UC' + c]),
-});
+// ═══════════════════════════ SƠ ĐỒ TỔNG QUAN ═══════════════════════════
+function layoutOverview() {
+  const X = 500, Y0 = 108, PITCH = 64, rowY = (i) => Y0 + i * PITCH;
+  const nodes = GROUPS.map((g, i) => ({
+    id: 'g:' + i, type: 'uc', x: X, y: rowY(i), rx: 176, ry: 27, big: true,
+    lines: [{ t: g.title, k: 'name' }, { t: `${figOf(i)} · ${g.ucs.length} chức năng`, k: 'id' }],
+  }));
+  const rowsOf = (a) => GROUPS.map((g, i) => (g.ucs.some((u) => u.by.includes(a)) ? i : -1)).filter((i) => i >= 0);
+  const stack = (keys, x) => {
+    let prev = -Infinity;
+    for (const k of keys) {
+      const rs = rowsOf(k); let t = rs.length ? mean(rs.map(rowY)) : prev + 215;
+      if (t < prev + 215) t = prev + 215;
+      nodes.push(personNode(k, x, t)); prev = t;
+    }
+  };
+  stack(['KV', 'KL', 'KS'], 895); stack(['NV', 'AD'], 105);
+  const links = [];
+  for (const k of Object.keys(ACTORS)) for (const r of rowsOf(k)) links.push(['p:' + k, 'g:' + r]);
+  for (const k of Object.keys(ACTOR_PARENT)) links.push(['p:' + k, 'p:' + ACTOR_PARENT[k], 'general']);
+  const bottom = rowY(GROUPS.length - 1) + 27 + 34;
+  const lowest = Math.max(...nodes.filter((n) => n.type === 'person').map((n) => n.y + 100));
+  return { file: 'uc-00-tong-quan', tab: SYSTEM_NAME, title: `Sơ đồ use case tổng quan — ${SYSTEM_NAME} (Topic 1)`, w: 1000, h: Math.max(bottom, lowest) + 62, box: { x: 290, y: 44, w: 420, h: bottom - 44 }, nodes, links };
+}
 
 // ═══════════════════════════ HÌNH HỌC ═══════════════════════════
-const ARM_X = 21, ARM_Y = -11, SYS_W = 176, SYS_H = 62;
+const ARM_X = 21, ARM_Y = -11;
 const personLines = (n) => [...n.lines, `(${n.role})`];
 const personBottom = (n) => n.y + 58 + 17 * (personLines(n).length - 1) + 5;
-
 function side(n, o) { // điểm nối của đường kết hợp: đầu tay (actor), mép (hệ thống ngoài), đỉnh elip phía đối diện
   const s = sgn(o.x - n.x);
   if (n.type === 'person') return { x: n.x + s * ARM_X, y: n.y + ARM_Y };
@@ -247,7 +235,16 @@ function clip(n, o) { // điểm trên biên elip theo hướng tới tâm nút 
 }
 function route(A, B, type) {
   if (type === 'general') return [{ x: A.x, y: A.y - 49 }, { x: B.x, y: personBottom(B) + 5 }];
-  if (A.type === 'uc' && B.type === 'uc') return [clip(A, B), clip(B, A)];
+  if (A.type === 'uc' && B.type === 'uc') {
+    if (Math.abs(A.x - B.x) < 40) return [clip(A, B), clip(B, A)]; // cùng cột: nối tâm với tâm
+    // khác cột: tới đỉnh gần nhất của elip bên phải, nên đường nối không thể cắt qua elip khác trong cùng cột
+    const aLeft = A.x < B.x, L = aLeft ? A : B, R = aLeft ? B : A;
+    const tip = side(R, L);
+    // điểm xuất phát trên cung bên phải của elip trái, lệch theo độ cao của đích nên các đường tỏa ra thành quạt
+    const th = Math.max(-0.96, Math.min(0.96, Math.atan((tip.y - L.y) / 260)));
+    const pl = { x: L.x + L.rx * Math.cos(th), y: L.y + L.ry * Math.sin(th) };
+    return aLeft ? [pl, tip] : [tip, pl];
+  }
   return [side(A, B), side(B, A)];
 }
 function hit(n, px, py, pad = 4) {
@@ -262,10 +259,8 @@ function crosses(a1, a2, b1, b2) {
 
 // ═══════════════════════════ VẼ SVG ═══════════════════════════
 const C = { ink: '#1C1917', ink2: '#57534E', line: '#292524' };
-
 function personSvg(n) {
-  const { x, y } = n, s = C.line;
-  const L = personLines(n);
+  const { x, y } = n, s = C.line, L = personLines(n);
   const text = L.map((l, i) => {
     const last = i === L.length - 1;
     return `<text x="${x}" y="${y + 58 + i * 17}" text-anchor="middle" font-size="${last ? 12.5 : 14}" font-weight="${last ? 400 : 700}" fill="${last ? C.ink2 : C.ink}">${esc(l)}</text>`;
@@ -274,8 +269,7 @@ function personSvg(n) {
     + `<path d="M${x} ${y - 23} V${y + 10} M${x - ARM_X} ${y + ARM_Y} H${x + ARM_X} M${x} ${y + 10} L${x - 16} ${y + 38} M${x} ${y + 10} L${x + 16} ${y + 38}" fill="none" stroke="${s}" stroke-width="2" stroke-linecap="round"/>${text}</g>`;
 }
 function systemSvg(n) {
-  const top = n.y - SYS_H / 2, L = n.lines;
-  const base = top + 31 + (L.length === 1 ? 6 : 0);
+  const top = n.y - SYS_H / 2, L = n.lines, base = top + 31 + (L.length === 1 ? 6 : 0);
   return `<g><rect x="${n.x - SYS_W / 2}" y="${top}" width="${SYS_W}" height="${SYS_H}" fill="#fff" stroke="${C.line}" stroke-width="1.5"/>`
     + `<text x="${n.x}" y="${top + 15}" text-anchor="middle" font-size="11" font-style="italic" fill="${C.ink2}">«hệ thống ngoài»</text>`
     + L.map((l, i) => `<text x="${n.x}" y="${base + i * 15}" text-anchor="middle" font-size="13" font-weight="600" fill="${C.ink}">${esc(l)}</text>`).join('') + '</g>';
@@ -287,10 +281,9 @@ function ucSvg(n) {
   const t = n.lines.map((l) => { const y = top + lh(l.k) * 0.76; top += lh(l.k); return `<text x="${n.x}" y="${y.toFixed(1)}" text-anchor="middle" font-size="${fs(l.k)}" font-weight="${l.k === 'id' ? 700 : 500}" fill="${l.k === 'id' ? C.ink2 : C.ink}">${esc(l.t)}</text>`; }).join('');
   return `<g><ellipse cx="${n.x}" cy="${n.y}" rx="${n.rx}" ry="${n.ry}" fill="#fff" stroke="${C.line}" stroke-width="1.5"/>${t}</g>`;
 }
-
 function build(d) {
   const byId = new Map(d.nodes.map((n) => [n.id, n]));
-  const warn = [], segs = [], parts = [], used = new Set();
+  const warn = [], segs = [], parts = [], used = new Set(), labelJobs = [];
   for (const [a, b, type = 'assoc'] of d.links) {
     const A = byId.get(a), B = byId.get(b);
     if (!A || !B) { warn.push(`link ${a}→${b}: thiếu nút`); continue; }
@@ -300,21 +293,49 @@ function build(d) {
     const dash = type === 'include' || type === 'extend' ? ' stroke-dasharray="7 5"' : '';
     const mk = type === 'include' || type === 'extend' ? ' marker-end="url(#open)"' : type === 'general' ? ' marker-end="url(#tri)"' : '';
     parts.push(`<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${C.line}" stroke-width="1.4"${dash}${mk}/>`);
-    if (type === 'include' || type === 'extend') { // nhãn nằm sát một bên đường nối, không đè lên nét đứt
-      const mx = (p1.x + p2.x) / 2, my = (p1.y + p2.y) / 2, dx = p2.x - p1.x, dy = p2.y - p1.y, len = Math.hypot(dx, dy) || 1;
-      const txt = `«${type}»`, hw = txt.length * 3.3, hh = 7;
-      let cx = mx + 9, cy = my, anchor = 'start';
-      if (Math.abs(dx) >= 24) { // đường không thẳng đứng: đặt nhãn phía trên theo pháp tuyến
-        let nx = -dy / len, ny = dx / len; if (ny > 0) { nx = -nx; ny = -ny; }
-        const off = hw * Math.abs(nx) + hh * Math.abs(ny) + 5; cx = mx + nx * off; cy = my + ny * off; anchor = 'middle';
-      }
-      parts.push(`<text x="${cx.toFixed(1)}" y="${(cy + 4).toFixed(1)}" text-anchor="${anchor}" font-size="12" font-style="italic" fill="${C.ink2}" stroke="#fff" stroke-width="4" paint-order="stroke">${txt}</text>`);
-    }
+    if (type === 'include' || type === 'extend') labelJobs.push({ p1, p2, type, a, b });
     for (let i = 1; i < 80; i++) { // đường nối không được xuyên qua nút khác
       const t = i / 80, px = p1.x + (p2.x - p1.x) * t, py = p1.y + (p2.y - p1.y) * t;
       const h = d.nodes.find((n) => n.id !== a && n.id !== b && hit(n, px, py));
       if (h) { warn.push(`đường ${a}→${b} (${type}) xuyên qua ${h.id}`); break; }
     }
+  }
+  // nhãn «include» / «extend»: đặt sát đường nối, thử nhiều vị trí để không chạm elip, nét khác hay nhãn khác
+  const placed = [];
+  const boxHitsNode = (r) => {
+    const pts = [];
+    for (let i = 0; i <= 6; i++) { const x = r.x1 + ((r.x2 - r.x1) * i) / 6; pts.push([x, r.y1], [x, r.y2]); }
+    for (let j = 0; j <= 2; j++) { const y = r.y1 + ((r.y2 - r.y1) * j) / 2; pts.push([r.x1, y], [r.x2, y]); }
+    return d.nodes.some((n) => pts.some(([x, y]) => hit(n, x, y, 2)));
+  };
+  const boxHitsSeg = (r, sg) => {
+    for (let i = 0; i <= 28; i++) {
+      const t = i / 28, x = sg.p1.x + (sg.p2.x - sg.p1.x) * t, y = sg.p1.y + (sg.p2.y - sg.p1.y) * t;
+      if (x > r.x1 - 2 && x < r.x2 + 2 && y > r.y1 - 2 && y < r.y2 + 2) return true;
+    }
+    return false;
+  };
+  for (const job of labelJobs) {
+    const { p1, p2, type } = job;
+    const dx = p2.x - p1.x, dy = p2.y - p1.y, len = Math.hypot(dx, dy) || 1, txt = `«${type}»`;
+    const hw = txt.length * 3.3 + 2, hh = 8, vertical = Math.abs(dx) < 24;
+    const pref = vertical ? 0.5 : (p1.x > p2.x ? 0.4 : 0.6); // lệch về phía use case phụ (bên phải)
+    const ts = vertical ? [0.5, 0.4, 0.6, 0.3, 0.7] : [pref, 0.5, p1.x > p2.x ? 0.3 : 0.7, 0.4, 0.6, 0.25, 0.75];
+    let nx = -dy / len, ny = dx / len; if (!vertical && ny > 0) { nx = -nx; ny = -ny; }
+    const cands = [];
+    for (const t of ts) for (const sd of [1, -1]) {
+      const mx = p1.x + dx * t, my = p1.y + dy * t;
+      if (vertical) cands.push({ cx: mx + sd * (hw + 8), cy: my });
+      else { const off = hw * Math.abs(nx) + hh * Math.abs(ny) + 5; cands.push({ cx: mx + sd * nx * off, cy: my + sd * ny * off }); }
+    }
+    const ok = (c) => {
+      const r = { x1: c.cx - hw, x2: c.cx + hw, y1: c.cy - hh, y2: c.cy + hh };
+      return !boxHitsNode(r) && !placed.some((q) => r.x1 < q.x2 && r.x2 > q.x1 && r.y1 < q.y2 && r.y2 > q.y1)
+        && !segs.some((sg) => !(sg.p1 === p1 && sg.p2 === p2) && boxHitsSeg(r, sg));
+    };
+    const c = cands.find(ok) || cands[0];
+    placed.push({ x1: c.cx - hw, x2: c.cx + hw, y1: c.cy - hh, y2: c.cy + hh });
+    parts.push(`<text x="${c.cx.toFixed(1)}" y="${(c.cy + 4).toFixed(1)}" text-anchor="middle" font-size="12" font-style="italic" fill="${C.ink2}" stroke="#fff" stroke-width="4" paint-order="stroke">${txt}</text>`);
   }
   let cross = 0;
   for (let i = 0; i < segs.length; i++) for (let j = i + 1; j < segs.length; j++) {
@@ -326,7 +347,6 @@ function build(d) {
   const tab = `<rect x="${bd.x + bd.w - tw}" y="${bd.y - 27}" width="${tw}" height="27" fill="#fff" stroke="${C.line}" stroke-width="1.5"/>`
     + `<text x="${bd.x + bd.w - tw / 2}" y="${bd.y - 9}" text-anchor="middle" font-size="13" font-weight="600" fill="${C.ink}">${esc(d.tab)}</text>`;
   const frame = `<rect x="${bd.x}" y="${bd.y}" width="${bd.w}" height="${bd.h}" fill="#fff" stroke="${C.line}" stroke-width="1.8"/>`;
-  // chú giải: chỉ các ký hiệu có dùng
   let lx = 24; const ly = d.h - 24, leg = [];
   const item = (w, svg, label) => { leg.push(`<g transform="translate(${lx},${ly})">${svg}<text x="${w + 8}" y="4" font-size="12" fill="${C.ink2}">${label}</text></g>`); lx += w + 8 + label.length * 6.4 + 28; };
   item(34, `<line x1="0" y1="0" x2="34" y2="0" stroke="${C.line}" stroke-width="1.4"/>`, 'Kết hợp');
@@ -350,45 +370,94 @@ ${leg.join('\n')}
   return { svg, warn, cross };
 }
 
-// ═══════════════════════════ BẢNG MARKDOWN ═══════════════════════════
-// --md         in hai bảng (chức năng tổng quan, danh mục 41 use case) ra màn hình
-// --write-doc  ghi hai bảng vào 05_use_case_diagram.md, giữa các cặp dấu <!-- uc:… --> (tài liệu không bao giờ lệch với sơ đồ)
-function tables() {
-  const an = (codes) => codes.split(', ').map((c) => ACTORS[c].name.join(' ')).join(', ');
-  const feat = ['| Chức năng tổng quan | Use case chi tiết | Tác nhân | Sơ đồ phân rã |', '|---|---|---|---|'];
-  for (const [key, name, codes] of FEATURES) {
-    const acts = [...new Set(codes.flatMap((c) => UCS.find((u) => u[0] === c)[2].split(', ')))];
-    const dgs = [...new Set(codes.map((c) => FIG[UCS.find((u) => u[0] === c)[4]]))];
-    feat.push(`| ${key} · ${name} | ${ucLabel(codes)} | ${acts.map(an).join(', ')} | ${dgs.join(', ')} |`);
-  }
-  const cat = ['| Mã | Use case | Tác nhân | Mô tả ngắn | Màn hình | Yêu cầu |', '|---|---|---|---|---|---|'];
-  for (const [id, name, act, , , scr, req, desc] of UCS) cat.push(`| UC-${id} | ${name} | ${an(act)} | ${desc} | ${scr} | ${req} |`);
-  return { features: feat.join('\n'), catalogue: cat.join('\n') };
+// ═══════════════════════════ BẢNG VÀ HÌNH CHO TÀI LIỆU ═══════════════════════════
+const ACTOR_KEYS = ['KV', 'KL', 'KS', 'NV', 'AD'];
+const canDo = (actor, owners) => owners.some((o) => o === actor || ancestors(actor).includes(o));
+function stats() {
+  const all = MODEL.flatMap((m) => m.g.ucs.map((u) => ({ gi: m.gi, u, owners: m.actorsOf(u.id), rel: m.byId.get(u.id).rel || [] })));
+  const inc = MODEL.flatMap((m) => m.edges).filter((e) => e.type === 'include').length;
+  const ext = MODEL.flatMap((m) => m.edges).filter((e) => e.type === 'extend').length;
+  const own = Object.fromEntries(ACTOR_KEYS.map((a) => [a, all.filter((x) => x.owners.includes(a)).length]));
+  const total = Object.fromEntries(ACTOR_KEYS.map((a) => [a, all.filter((x) => canDo(a, x.owners)).length]));
+  return { all, inc, ext, own, total, ucCount: all.length };
 }
-if (process.argv.includes('--md')) { const t = tables(); console.log(t.features + '\n\n' + t.catalogue); process.exit(0); }
+function tables() {
+  const S = stats();
+  const nameOf = (gi, id) => { const u = GROUPS[gi].ucs.find((x) => x.id === String(id)); return `${codeOf(gi, u)} ${u.name}`; };
+  // 1. nhóm chức năng
+  const groups = ['| Hình | Nhóm chức năng | Tác nhân làm trực tiếp | Số use case |', '|---|---|---|---|'];
+  GROUPS.forEach((g, gi) => {
+    const acts = ACTOR_KEYS.filter((a) => g.ucs.some((u) => u.by.includes(a))).map(actorName).join(', ');
+    groups.push(`| ${figOf(gi)} | ${g.title} | ${acts} | ${g.ucs.length} |`);
+  });
+  // 2. tác nhân × số chức năng
+  const actors = ['| Tác nhân | Vai trò | Làm trực tiếp | Kế thừa thêm | Tổng chức năng |', '|---|---|---|---|---|'];
+  for (const a of ACTOR_KEYS) {
+    const parent = ACTOR_PARENT[a];
+    actors.push(`| ${actorName(a)} | ${ACTORS[a].role} | ${S.own[a]} | ${parent ? `${S.total[a] - S.own[a]} (từ ${actorName(parent)}${ACTOR_PARENT[parent] ? ' và cấp trên' : ''})` : '—'} | **${S.total[a]}** |`);
+  }
+  // 3. chức năng của từng tác nhân
+  const per = [];
+  for (const a of ACTOR_KEYS) {
+    per.push(`#### ${actorName(a)} (${ACTORS[a].role}) — ${S.total[a]} chức năng`);
+    per.push('');
+    per.push(`${ACTORS[a].desc}.${ACTOR_PARENT[a] ? ` Làm được **toàn bộ ${S.total[ACTOR_PARENT[a]]} chức năng của ${actorName(ACTOR_PARENT[a])}** và thêm ${S.own[a]} chức năng riêng dưới đây.` : ` ${S.own[a]} chức năng.`}`);
+    per.push('');
+    for (const m of MODEL) {
+      const mine = m.g.ucs.filter((u) => m.actorsOf(u.id).includes(a));
+      if (mine.length) per.push(`- **${figOf(m.gi)} — ${m.g.title}:** ${mine.map((u) => `${u.name} (${codeOf(m.gi, u)})`).join(' · ')}`);
+    }
+    per.push('');
+  }
+  // 3b. hệ thống ngoài
+  const systems = ['| Hệ thống ngoài | Dùng ở | Trong prototype |', '|---|---|---|'];
+  for (const [k, sd] of Object.entries(SYSTEMS)) {
+    const uses = MODEL.flatMap((m) => m.g.ucs.filter((u) => (u.sys || []).includes(k)).map((u) => codeOf(m.gi, u)));
+    systems.push(`| ${sd.lines.join(' ')} | ${uses.join(', ')} | ${sd.note} |`);
+  }
+  // 4. hình
+  const figs = [];
+  for (const m of MODEL) {
+    const g = m.g, gi = m.gi, acts = g.actors.map(actorName).join(', ');
+    figs.push(`### ${figOf(gi)} — ${g.title}`, '', `![${figOf(gi)} — ${g.title}](diagrams/${fileOf(gi)}.png)`, '');
+    figs.push(`*${figOf(gi)} — ${g.title}. Tác nhân: ${acts}${g.systems.length ? `. Hệ thống ngoài: ${g.systems.map((s) => SYSTEMS[s].lines.join(' ')).join(', ')}` : ''}. ${g.ucs.length} use case: ${codeOf(gi, g.ucs[0])} → ${codeOf(gi, g.ucs[g.ucs.length - 1])}. Ảnh vector: [\`diagrams/${fileOf(gi)}.svg\`](diagrams/${fileOf(gi)}.svg).*`, '');
+  }
+  // 5. quan hệ
+  const rels = ['| Hình | Quan hệ | Use case nguồn | Use case đích |', '|---|---|---|---|'];
+  for (const m of MODEL) for (const e of m.edges) rels.push(`| ${figOf(m.gi)} | «${e.type}» | ${nameOf(m.gi, e.from)} | ${nameOf(m.gi, e.to)} |`);
+  // 6. danh mục
+  const cat = ['| Mã | Use case | Tác nhân | Màn hình | Yêu cầu | Ghi chú |', '|---|---|---|---|---|---|'];
+  for (const m of MODEL) for (const u of m.g.ucs) {
+    const owners = m.actorsOf(u.id).map(actorName).join(', ');
+    cat.push(`| ${codeOf(m.gi, u)} | ${u.name} | ${owners}${u.by.length ? '' : ' *(qua use case gốc)*'} | ${u.scr} | ${u.req || m.g.req} | ${u.note || ''} |`);
+  }
+  const summary = `${ACTOR_KEYS.length} tác nhân (người) · ${Object.keys(SYSTEMS).length} hệ thống ngoài · **${S.ucCount} use case** · ${GROUPS.length} nhóm chức năng · ${GROUPS.length + 1} hình · ${S.inc} quan hệ «include» · ${S.ext} quan hệ «extend» · ${Object.keys(ACTOR_PARENT).length} quan hệ kế thừa`;
+  return { summary, groups: groups.join('\n'), actors: actors.join('\n'), systems: systems.join('\n'), peractor: per.join('\n').trimEnd(), figures: figs.join('\n').trimEnd(), relations: rels.join('\n'), catalogue: cat.join('\n') };
+}
 if (process.argv.includes('--write-doc')) {
   const file = path.join(dir, '..', '05_use_case_diagram.md');
   let md = fs.readFileSync(file, 'utf8'); const t = tables();
-  for (const key of ['features', 'catalogue']) {
+  for (const key of ['summary', 'groups', 'actors', 'systems', 'peractor', 'figures', 'relations', 'catalogue']) {
     const re = new RegExp(`(<!-- uc:${key}:start -->)[\\s\\S]*?(<!-- uc:${key}:end -->)`);
     if (!re.test(md)) { console.error(`Thiếu cặp dấu <!-- uc:${key}:start/end --> trong ${path.basename(file)}`); process.exit(1); }
-    md = md.replace(re, `$1\n${t[key]}\n$2`);
+    md = md.replace(re, (_, a, b) => `${a}\n${t[key]}\n${b}`);
   }
   fs.writeFileSync(file, md);
-  console.log(`Đã cập nhật bảng trong ${path.basename(file)} (${UCS.length} use case, ${FEATURES.length} chức năng).`);
+  console.log(`Đã cập nhật ${path.basename(file)}: ${t.summary.replace(/\*\*/g, '')}`);
   process.exit(0);
 }
 
 // ═══════════════════════════ CHẠY ═══════════════════════════
+const DIAGRAMS = [layoutOverview(), ...MODEL.map(layoutGroup)];
 let bad = 0;
-const covered = new Set(FEATURES.flatMap((f) => f[2]));
-for (const [id] of UCS) if (!covered.has(id)) { console.log(`⚠ UC-${id} chưa thuộc chức năng tổng quan nào`); bad++; }
+for (const f of fs.readdirSync(dir)) if (/^uc-\d\d-.*\.(svg|png)$/.test(f) && !DIAGRAMS.some((d) => f.startsWith(d.file + '.'))) { fs.unlinkSync(path.join(dir, f)); console.log(`• đã xóa file cũ ${f}`); }
 for (const d of DIAGRAMS) {
   const { svg, warn, cross } = build(d);
   fs.writeFileSync(path.join(dir, d.file + '.svg'), svg);
-  console.log(`${warn.length ? '⚠' : '✓'} ${d.file}  (${cross} đường cắt nhau)${warn.length ? '\n    ' + warn.join('\n    ') : ''}`);
+  console.log(`${warn.length ? '⚠' : '✓'} ${d.file}  (${d.nodes.filter((n) => n.type === 'uc').length} elip, ${cross} đường cắt nhau)${warn.length ? '\n    ' + warn.join('\n    ') : ''}`);
   bad += warn.length;
 }
+if (process.argv.includes('--no-png')) process.exit(bad ? 1 : 0);
 
 const CHROME = process.env.CHROME_PATH || ['/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/google-chrome', '/usr/bin/chromium', 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'].find((p) => fs.existsSync(p));
 if (!CHROME) { console.log('• Không có Chrome: chỉ xuất SVG (đặt CHROME_PATH để xuất PNG).'); process.exit(bad ? 1 : 0); }
@@ -403,8 +472,8 @@ let id = 0; const pend = new Map(); ws.onmessage = (m) => { const x = JSON.parse
 const send = (method, params = {}) => new Promise((res) => { const i = ++id; pend.set(i, res); ws.send(JSON.stringify({ id: i, method, params })); });
 await send('Page.enable');
 for (const d of DIAGRAMS) {
-  await send('Emulation.setDeviceMetricsOverride', { width: d.w, height: d.h, deviceScaleFactor: 1, mobile: false });
-  await send('Page.navigate', { url: 'file://' + path.join(dir, d.file + '.svg') }); await sleep(500);
+  await send('Emulation.setDeviceMetricsOverride', { width: Math.ceil(d.w), height: Math.ceil(d.h), deviceScaleFactor: 1, mobile: false });
+  await send('Page.navigate', { url: 'file://' + path.join(dir, d.file + '.svg') }); await sleep(450);
   const shot = await send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: d.w, height: d.h, scale: 2 } });
   fs.writeFileSync(path.join(dir, d.file + '.png'), Buffer.from(shot.result.data, 'base64'));
 }

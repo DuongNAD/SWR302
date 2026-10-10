@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="570" viewBox="0 0 720 570" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title>Sơ đồ use case phân rã — Cài đặt hệ thống</title>
+<defs>
+  <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#292524" stroke-width="1.5"/></marker>
+  <marker id="tri" viewBox="0 0 16 14" refX="15" refY="7" markerWidth="15" markerHeight="13" orient="auto"><path d="M1 1 L15 7 L1 13 Z" fill="#fff" stroke="#292524" stroke-width="1.5"/></marker>
+</defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<rect x="436.4" y="17" width="151.6" height="27" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="512.2" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Cài đặt hệ thống</text>
+<rect x="272" y="44" width="316" height="456" fill="#fff" stroke="#292524" stroke-width="1.8"/>
+<line x1="131.0" y1="261.0" x2="312.0" y2="122.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="261.0" x2="312.0" y2="222.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="261.0" x2="312.0" y2="322.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="261.0" x2="312.0" y2="422.0" stroke="#292524" stroke-width="1.4"/>
+<g><circle cx="110" cy="238" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 249 V282 M89 261 H131 M110 282 L94 310 M110 282 L126 310" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="330" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Quản trị viên</text><text x="110" y="347" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Admin)</text></g>
+<g><ellipse cx="430" cy="122" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="109.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-19.1</text><text x="430" y="125.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Cập nhật thông tin</text><text x="430" y="141.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">cửa hàng</text></g>
+<g><ellipse cx="430" cy="222" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="209.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-19.2</text><text x="430" y="225.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Cập nhật biểu</text><text x="430" y="241.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">phí vận chuyển</text></g>
+<g><ellipse cx="430" cy="322" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="309.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-19.3</text><text x="430" y="325.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Bật hoặc tắt</text><text x="430" y="341.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">phương thức thanh toán</text></g>
+<g><ellipse cx="430" cy="422" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="409.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-19.4</text><text x="430" y="425.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Cấu hình thông</text><text x="430" y="441.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">báo tự động</text></g>
+<g transform="translate(24,546)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp</text></g>
+</svg>

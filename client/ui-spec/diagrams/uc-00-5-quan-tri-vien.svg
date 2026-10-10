@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1016" height="2471" viewBox="0 0 1016 2471" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title>Chức năng của Quản trị viên — 70 chức năng</title>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<rect x="740.8" y="266" width="235.2" height="27" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="858.4" y="284" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Chức năng của Quản trị viên</text>
+<rect x="60" y="293" width="916" height="2108" fill="#fff" stroke="#292524" stroke-width="1.8"/>
+<text x="94" y="325" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.4 · Tài khoản và xác thực</text>
+<line x1="94" y1="332" x2="466" y2="332" stroke="#E7E5E4" stroke-width="1"/>
+<text x="94" y="425" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.10 · Quản lý đơn hàng</text>
+<line x1="94" y1="432" x2="466" y2="432" stroke="#E7E5E4" stroke-width="1"/>
+<text x="94" y="1053" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.11 · Quản lý kho và lô hàng</text>
+<line x1="94" y1="1060" x2="466" y2="1060" stroke="#E7E5E4" stroke-width="1"/>
+<text x="94" y="1441" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.12 · Vận chuyển và chuỗi lạnh</text>
+<line x1="94" y1="1448" x2="466" y2="1448" stroke="#E7E5E4" stroke-width="1"/>
+<text x="94" y="1781" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.13 · Tổng quan quản trị</text>
+<line x1="94" y1="1788" x2="466" y2="1788" stroke="#E7E5E4" stroke-width="1"/>
+<text x="574" y="325" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.14 · Báo cáo</text>
+<line x1="574" y1="332" x2="946" y2="332" stroke="#E7E5E4" stroke-width="1"/>
+<text x="574" y="617" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.15 · Quản lý sản phẩm và danh mục</text>
+<line x1="574" y1="624" x2="946" y2="624" stroke="#E7E5E4" stroke-width="1"/>
+<text x="574" y="1197" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.16 · Quản lý khách hàng</text>
+<line x1="574" y1="1204" x2="946" y2="1204" stroke="#E7E5E4" stroke-width="1"/>
+<text x="574" y="1537" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.17 · Khuyến mãi và voucher</text>
+<line x1="574" y1="1544" x2="946" y2="1544" stroke="#E7E5E4" stroke-width="1"/>
+<text x="574" y="1829" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.18 · Nhân viên và phân quyền</text>
+<line x1="574" y1="1836" x2="946" y2="1836" stroke="#E7E5E4" stroke-width="1"/>
+<text x="574" y="2169" font-size="12.5" font-weight="700" fill="#57534E">Hình 2.19 · Cài đặt hệ thống</text>
+<line x1="574" y1="2176" x2="946" y2="2176" stroke="#E7E5E4" stroke-width="1"/>
+<line x1="186" y1="107" x2="520" y2="107" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="107" x2="520" y2="2352" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="364" x2="466" y2="364" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="464" x2="466" y2="464" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="512" x2="466" y2="512" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="560" x2="466" y2="560" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="608" x2="466" y2="608" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="656" x2="466" y2="656" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="704" x2="466" y2="704" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="752" x2="466" y2="752" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="800" x2="466" y2="800" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="848" x2="466" y2="848" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="896" x2="466" y2="896" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="944" x2="466" y2="944" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="992" x2="466" y2="992" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1092" x2="466" y2="1092" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1140" x2="466" y2="1140" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1188" x2="466" y2="1188" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1236" x2="466" y2="1236" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1284" x2="466" y2="1284" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1332" x2="466" y2="1332" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1380" x2="466" y2="1380" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1480" x2="466" y2="1480" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1528" x2="466" y2="1528" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1576" x2="466" y2="1576" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1624" x2="466" y2="1624" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1672" x2="466" y2="1672" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1720" x2="466" y2="1720" stroke="#B8B2AA" stroke-width="1.1"/>
+<line x1="520" y1="1820" x2="466" y2="1820" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1868" x2="466" y2="1868" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1916" x2="466" y2="1916" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1964" x2="466" y2="1964" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2012" x2="466" y2="2012" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2060" x2="466" y2="2060" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2108" x2="466" y2="2108" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="364" x2="574" y2="364" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="412" x2="574" y2="412" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="460" x2="574" y2="460" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="508" x2="574" y2="508" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="556" x2="574" y2="556" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="656" x2="574" y2="656" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="704" x2="574" y2="704" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="752" x2="574" y2="752" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="800" x2="574" y2="800" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="848" x2="574" y2="848" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="896" x2="574" y2="896" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="944" x2="574" y2="944" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="992" x2="574" y2="992" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1040" x2="574" y2="1040" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1088" x2="574" y2="1088" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1136" x2="574" y2="1136" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1236" x2="574" y2="1236" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1284" x2="574" y2="1284" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1332" x2="574" y2="1332" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1380" x2="574" y2="1380" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1428" x2="574" y2="1428" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1476" x2="574" y2="1476" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1576" x2="574" y2="1576" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1624" x2="574" y2="1624" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1672" x2="574" y2="1672" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1720" x2="574" y2="1720" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1768" x2="574" y2="1768" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1868" x2="574" y2="1868" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1916" x2="574" y2="1916" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="1964" x2="574" y2="1964" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2012" x2="574" y2="2012" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2060" x2="574" y2="2060" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2108" x2="574" y2="2108" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2208" x2="574" y2="2208" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2256" x2="574" y2="2256" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2304" x2="574" y2="2304" stroke="#292524" stroke-width="1.4"/>
+<line x1="520" y1="2352" x2="574" y2="2352" stroke="#292524" stroke-width="1.4"/>
+<g><ellipse cx="280" cy="364" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="368.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-4.1</tspan><tspan dx="7">Đăng nhập</tspan></text></g>
+<g><ellipse cx="280" cy="464" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="468.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.1</tspan><tspan dx="7">Xem danh sách đơn hàng</tspan></text></g>
+<g><ellipse cx="280" cy="512" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="516.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.2</tspan><tspan dx="7">Lọc đơn theo trạng thái</tspan></text></g>
+<g><ellipse cx="280" cy="560" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="564.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.3</tspan><tspan dx="7">Lọc đơn theo hình thức vận chuyển</tspan></text></g>
+<g><ellipse cx="280" cy="608" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="612.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.4</tspan><tspan dx="7">Tìm kiếm đơn hàng</tspan></text></g>
+<g><ellipse cx="280" cy="656" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="660.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.5</tspan><tspan dx="7">Duyệt hàng loạt các đơn đã chọn</tspan></text></g>
+<g><ellipse cx="280" cy="704" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="708.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.6</tspan><tspan dx="7">Xuất danh sách đơn ra CSV</tspan></text></g>
+<g><ellipse cx="280" cy="752" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="756.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.7</tspan><tspan dx="7">Xem chi tiết đơn hàng</tspan></text></g>
+<g><ellipse cx="280" cy="800" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="804.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.8</tspan><tspan dx="7">Cập nhật trạng thái xử lý đơn</tspan></text></g>
+<g><ellipse cx="280" cy="848" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="852.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.9</tspan><tspan dx="7">Kiểm tra checklist đóng gói lạnh</tspan></text></g>
+<g><ellipse cx="280" cy="896" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="900.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.10</tspan><tspan dx="7">In phiếu xuất kho</tspan></text></g>
+<g><ellipse cx="280" cy="944" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="948.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.11</tspan><tspan dx="7">In hóa đơn VAT</tspan></text></g>
+<g><ellipse cx="280" cy="992" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="996.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-10.12</tspan><tspan dx="7">Xem lịch sử trạng thái của đơn</tspan></text></g>
+<g><ellipse cx="280" cy="1092" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1096.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-11.1</tspan><tspan dx="7">Xem tồn kho theo sản phẩm</tspan></text></g>
+<g><ellipse cx="280" cy="1140" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1144.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-11.2</tspan><tspan dx="7">Sửa nhanh số lượng tồn kho</tspan></text></g>
+<g><ellipse cx="280" cy="1188" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1192.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-11.3</tspan><tspan dx="7">Tạo phiếu nhập kho</tspan></text></g>
+<g><ellipse cx="280" cy="1236" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1240.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-11.4</tspan><tspan dx="7">Xem lô hàng và hạn dùng (FEFO)</tspan></text></g>
+<g><ellipse cx="280" cy="1284" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1288.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-11.5</tspan><tspan dx="7">Xem nhật ký nhập xuất</tspan></text></g>
+<g><ellipse cx="280" cy="1332" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1336.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-11.6</tspan><tspan dx="7">Cảnh báo sản phẩm tồn kho thấp</tspan></text></g>
+<g><ellipse cx="280" cy="1380" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1384.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-11.7</tspan><tspan dx="7">Cảnh báo lô sắp hết hạn</tspan></text></g>
+<g><ellipse cx="280" cy="1480" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1484.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-12.1</tspan><tspan dx="7">Xem chuyến giao hôm nay</tspan></text></g>
+<g><ellipse cx="280" cy="1528" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1532.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-12.2</tspan><tspan dx="7">Xem nhiệt độ thùng xe lạnh</tspan></text></g>
+<g><ellipse cx="280" cy="1576" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1580.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-12.3</tspan><tspan dx="7">Định vị GPS xe giao hàng</tspan></text></g>
+<g><ellipse cx="280" cy="1624" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1628.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-12.4</tspan><tspan dx="7">Xuất báo cáo chuyến xe ra CSV</tspan></text></g>
+<g><ellipse cx="280" cy="1672" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1676.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-12.5</tspan><tspan dx="7">Xem nhật ký nhiệt độ</tspan></text></g>
+<g><ellipse cx="280" cy="1720" rx="186" ry="21" fill="#fff" stroke="#B8B2AA" stroke-width="1.4"/><text x="280" y="1724.5" text-anchor="middle" font-size="12.5" fill="#78716C"><tspan font-weight="700" fill="#78716C">UC-12.6</tspan><tspan dx="7">Xem biểu phí và ngưỡng miễn phí</tspan></text></g>
+<g><ellipse cx="280" cy="1820" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="280" y="1824.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-13.1</tspan><tspan dx="7">Xem chỉ số kinh doanh</tspan></text></g>
+<g><ellipse cx="280" cy="1868" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="280" y="1872.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-13.2</tspan><tspan dx="7">Chọn kỳ thống kê 7 hoặc 30 ngày</tspan></text></g>
+<g><ellipse cx="280" cy="1916" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="280" y="1920.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-13.3</tspan><tspan dx="7">Xem biểu đồ doanh thu theo ngày</tspan></text></g>
+<g><ellipse cx="280" cy="1964" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="280" y="1968.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-13.4</tspan><tspan dx="7">Xem đơn hàng theo trạng thái</tspan></text></g>
+<g><ellipse cx="280" cy="2012" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="280" y="2016.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-13.5</tspan><tspan dx="7">Xem cảnh báo kho và lô sắp hết hạn</tspan></text></g>
+<g><ellipse cx="280" cy="2060" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="280" y="2064.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-13.6</tspan><tspan dx="7">Xem chuyến xe lạnh đang giao</tspan></text></g>
+<g><ellipse cx="280" cy="2108" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="280" y="2112.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-13.7</tspan><tspan dx="7">Xử lý nhanh đơn cần xử lý</tspan></text></g>
+<g><ellipse cx="760" cy="364" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="368.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-14.1</tspan><tspan dx="7">Xem báo cáo doanh thu theo thời gian</tspan></text></g>
+<g><ellipse cx="760" cy="412" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="416.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-14.2</tspan><tspan dx="7">Xem top 10 sản phẩm bán chạy</tspan></text></g>
+<g><ellipse cx="760" cy="460" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="464.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-14.3</tspan><tspan dx="7">Xem phân khúc khách hàng lẻ và sỉ</tspan></text></g>
+<g><ellipse cx="760" cy="508" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="512.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-14.4</tspan><tspan dx="7">Chọn kỳ báo cáo 7 hoặc 30 ngày</tspan></text></g>
+<g><ellipse cx="760" cy="556" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="560.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-14.5</tspan><tspan dx="7">Xuất báo cáo ra CSV</tspan></text></g>
+<g><ellipse cx="760" cy="656" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="660.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.1</tspan><tspan dx="7">Xem danh sách sản phẩm</tspan></text></g>
+<g><ellipse cx="760" cy="704" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="708.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.2</tspan><tspan dx="7">Tìm và lọc sản phẩm</tspan></text></g>
+<g><ellipse cx="760" cy="752" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="756.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.3</tspan><tspan dx="7">Ẩn hoặc mở bán lại sản phẩm</tspan></text></g>
+<g><ellipse cx="760" cy="800" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="804.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.4</tspan><tspan dx="7">Xóa sản phẩm</tspan></text></g>
+<g><ellipse cx="760" cy="848" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="852.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.5</tspan><tspan dx="7">Thêm sản phẩm mới</tspan></text></g>
+<g><ellipse cx="760" cy="896" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="900.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.6</tspan><tspan dx="7">Sửa thông tin sản phẩm</tspan></text></g>
+<g><ellipse cx="760" cy="944" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="948.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.7</tspan><tspan dx="7">Thiết lập bảng giá sỉ bậc thang</tspan></text></g>
+<g><ellipse cx="760" cy="992" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="996.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.8</tspan><tspan dx="7">Xem danh sách danh mục</tspan></text></g>
+<g><ellipse cx="760" cy="1040" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1044.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.9</tspan><tspan dx="7">Thêm danh mục</tspan></text></g>
+<g><ellipse cx="760" cy="1088" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1092.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.10</tspan><tspan dx="7">Sửa danh mục</tspan></text></g>
+<g><ellipse cx="760" cy="1136" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1140.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-15.11</tspan><tspan dx="7">Xóa danh mục</tspan></text></g>
+<g><ellipse cx="760" cy="1236" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1240.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-16.1</tspan><tspan dx="7">Xem danh sách khách hàng</tspan></text></g>
+<g><ellipse cx="760" cy="1284" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1288.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-16.2</tspan><tspan dx="7">Lọc khách hàng (tất cả, sỉ, chờ duyệt)</tspan></text></g>
+<g><ellipse cx="760" cy="1332" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1336.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-16.3</tspan><tspan dx="7">Xuất danh sách khách hàng ra CSV</tspan></text></g>
+<g><ellipse cx="760" cy="1380" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1384.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-16.4</tspan><tspan dx="7">Xem hồ sơ doanh nghiệp và giấy phép</tspan></text></g>
+<g><ellipse cx="760" cy="1428" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1432.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-16.5</tspan><tspan dx="7">Duyệt tài khoản khách sỉ</tspan></text></g>
+<g><ellipse cx="760" cy="1476" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1480.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-16.6</tspan><tspan dx="7">Từ chối yêu cầu đăng ký sỉ</tspan></text></g>
+<g><ellipse cx="760" cy="1576" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1580.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-17.1</tspan><tspan dx="7">Xem danh sách voucher</tspan></text></g>
+<g><ellipse cx="760" cy="1624" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1628.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-17.2</tspan><tspan dx="7">Lọc voucher theo loại</tspan></text></g>
+<g><ellipse cx="760" cy="1672" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1676.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-17.3</tspan><tspan dx="7">Tạo voucher mới</tspan></text></g>
+<g><ellipse cx="760" cy="1720" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1724.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-17.4</tspan><tspan dx="7">Bật hoặc tạm dừng voucher</tspan></text></g>
+<g><ellipse cx="760" cy="1768" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1772.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-17.5</tspan><tspan dx="7">Xóa voucher</tspan></text></g>
+<g><ellipse cx="760" cy="1868" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1872.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-18.1</tspan><tspan dx="7">Xem danh sách nhân sự</tspan></text></g>
+<g><ellipse cx="760" cy="1916" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1920.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-18.2</tspan><tspan dx="7">Lọc nhân sự theo vai trò</tspan></text></g>
+<g><ellipse cx="760" cy="1964" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="1968.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-18.3</tspan><tspan dx="7">Mời nhân viên mới</tspan></text></g>
+<g><ellipse cx="760" cy="2012" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="2016.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-18.4</tspan><tspan dx="7">Chỉnh sửa tài khoản nhân viên</tspan></text></g>
+<g><ellipse cx="760" cy="2060" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="2064.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-18.5</tspan><tspan dx="7">Xem ma trận phân quyền</tspan></text></g>
+<g><ellipse cx="760" cy="2108" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="2112.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-18.6</tspan><tspan dx="7">Cập nhật quyền theo vai trò</tspan></text></g>
+<g><ellipse cx="760" cy="2208" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="2212.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-19.1</tspan><tspan dx="7">Cập nhật thông tin cửa hàng</tspan></text></g>
+<g><ellipse cx="760" cy="2256" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="2260.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-19.2</tspan><tspan dx="7">Cập nhật biểu phí vận chuyển</tspan></text></g>
+<g><ellipse cx="760" cy="2304" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="2308.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-19.3</tspan><tspan dx="7">Bật hoặc tắt phương thức thanh toán</tspan></text></g>
+<g><ellipse cx="760" cy="2352" rx="186" ry="21" fill="#fff" stroke="#292524" stroke-width="1.4"/><text x="760" y="2356.5" text-anchor="middle" font-size="12.5" fill="#1C1917"><tspan font-weight="700" fill="#57534E">UC-19.4</tspan><tspan dx="7">Cấu hình thông báo tự động</tspan></text></g>
+<g><circle cx="165" cy="84" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M165 95 V128 M144 107 H186 M165 128 L149 156 M165 128 L181 156" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="165" y="176" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Quản trị viên</text><text x="165" y="193" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Admin)</text><text x="165" y="210" text-anchor="middle" font-size="12.5" font-weight="400" font-style="italic" fill="#57534E">70 chức năng</text><text x="165" y="227" text-anchor="middle" font-size="12.5" font-weight="400" font-style="italic" fill="#57534E">44 riêng</text><text x="165" y="244" text-anchor="middle" font-size="12.5" font-weight="400" font-style="italic" fill="#57534E">26 kế thừa từ Nhân viên kho và vận hành</text></g>
+<g transform="translate(24,2447)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Chức năng làm trực tiếp</text></g><g transform="translate(250,2447)"><line x1="0" y1="0" x2="34" y2="0" stroke="#B8B2AA" stroke-width="1.1"/><text x="42" y="4" font-size="12" fill="#57534E">Chức năng kế thừa từ Nhân viên kho và vận hành</text></g>
+</svg>

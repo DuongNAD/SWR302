@@ -285,14 +285,14 @@
 ## T18 — Trang xem sơ đồ use case `/dev/use-cases` (SCR-D03) `[P2 · tùy chọn · chỉ làm khi xong R1 → R16 ở 06_review_round2.md]`
 **Files:** `src/pages/dev/UseCasesPage.tsx`, `src/router.tsx` (thêm route), `src/components/layout/DemoWidget.tsx` (thêm liên kết), `public/diagrams/*.svg`.
 
-1. Sao chép **20** file `ui-spec/diagrams/uc-*.svg` vào `client/public/diagrams/` (giữ nguyên tên, **không sửa nội dung**, **không vẽ lại** — sơ đồ do nhóm tự vẽ nên không cần ghi vào `THIRD_PARTY.md`). Khi `use-case-data.mjs` đổi, chạy lại script rồi sao chép lại.
-2. Trang `/dev/use-cases` (trong `StoreLayout`, như hai trang dev còn lại): `PageHeader` với `h1` "Sơ đồ use case" + mô tả một dòng ("148 thao tác, 5 tác nhân, 4 hệ thống ngoài."). Bố cục hai cột ở ≥ lg: **cột trái** là danh sách 20 sơ đồ (mục đầu "Tổng quan", rồi "2.1 Cửa hàng, hỗ trợ và mua sỉ" … "2.19 Cài đặt hệ thống"; mục đang xem được tô `brand-soft`); **cột phải** hiện sơ đồ bằng `<img src="./diagrams/uc-xx.svg">` trong khung viền trắng `rounded-lg`, `max-w-full`, **cuộn ngang trong khung** nếu rộng hơn (trang không được tràn). Ở mobile cột trái thành ô `Select` trên cùng. Dưới ảnh: chú thích "Hình … — …" và liên kết "Mở ảnh gốc" (`target="_blank"`). Danh sách sơ đồ viết cứng một mảng `{ file, title }`; chọn sơ đồ lưu trên query `?hinh=2.7` để chia sẻ được.
+1. Sao chép **25** file `ui-spec/diagrams/uc-*.svg` vào `client/public/diagrams/` (giữ nguyên tên, **không sửa nội dung**, **không vẽ lại** — sơ đồ do nhóm tự vẽ nên không cần ghi vào `THIRD_PARTY.md`). Khi `use-case-data.mjs` đổi, chạy lại script rồi sao chép lại.
+2. Trang `/dev/use-cases` (trong `StoreLayout`, như hai trang dev còn lại): `PageHeader` với `h1` "Sơ đồ use case" + mô tả một dòng ("148 thao tác, 5 tác nhân, 4 hệ thống ngoài."). Bố cục hai cột ở ≥ lg: **cột trái** là danh sách 25 sơ đồ (mục đầu "Tổng quan", rồi "1.1 Khách vãng lai" … "1.5 Quản trị viên", rồi "2.1 Cửa hàng, hỗ trợ và mua sỉ" … "2.19 Cài đặt hệ thống"; mục đang xem được tô `brand-soft`); **cột phải** hiện sơ đồ bằng `<img src="./diagrams/uc-xx.svg">` trong khung viền trắng `rounded-lg`, `max-w-full`, **cuộn ngang trong khung** nếu rộng hơn (trang không được tràn). Ở mobile cột trái thành ô `Select` trên cùng. Dưới ảnh: chú thích "Hình … — …" và liên kết "Mở ảnh gốc" (`target="_blank"`). Danh sách sơ đồ viết cứng một mảng `{ file, title }`; chọn sơ đồ lưu trên query `?hinh=2.7` để chia sẻ được.
 3. Dưới vùng xem: bảng **Tác nhân** (5 dòng: tên, vai trò `role`, số chức năng) — chép từ `05_use_case_diagram.md` mục 2, viết cứng.
 4. Thêm liên kết "Sơ đồ use case" vào `DemoWidget`. Thêm `/dev/use-cases` vào mảng `ROUTES` của `ui-spec/audit-runtime.mjs`.
 5. Mỗi `<img>` có `alt` mô tả ("Sơ đồ use case tổng quan", "Sơ đồ use case Giỏ hàng", …).
 
 **Nghiệm thu**
-- [ ] `/dev/use-cases` hiện đủ 20 sơ đồ rõ nét, chọn được từng sơ đồ; ở 375px sơ đồ cuộn ngang trong khung, trang không tràn.
+- [ ] `/dev/use-cases` hiện đủ 25 sơ đồ rõ nét, chọn được từng sơ đồ (hình theo tác nhân dài thì cuộn trong khung); ở 375px sơ đồ cuộn ngang trong khung, trang không tràn.
 - [ ] `check-ui.sh`, `check-links.mjs`, `audit-runtime.mjs` không tăng so với trước T18.
 
 ---

@@ -2,10 +2,10 @@
 
 Sơ đồ use case của hệ thống **Gia Hòa Phát Bakery Supply** (Online Shopping for Baking Ingredients System), vẽ theo bố cục tài liệu mẫu của nhóm: *một sơ đồ tổng quan* rồi *các sơ đồ phân rã*. Tác nhân là **hình người** đứng hai bên khung hệ thống; use case là **elip**; quan hệ kế thừa giữa tác nhân dùng **mũi tên tam giác rỗng**.
 
-**Phủ đủ mọi chức năng người dùng.** Mỗi use case là **một thao tác** người dùng làm được trên giao diện — được trích trực tiếp từ nút, liên kết, tab, menu và thông báo trong mã nguồn (`src/pages`, `src/components`, `src/layouts`), không phải mô tả nhóm chung chung. Sơ đồ tổng quan chỉ cho thấy các nhóm chức năng; mỗi nhóm có một sơ đồ phân rã liệt kê **toàn bộ** thao tác bên trong, và mục 4 liệt kê chức năng của **từng tác nhân**.
+**Phủ đủ mọi chức năng người dùng.** Mỗi use case là **một thao tác** người dùng làm được trên giao diện — được trích trực tiếp từ nút, liên kết, tab, menu và thông báo trong mã nguồn (`src/pages`, `src/components`, `src/layouts`), không phải mô tả nhóm chung chung. Sơ đồ tổng quan chỉ cho thấy các nhóm chức năng; **mỗi tác nhân có một hình riêng** (Hình 1.1 → 1.5) với mỗi chức năng một đường nối; mỗi nhóm có một sơ đồ phân rã (Hình 2.1 → 2.19) liệt kê **toàn bộ** thao tác bên trong.
 
 <!-- uc:summary:start -->
-5 tác nhân (người) · 4 hệ thống ngoài · **148 use case** · 19 nhóm chức năng · 20 hình · 23 quan hệ «include» · 72 quan hệ «extend» · 3 quan hệ kế thừa
+5 tác nhân (người) · 4 hệ thống ngoài · **148 use case** · 19 nhóm chức năng · 25 hình · 23 quan hệ «include» · 72 quan hệ «extend» · 3 quan hệ kế thừa
 <!-- uc:summary:end -->
 
 - **Dùng cho nhóm:** dán các ảnh `diagrams/uc-*.png` vào mục *Use case diagram* của SRS. Mã `UC-<nhóm>.<số>` do tài liệu này đặt; nếu SRS của nhóm đã có mã khác, sửa trong `diagrams/use-case-data.mjs` rồi chạy lại (mục 9).
@@ -64,9 +64,45 @@ Người dùng demo trong ứng dụng: **Trần Mai Anh** (Customer, thợ làm
 
 *Hình 1 — Sơ đồ use case tổng quan: 19 nhóm chức năng, kèm số chức năng của từng tác nhân. Khách hàng sỉ kế thừa khách hàng lẻ, khách hàng lẻ kế thừa khách vãng lai; quản trị viên kế thừa nhân viên. Ảnh vector: [`diagrams/uc-00-tong-quan.svg`](diagrams/uc-00-tong-quan.svg).*
 
-Mỗi elip là một nhóm, kèm số hiệu hình phân rã (Hình 2.n) và số chức năng bên trong. **Đường đậm**: tác nhân trực tiếp làm ít nhất một thao tác trong nhóm. **Đường mờ**: tác nhân dùng được nhóm đó nhờ kế thừa (khách lẻ dùng được mọi thứ của khách vãng lai, khách sỉ dùng được mọi thứ của khách lẻ, quản trị viên dùng được mọi thứ của nhân viên). Dưới tên mỗi tác nhân là **tổng số chức năng**, tách thành *riêng* và *kế thừa*.
+Mỗi elip là một nhóm, kèm số hiệu hình phân rã (Hình 2.n) và số chức năng bên trong. **Đường đậm**: tác nhân trực tiếp làm ít nhất một thao tác trong nhóm. **Đường mờ**: tác nhân dùng được nhóm đó nhờ kế thừa (khách lẻ dùng được mọi thứ của khách vãng lai, khách sỉ dùng được mọi thứ của khách lẻ, quản trị viên dùng được mọi thứ của nhân viên). Dưới tên mỗi tác nhân là **tổng số chức năng**, tách thành *riêng* và *kế thừa*, kèm số hiệu hình riêng của tác nhân đó.
 
 Khách hàng sỉ chỉ có ít thao tác riêng vì trong ứng dụng khách sỉ đặt hàng, theo dõi đơn, giỏ hàng… giống hệt khách lẻ (giá bậc thang áp dụng theo số lượng cho mọi khách). Phần riêng của khách sỉ là hồ sơ doanh nghiệp, bảng chiết khấu, hạn mức công nợ và hóa đơn VAT điền sẵn (Hình 2.7 và 2.9).
+
+**Chức năng của từng tác nhân — mỗi chức năng một đường nối.** Sơ đồ tổng quan chỉ nối tác nhân tới *nhóm*, nên mỗi tác nhân có thêm một hình riêng liệt kê **toàn bộ** chức năng của họ: mỗi chức năng là một elip có đường nối riêng tới tác nhân, nên số elip đúng bằng số chức năng ghi ở Hình 1. Chức năng vẽ **đậm** là tác nhân tự làm; chức năng vẽ **mờ** là thừa hưởng từ tác nhân cha (nhóm theo hình phân rã 2.n).
+
+<!-- uc:actorfigs:start -->
+### Hình 1.1 — Chức năng của Khách vãng lai (36 chức năng)
+
+![Hình 1.1 — Chức năng của Khách vãng lai](diagrams/uc-00-1-khach-vang-lai.png)
+
+*Hình 1.1 — Guest: **36 chức năng**, mỗi chức năng một đường nối. Ảnh vector: [`diagrams/uc-00-1-khach-vang-lai.svg`](diagrams/uc-00-1-khach-vang-lai.svg).*
+
+### Hình 1.2 — Chức năng của Khách hàng lẻ (74 chức năng)
+
+![Hình 1.2 — Chức năng của Khách hàng lẻ](diagrams/uc-00-2-khach-hang-le.png)
+
+*Hình 1.2 — Customer: **74 chức năng** (38 riêng + 36 kế thừa từ Khách vãng lai), mỗi chức năng một đường nối. Ảnh vector: [`diagrams/uc-00-2-khach-hang-le.svg`](diagrams/uc-00-2-khach-hang-le.svg).*
+
+### Hình 1.3 — Chức năng của Khách hàng sỉ (79 chức năng)
+
+![Hình 1.3 — Chức năng của Khách hàng sỉ](diagrams/uc-00-3-khach-hang-si.png)
+
+*Hình 1.3 — Wholesale: **79 chức năng** (5 riêng + 74 kế thừa từ Khách hàng lẻ), mỗi chức năng một đường nối. Ảnh vector: [`diagrams/uc-00-3-khach-hang-si.svg`](diagrams/uc-00-3-khach-hang-si.svg).*
+
+### Hình 1.4 — Chức năng của Nhân viên kho và vận hành (26 chức năng)
+
+![Hình 1.4 — Chức năng của Nhân viên kho và vận hành](diagrams/uc-00-4-nhan-vien-kho.png)
+
+*Hình 1.4 — Staff: **26 chức năng**, mỗi chức năng một đường nối. Ảnh vector: [`diagrams/uc-00-4-nhan-vien-kho.svg`](diagrams/uc-00-4-nhan-vien-kho.svg).*
+
+### Hình 1.5 — Chức năng của Quản trị viên (70 chức năng)
+
+![Hình 1.5 — Chức năng của Quản trị viên](diagrams/uc-00-5-quan-tri-vien.png)
+
+*Hình 1.5 — Admin: **70 chức năng** (44 riêng + 26 kế thừa từ Nhân viên kho và vận hành), mỗi chức năng một đường nối. Ảnh vector: [`diagrams/uc-00-5-quan-tri-vien.svg`](diagrams/uc-00-5-quan-tri-vien.svg).*
+<!-- uc:actorfigs:end -->
+
+Bảng các nhóm chức năng:
 
 <!-- uc:groups:start -->
 | Hình | Nhóm chức năng | Tác nhân làm trực tiếp | Dùng được thêm nhờ kế thừa | Số use case |

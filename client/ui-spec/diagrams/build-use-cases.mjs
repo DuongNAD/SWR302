@@ -209,8 +209,8 @@ function layoutOverview() {
   const rowsOf = (a) => GROUPS.map((g, i) => (g.ucs.some((u) => u.by.includes(a)) ? i : -1)).filter((i) => i >= 0);
   const S = stats();
   const notesOf = (k) => (ACTOR_PARENT[k]
-    ? [`${S.total[k]} chức năng`, `${S.own[k]} riêng`, `${S.total[k] - S.own[k]} kế thừa`]
-    : [`${S.total[k]} chức năng`]);
+    ? [`${S.total[k]} chức năng`, `${S.own[k]} riêng`, `${S.total[k] - S.own[k]} kế thừa`, `xem ${actorFig(k)}`]
+    : [`${S.total[k]} chức năng`, `xem ${actorFig(k)}`]);
   const stack = (keys, x) => {
     let prev = -Infinity;
     for (const k of keys) {
@@ -232,6 +232,93 @@ function layoutOverview() {
   const bottom = rowY(GROUPS.length - 1) + 27 + 34;
   const lowest = Math.max(...nodes.filter((n) => n.type === 'person').map((n) => n.y + 100));
   return { file: 'uc-00-tong-quan', tab: SYSTEM_NAME, title: `Sơ đồ use case tổng quan — ${SYSTEM_NAME} (Topic 1)`, w: 1000, h: Math.max(bottom, lowest) + 62, box: { x: 290, y: 44, w: 420, h: bottom - 44 }, nodes, links };
+}
+
+// ═══════════════════════════ SƠ ĐỒ THEO TÁC NHÂN ═══════════════════════════
+// Mỗi tác nhân một hình: MỌI chức năng tác nhân đó dùng được, mỗi chức năng một elip và một đường nối.
+// Chức năng làm trực tiếp vẽ đậm; chức năng thừa hưởng từ tác nhân cha vẽ mờ. Đường nối là "xương sống" thẳng đứng
+// ở giữa, hai cột elip hai bên (không có đường nào cắt qua elip).
+const ACTOR_SLUG = { KV: 'khach-vang-lai', KL: 'khach-hang-le', KS: 'khach-hang-si', NV: 'nhan-vien-kho', AD: 'quan-tri-vien' };
+const actorFigNo = (a) => ['KV', 'KL', 'KS', 'NV', 'AD'].indexOf(a) + 1;
+const actorFig = (a) => `Hình 1.${actorFigNo(a)}`;
+const actorFile = (a) => `uc-00-${actorFigNo(a)}-${ACTOR_SLUG[a]}`;
+
+function layoutActorFigure(a) {
+  const items = [];
+  for (const m of MODEL) for (const u of m.g.ucs) {
+    const owners = m.actorsOf(u.id);
+    if (canDo(a, owners)) items.push({ gi: m.gi, u, inh: ancestors(a).some((p) => canDo(p, owners)) });
+  }
+  const blocks = [...new Set(items.map((x) => x.gi))].map((gi) => ({ gi, list: items.filter((x) => x.gi === gi) }));
+  const HDR = 34, PITCH = 48, GAP = 18, RXA = 186, RYA = 21;
+  const hOf = (b) => HDR + b.list.length * PITCH + GAP;
+  const total = blocks.reduce((t, b) => t + hOf(b), 0);
+  let split = blocks.length, best = Infinity;
+  for (let i = 0; i <= blocks.length; i++) { // chia hai cột tại ranh giới nhóm sao cho hai cột cao gần bằng nhau
+    const A = blocks.slice(0, i).reduce((t, b) => t + hOf(b), 0), d = Math.max(A, total - A);
+    if (d < best) { best = d; split = i; }
+  }
+  const cols = [blocks.slice(0, split), blocks.slice(split)].filter((c) => c.length);
+  const S = stats(), own = S.own[a], all = S.total[a], inhN = all - own;
+  const notes = [`${all} chức năng`];
+  if (ACTOR_PARENT[a]) notes.push(`${own} riêng`, `${inhN} kế thừa từ ${actorName(ACTOR_PARENT[a])}`);
+  const person = personNode(a, 165, 118, notes);
+  const left = 60, TRUNK = 520, XS = cols.length === 1 ? [TRUNK + 70 + RXA] : [280, 760];
+  const top = personBottom(person) + 44;
+  const armY = person.y + ARM_Y;
+  const parts = [], rows = [];
+  let bottom = top;
+  cols.forEach((col, ci) => {
+    let cur = top + 14;
+    for (const b of col) {
+      const g = GROUPS[b.gi], cx = XS[ci];
+      parts.push(`<text x="${cx - RXA}" y="${cur + 18}" font-size="12.5" font-weight="700" fill="${C.ink2}">${esc(`${figOf(b.gi)} · ${g.title}`)}</text>`);
+      parts.push(`<line x1="${cx - RXA}" y1="${cur + 25}" x2="${cx + RXA}" y2="${cur + 25}" stroke="#E7E5E4" stroke-width="1"/>`);
+      b.list.forEach((it, i) => {
+        const y = cur + HDR + i * PITCH + PITCH / 2 - 1;
+        rows.push({ cx, y, it, ci });
+      });
+      cur += hOf(b);
+    }
+    bottom = Math.max(bottom, cur);
+  });
+  const lastY = Math.max(...rows.map((r) => r.y));
+  const right = (cols.length === 1 ? XS[0] : XS[1]) + RXA + 30;
+  const trunkTop = armY, bw = right - left;
+  // xương sống + nhánh
+  parts.push(`<line x1="${person.x + ARM_X}" y1="${armY}" x2="${TRUNK}" y2="${armY}" stroke="${C.line}" stroke-width="1.4"/>`);
+  parts.push(`<line x1="${TRUNK}" y1="${trunkTop}" x2="${TRUNK}" y2="${lastY}" stroke="${C.line}" stroke-width="1.4"/>`);
+  for (const r of rows) {
+    const tipX = r.ci === 0 && cols.length > 1 ? r.cx + RXA : r.cx - RXA;
+    const col = r.it.inh ? '#B8B2AA' : C.line;
+    parts.push(`<line x1="${TRUNK}" y1="${r.y}" x2="${tipX}" y2="${r.y}" stroke="${col}" stroke-width="${r.it.inh ? 1.1 : 1.4}"/>`);
+  }
+  for (const r of rows) {
+    const u = r.it.u, gi = r.it.gi, dim = r.it.inh;
+    parts.push(`<g><ellipse cx="${r.cx}" cy="${r.y}" rx="${RXA}" ry="${RYA}" fill="#fff" stroke="${dim ? '#B8B2AA' : C.line}" stroke-width="1.4"/>`
+      + `<text x="${r.cx}" y="${r.y + 4.5}" text-anchor="middle" font-size="12.5" fill="${dim ? '#78716C' : C.ink}"><tspan font-weight="700" fill="${dim ? '#78716C' : C.ink2}">${esc(codeOf(gi, u))}</tspan><tspan dx="7">${esc(u.name)}</tspan></text></g>`);
+  }
+  const tw = Math.max(150, `Chức năng của ${actorName(a)}`.length * 7.6 + 30);
+  const frameTop = top, frameH = bottom - top + 6;
+  const tab = `<rect x="${left + bw - tw}" y="${frameTop - 27}" width="${tw}" height="27" fill="#fff" stroke="${C.line}" stroke-width="1.5"/>`
+    + `<text x="${left + bw - tw / 2}" y="${frameTop - 9}" text-anchor="middle" font-size="13" font-weight="600" fill="${C.ink}">${esc(`Chức năng của ${actorName(a)}`)}</text>`;
+  const frame = `<rect x="${left}" y="${frameTop}" width="${bw}" height="${frameH}" fill="#fff" stroke="${C.line}" stroke-width="1.8"/>`;
+  const H = frameTop + frameH + 70, ly = H - 24;
+  let leg = `<g transform="translate(24,${ly})"><line x1="0" y1="0" x2="34" y2="0" stroke="${C.line}" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="${C.ink2}">Chức năng làm trực tiếp</text></g>`;
+  if (inhN) leg += `<g transform="translate(250,${ly})"><line x1="0" y1="0" x2="34" y2="0" stroke="#B8B2AA" stroke-width="1.1"/><text x="42" y="4" font-size="12" fill="${C.ink2}">Chức năng kế thừa từ ${esc(actorName(ACTOR_PARENT[a]))}${ACTOR_PARENT[ACTOR_PARENT[a]] ? ' và cấp trên' : ''}</text></g>`;
+  const W = right + 40;
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<title>${esc(`Chức năng của ${actorName(a)} — ${all} chức năng`)}</title>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+${tab}
+${frame}
+${parts.join('\n')}
+${personSvg(person)}
+${leg}
+</svg>
+`;
+  return { file: actorFile(a), svg, w: W, h: H, title: `Chức năng của ${actorName(a)}`, nodes: items.map(() => ({ type: 'uc' })), actor: a };
 }
 
 // ═══════════════════════════ HÌNH HỌC ═══════════════════════════
@@ -445,6 +532,12 @@ function tables() {
     figs.push(`### ${figOf(gi)} — ${g.title}`, '', `![${figOf(gi)} — ${g.title}](diagrams/${fileOf(gi)}.png)`, '');
     figs.push(`*${figOf(gi)} — ${g.title}. Tác nhân: ${acts}${g.systems.length ? `. Hệ thống ngoài: ${g.systems.map((s) => SYSTEMS[s].lines.join(' ')).join(', ')}` : ''}. ${g.ucs.length} use case: ${codeOf(gi, g.ucs[0])} → ${codeOf(gi, g.ucs[g.ucs.length - 1])}. Ảnh vector: [\`diagrams/${fileOf(gi)}.svg\`](diagrams/${fileOf(gi)}.svg).*`, '');
   }
+  // 4b. hình theo tác nhân
+  const afigs = [];
+  for (const a of ACTOR_KEYS) {
+    afigs.push(`### ${actorFig(a)} — Chức năng của ${actorName(a)} (${S.total[a]} chức năng)`, '', `![${actorFig(a)} — Chức năng của ${actorName(a)}](diagrams/${actorFile(a)}.png)`, '');
+    afigs.push(`*${actorFig(a)} — ${ACTORS[a].role}: **${S.total[a]} chức năng**${ACTOR_PARENT[a] ? ` (${S.own[a]} riêng + ${S.total[a] - S.own[a]} kế thừa từ ${actorName(ACTOR_PARENT[a])})` : ''}, mỗi chức năng một đường nối. Ảnh vector: [\`diagrams/${actorFile(a)}.svg\`](diagrams/${actorFile(a)}.svg).*`, '');
+  }
   // 5. quan hệ
   const rels = ['| Hình | Quan hệ | Use case nguồn | Use case đích |', '|---|---|---|---|'];
   for (const m of MODEL) for (const e of m.edges) rels.push(`| ${figOf(m.gi)} | «${e.type}» | ${nameOf(m.gi, e.from)} | ${nameOf(m.gi, e.to)} |`);
@@ -454,13 +547,13 @@ function tables() {
     const owners = m.actorsOf(u.id).map(actorName).join(', ');
     cat.push(`| ${codeOf(m.gi, u)} | ${u.name} | ${owners}${u.by.length ? '' : ' *(qua use case gốc)*'} | ${u.scr} | ${u.req || m.g.req} | ${u.note || ''} |`);
   }
-  const summary = `${ACTOR_KEYS.length} tác nhân (người) · ${Object.keys(SYSTEMS).length} hệ thống ngoài · **${S.ucCount} use case** · ${GROUPS.length} nhóm chức năng · ${GROUPS.length + 1} hình · ${S.inc} quan hệ «include» · ${S.ext} quan hệ «extend» · ${Object.keys(ACTOR_PARENT).length} quan hệ kế thừa`;
-  return { summary, groups: groups.join('\n'), actors: actors.join('\n'), systems: systems.join('\n'), peractor: per.join('\n').trimEnd(), figures: figs.join('\n').trimEnd(), relations: rels.join('\n'), catalogue: cat.join('\n') };
+  const summary = `${ACTOR_KEYS.length} tác nhân (người) · ${Object.keys(SYSTEMS).length} hệ thống ngoài · **${S.ucCount} use case** · ${GROUPS.length} nhóm chức năng · ${GROUPS.length + 1 + ACTOR_KEYS.length} hình · ${S.inc} quan hệ «include» · ${S.ext} quan hệ «extend» · ${Object.keys(ACTOR_PARENT).length} quan hệ kế thừa`;
+  return { summary, actorfigs: afigs.join('\n').trimEnd(), groups: groups.join('\n'), actors: actors.join('\n'), systems: systems.join('\n'), peractor: per.join('\n').trimEnd(), figures: figs.join('\n').trimEnd(), relations: rels.join('\n'), catalogue: cat.join('\n') };
 }
 if (process.argv.includes('--write-doc')) {
   const file = path.join(dir, '..', '05_use_case_diagram.md');
   let md = fs.readFileSync(file, 'utf8'); const t = tables();
-  for (const key of ['summary', 'groups', 'actors', 'systems', 'peractor', 'figures', 'relations', 'catalogue']) {
+  for (const key of ['summary', 'actorfigs', 'groups', 'actors', 'systems', 'peractor', 'figures', 'relations', 'catalogue']) {
     const re = new RegExp(`(<!-- uc:${key}:start -->)[\\s\\S]*?(<!-- uc:${key}:end -->)`);
     if (!re.test(md)) { console.error(`Thiếu cặp dấu <!-- uc:${key}:start/end --> trong ${path.basename(file)}`); process.exit(1); }
     md = md.replace(re, (_, a, b) => `${a}\n${t[key]}\n${b}`);
@@ -471,11 +564,11 @@ if (process.argv.includes('--write-doc')) {
 }
 
 // ═══════════════════════════ CHẠY ═══════════════════════════
-const DIAGRAMS = [layoutOverview(), ...MODEL.map(layoutGroup)];
+const DIAGRAMS = [layoutOverview(), ...ACTOR_KEYS.map(layoutActorFigure), ...MODEL.map(layoutGroup)];
 let bad = 0;
 for (const f of fs.readdirSync(dir)) if (/^uc-\d\d-.*\.(svg|png)$/.test(f) && !DIAGRAMS.some((d) => f.startsWith(d.file + '.'))) { fs.unlinkSync(path.join(dir, f)); console.log(`• đã xóa file cũ ${f}`); }
 for (const d of DIAGRAMS) {
-  const { svg, warn, cross } = build(d);
+  const { svg, warn, cross } = d.svg ? { svg: d.svg, warn: [], cross: 0 } : build(d);
   fs.writeFileSync(path.join(dir, d.file + '.svg'), svg);
   console.log(`${warn.length ? '⚠' : '✓'} ${d.file}  (${d.nodes.filter((n) => n.type === 'uc').length} elip, ${cross} đường cắt nhau)${warn.length ? '\n    ' + warn.join('\n    ') : ''}`);
   bad += warn.length;

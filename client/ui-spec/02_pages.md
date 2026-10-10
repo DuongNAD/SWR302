@@ -289,7 +289,7 @@ Mọi bảng admin: tìm kiếm + bộ lọc + phân trang theo `01_design_rules
 - Nội dung `SWRMatrixDrawer` chuyển thành trang đầy đủ: bảng responsive, cột *Mã · Tên & loại · Mô tả · Minh chứng trên giao diện (link tới trang tương ứng) · Trạng thái*. Cập nhật chuỗi `verifiedInClient` theo bảng ánh xạ dưới đây (T16).
 
 ### SCR-D03 · Sơ đồ use case · `/dev/use-cases` · P2 *(tùy chọn — T18)*
-- `h1` "Sơ đồ use case"; **danh sách chọn** 20 sơ đồ (cột trái ở ≥ lg, ô chọn `Select` ở mobile): *Tổng quan* rồi *2.1 → 2.19* theo tên nhóm chức năng; vùng phải hiện sơ đồ SVG trong `public/diagrams/` (cuộn ngang trong khung nếu rộng hơn); dưới đó là bảng 5 tác nhân (tên, vai trò, số chức năng). Nội dung và hình: `05_use_case_diagram.md`. Chi tiết việc làm: `03_tasks.md` T18.
+- `h1` "Sơ đồ use case"; **danh sách chọn** 25 sơ đồ (cột trái ở ≥ lg, ô chọn `Select` ở mobile): *Tổng quan*, rồi *1.1 → 1.5* (chức năng của từng tác nhân), rồi *2.1 → 2.19* (từng nhóm chức năng); vùng phải hiện sơ đồ SVG trong `public/diagrams/` (cuộn ngang trong khung nếu rộng hơn); dưới đó là bảng 5 tác nhân (tên, vai trò, số chức năng). Nội dung và hình: `05_use_case_diagram.md`. Chi tiết việc làm: `03_tasks.md` T18.
 
 ---
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1196" height="792" viewBox="0 0 1196 792" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="1196" height="1156" viewBox="0 0 1196 1156" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
 <title>Sơ đồ use case phân rã — Tài khoản và xác thực</title>
 <defs>
   <marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="11" markerHeight="11" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#292524" stroke-width="1.5"/></marker>
@@ -9,12 +9,14 @@
 <rect x="728.4" y="17" width="189.6" height="27" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="823.2" y="35" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Tài khoản và xác thực</text>
 <rect x="272" y="44" width="646" height="652" fill="#fff" stroke="#292524" stroke-width="1.8"/>
 <line x1="131.0" y1="111.0" x2="312.0" y2="122.0" stroke="#292524" stroke-width="1.4"/>
-<line x1="131.0" y1="326.0" x2="312.0" y2="122.0" stroke="#292524" stroke-width="1.4"/>
-<line x1="131.0" y1="326.0" x2="312.0" y2="270.0" stroke="#292524" stroke-width="1.4"/>
-<line x1="131.0" y1="326.0" x2="312.0" y2="418.0" stroke="#292524" stroke-width="1.4"/>
-<line x1="131.0" y1="326.0" x2="312.0" y2="518.0" stroke="#292524" stroke-width="1.4"/>
-<line x1="131.0" y1="607.0" x2="312.0" y2="618.0" stroke="#292524" stroke-width="1.4"/>
-<line x1="110.0" y1="569.0" x2="110.0" y2="422.0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/>
+<line x1="131.0" y1="541.0" x2="312.0" y2="122.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="541.0" x2="312.0" y2="270.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="541.0" x2="312.0" y2="418.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="541.0" x2="312.0" y2="518.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="131.0" y1="756.0" x2="312.0" y2="618.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="110.0" y1="288.0" x2="110.0" y2="224.0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/>
+<line x1="110.0" y1="718.0" x2="110.0" y2="637.0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/>
+<line x1="110.0" y1="933.0" x2="110.0" y2="852.0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/>
 <line x1="543.5" y1="279.3" x2="642.0" y2="344.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
 <line x1="543.5" y1="408.7" x2="642.0" y2="344.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
 <line x1="760.0" y1="406.0" x2="760.0" y2="378.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
@@ -24,8 +26,10 @@
 <text x="586.6" y="349.6" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«include»</text>
 <text x="796.4" y="396.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
 <g><circle cx="110" cy="88" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 99 V132 M89 111 H131 M110 132 L94 160 M110 132 L126 160" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="180" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Nhân viên kho</text><text x="110" y="197" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">và vận hành</text><text x="110" y="214" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Staff)</text></g>
-<g><circle cx="110" cy="303" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 314 V347 M89 326 H131 M110 347 L94 375 M110 347 L126 375" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="395" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách vãng lai</text><text x="110" y="412" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Guest)</text></g>
-<g><circle cx="110" cy="584" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 595 V628 M89 607 H131 M110 628 L94 656 M110 628 L126 656" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="676" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách hàng lẻ</text><text x="110" y="693" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Customer)</text></g>
+<g><circle cx="110" cy="303" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 314 V347 M89 326 H131 M110 347 L94 375 M110 347 L126 375" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="395" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Quản trị viên</text><text x="110" y="412" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Admin)</text></g>
+<g><circle cx="110" cy="518" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 529 V562 M89 541 H131 M110 562 L94 590 M110 562 L126 590" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="610" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách vãng lai</text><text x="110" y="627" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Guest)</text></g>
+<g><circle cx="110" cy="733" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 744 V777 M89 756 H131 M110 777 L94 805 M110 777 L126 805" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="825" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách hàng lẻ</text><text x="110" y="842" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Customer)</text></g>
+<g><circle cx="110" cy="948" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 959 V992 M89 971 H131 M110 992 L94 1020 M110 992 L126 1020" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="1040" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách hàng sỉ</text><text x="110" y="1057" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Wholesale)</text></g>
 <g><ellipse cx="430" cy="122" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="117.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-4.1</text><text x="430" y="133.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Đăng nhập</text></g>
 <g><ellipse cx="430" cy="270" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="257.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-4.2</text><text x="430" y="273.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Đăng ký tài khoản</text><text x="430" y="289.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">khách lẻ</text></g>
 <g><ellipse cx="430" cy="418" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="405.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-4.3</text><text x="430" y="421.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Đăng ký tài khoản</text><text x="430" y="437.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">doanh nghiệp (sỉ)</text></g>
@@ -35,7 +39,7 @@
 <g><ellipse cx="430" cy="618" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="613.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-4.7</text><text x="430" y="629.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Đăng xuất</text></g>
 <g><rect x="980" y="313" width="176" height="62" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="1068" y="328" text-anchor="middle" font-size="11" font-style="italic" fill="#57534E">«hệ thống ngoài»</text><text x="1068" y="350" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Dịch vụ Email / SMS</text></g>
 <g><rect x="980" y="487" width="176" height="62" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="1068" y="502" text-anchor="middle" font-size="11" font-style="italic" fill="#57534E">«hệ thống ngoài»</text><text x="1068" y="524" text-anchor="middle" font-size="13" font-weight="600" fill="#1C1917">Dịch vụ Email / SMS</text></g>
-<g transform="translate(24,768)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp</text></g>
-<g transform="translate(138.8,768)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
-<g transform="translate(336.8,768)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/><text x="42" y="4" font-size="12" fill="#57534E">Kế thừa (actor con → actor cha)</text></g>
+<g transform="translate(24,1132)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp trực tiếp</text></g>
+<g transform="translate(202.8,1132)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
+<g transform="translate(400.8,1132)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/><text x="42" y="4" font-size="12" fill="#57534E">Kế thừa (actor con → actor cha)</text></g>
 </svg>

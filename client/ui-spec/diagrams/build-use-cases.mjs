@@ -48,6 +48,10 @@ function wrap(text, max = 24) { // tối đa 2 dòng, ngắt cân bằng
 
 // ═══════════════════════════ MÔ HÌNH ═══════════════════════════
 const ancestors = (a) => { const o = []; for (let p = ACTOR_PARENT[a]; p; p = ACTOR_PARENT[p]) o.push(p); return o; };
+const CANON = ['NV', 'AD', 'KV', 'KL', 'KS']; // thứ tự xếp tác nhân: cha trên con
+const descendants = (a) => Object.keys(ACTOR_PARENT).filter((c) => ancestors(c).includes(a));
+// mọi tác nhân dùng được nhóm: làm trực tiếp, hoặc kế thừa từ tác nhân làm trực tiếp
+const actorsAll = (g) => { const set = new Set(g.actors); for (const a of g.actors) for (const d of descendants(a)) set.add(d); return CANON.filter((a) => set.has(a)); };
 
 function analyse(g, gi) {
   const byId = new Map(g.ucs.map((u) => [u.id, u]));
@@ -88,7 +92,7 @@ const MODEL = GROUPS.map((g, gi) => ({ g, gi, ...analyse(g, gi) }));
 
 // ═══════════════════════════ NÚT ═══════════════════════════
 const RX = 118, RY = 34, ROW = 88, COL_X = [430, 760, 1090], SYS_W = 176, SYS_H = 62;
-const personNode = (k, x, y) => ({ id: 'p:' + k, type: 'person', x, y, lines: ACTORS[k].name, role: ACTORS[k].role });
+const personNode = (k, x, y, notes = []) => ({ id: 'p:' + k, type: 'person', x, y, lines: ACTORS[k].name, role: ACTORS[k].role, notes });
 const sysNode = (k, x, y) => ({ id: 'sys:' + k, type: 'system', x, y, lines: SYSTEMS[k].lines });
 const ucNode = (gi, u, x, y) => ({ id: 'uc:' + u.id, type: 'uc', x, y, rx: RX, ry: RY, lines: [{ t: codeOf(gi, u), k: 'id' }, ...wrap(u.name).map((t) => ({ t, k: 'name' }))] });
 
@@ -150,8 +154,9 @@ function layoutGroup(m) {
   }
   const maxCol = Math.max(...g.ucs.map((u) => COL_X.indexOf(pos.get(u.id).x)));
   // tác nhân: đặt theo trung bình các use case làm trực tiếp, cách nhau ≥ 215, cha trên con
+  const AC = actorsAll(g);
   const actorY = new Map(); let prev = -Infinity;
-  for (const a of g.actors) {
+  for (const a of AC) {
     const ys = g.ucs.filter((u) => u.by.includes(a)).map((u) => pos.get(u.id).y);
     let t = ys.length ? mean(ys) : (prev === -Infinity ? 100 : prev + 215);
     if (t < prev + 215) t = prev + 215;
@@ -178,16 +183,16 @@ function layoutGroup(m) {
   const top = 44, bottom = Math.max(...ys) + dy + RY + 44;
 
   const nodes = [];
-  for (const a of g.actors) nodes.push(personNode(a, 110, actorY.get(a) + dy));
+  for (const a of AC) nodes.push(personNode(a, 110, actorY.get(a) + dy));
   for (const u of g.ucs) nodes.push(ucNode(gi, u, pos.get(u.id).x, pos.get(u.id).y + dy));
   sysInst.forEach((si, n) => { si.node = { ...sysNode(si.s, right + 150, si.y + dy), id: `sys:${si.s}:${n}` }; nodes.push(si.node); });
   const links = [];
-  for (const u of g.ucs) for (const a of u.by) if (g.actors.includes(a)) links.push(['p:' + a, 'uc:' + u.id]);
-  for (const a of g.actors) if (ACTOR_PARENT[a] && g.actors.includes(ACTOR_PARENT[a])) links.push(['p:' + a, 'p:' + ACTOR_PARENT[a], 'general']);
+  for (const u of g.ucs) for (const a of u.by) links.push(['p:' + a, 'uc:' + u.id]);
+  for (const a of AC) if (ACTOR_PARENT[a] && AC.includes(ACTOR_PARENT[a])) links.push(['p:' + a, 'p:' + ACTOR_PARENT[a], 'general']);
   for (const e of edges) links.push(['uc:' + e.from, 'uc:' + e.to, e.type]);
   for (const si of sysInst) for (const id of si.ids) links.push(['uc:' + id, si.node.id]);
 
-  const maxPersonBottom = Math.max(...g.actors.map((a) => actorY.get(a) + dy + 58 + 17 * (ACTORS[a].name.length + 1) + 12));
+  const maxPersonBottom = Math.max(...AC.map((a) => actorY.get(a) + dy + 58 + 17 * (ACTORS[a].name.length + 1) + 12));
   const maxSysBottom = sysInst.length ? Math.max(...sysInst.map((si) => si.node.y + SYS_H / 2)) : 0;
   const h = Math.max(bottom, maxPersonBottom, maxSysBottom) + 70;
   const w = sysInst.length ? right + 150 + SYS_W / 2 + 40 : right + 60;
@@ -202,16 +207,26 @@ function layoutOverview() {
     lines: [{ t: g.title, k: 'name' }, { t: `${figOf(i)} · ${g.ucs.length} chức năng`, k: 'id' }],
   }));
   const rowsOf = (a) => GROUPS.map((g, i) => (g.ucs.some((u) => u.by.includes(a)) ? i : -1)).filter((i) => i >= 0);
+  const S = stats();
+  const notesOf = (k) => (ACTOR_PARENT[k]
+    ? [`${S.total[k]} chức năng`, `${S.own[k]} riêng`, `${S.total[k] - S.own[k]} kế thừa`]
+    : [`${S.total[k]} chức năng`]);
   const stack = (keys, x) => {
     let prev = -Infinity;
     for (const k of keys) {
-      const rs = rowsOf(k); let t = rs.length ? mean(rs.map(rowY)) : prev + 215;
-      if (t < prev + 215) t = prev + 215;
-      nodes.push(personNode(k, x, t)); prev = t;
+      const rs = rowsOf(k); let t = rs.length ? mean(rs.map(rowY)) : prev + 235;
+      if (t < prev + 235) t = prev + 235;
+      nodes.push(personNode(k, x, t, notesOf(k))); prev = t;
     }
   };
   stack(['KV', 'KL', 'KS'], 895); stack(['NV', 'AD'], 105);
   const links = [];
+  // đường mờ: nhóm mà tác nhân dùng được nhờ kế thừa (vẽ trước, nằm dưới đường trực tiếp)
+  for (const k of Object.keys(ACTORS)) {
+    const own = rowsOf(k), inh = new Set();
+    for (const anc of ancestors(k)) for (const r of rowsOf(anc)) if (!own.includes(r)) inh.add(r);
+    for (const r of inh) links.push(['p:' + k, 'g:' + r, 'inherit']);
+  }
   for (const k of Object.keys(ACTORS)) for (const r of rowsOf(k)) links.push(['p:' + k, 'g:' + r]);
   for (const k of Object.keys(ACTOR_PARENT)) links.push(['p:' + k, 'p:' + ACTOR_PARENT[k], 'general']);
   const bottom = rowY(GROUPS.length - 1) + 27 + 34;
@@ -221,7 +236,7 @@ function layoutOverview() {
 
 // ═══════════════════════════ HÌNH HỌC ═══════════════════════════
 const ARM_X = 21, ARM_Y = -11;
-const personLines = (n) => [...n.lines, `(${n.role})`];
+const personLines = (n) => [...n.lines, `(${n.role})`, ...(n.notes || [])];
 const personBottom = (n) => n.y + 58 + 17 * (personLines(n).length - 1) + 5;
 function side(n, o) { // điểm nối của đường kết hợp: đầu tay (actor), mép (hệ thống ngoài), đỉnh elip phía đối diện
   const s = sgn(o.x - n.x);
@@ -248,7 +263,11 @@ function route(A, B, type) {
   return [side(A, B), side(B, A)];
 }
 function hit(n, px, py, pad = 4) {
-  if (n.type === 'person') return Math.abs(px - n.x) < 62 && py > n.y - 52 && py < personBottom(n) + 6;
+  if (n.type === 'person') { // hình người, rồi từng dòng chữ theo đúng độ rộng của nó
+    if (Math.abs(px - n.x) < 26 && py > n.y - 52 && py < n.y + 42) return true;
+    const L = personLines(n);
+    return L.some((l, i) => { const cy = n.y + 58 + i * 17, hw = (l.length * (i < n.lines.length ? 7.4 : 6.3)) / 2 + 4; return Math.abs(px - n.x) < hw && py > cy - 13 && py < cy + 5; });
+  }
   if (n.type === 'system') return Math.abs(px - n.x) < SYS_W / 2 + pad && Math.abs(py - n.y) < SYS_H / 2 + pad;
   return ((px - n.x) / (n.rx + pad)) ** 2 + ((py - n.y) / (n.ry + pad)) ** 2 < 1;
 }
@@ -261,9 +280,10 @@ function crosses(a1, a2, b1, b2) {
 const C = { ink: '#1C1917', ink2: '#57534E', line: '#292524' };
 function personSvg(n) {
   const { x, y } = n, s = C.line, L = personLines(n);
+  const nName = n.lines.length;
   const text = L.map((l, i) => {
-    const last = i === L.length - 1;
-    return `<text x="${x}" y="${y + 58 + i * 17}" text-anchor="middle" font-size="${last ? 12.5 : 14}" font-weight="${last ? 400 : 700}" fill="${last ? C.ink2 : C.ink}">${esc(l)}</text>`;
+    const small = i >= nName, note = i > nName;
+    return `<text x="${x}" y="${y + 58 + i * 17}" text-anchor="middle" font-size="${small ? 12.5 : 14}" font-weight="${small ? 400 : 700}"${note ? ' font-style="italic"' : ''} fill="${small ? C.ink2 : C.ink}">${esc(l)}</text>`;
   }).join('');
   return `<g><circle cx="${x}" cy="${y - 34}" r="11" fill="#fff" stroke="${s}" stroke-width="2"/>`
     + `<path d="M${x} ${y - 23} V${y + 10} M${x - ARM_X} ${y + ARM_Y} H${x + ARM_X} M${x} ${y + 10} L${x - 16} ${y + 38} M${x} ${y + 10} L${x + 16} ${y + 38}" fill="none" stroke="${s}" stroke-width="2" stroke-linecap="round"/>${text}</g>`;
@@ -289,10 +309,11 @@ function build(d) {
     if (!A || !B) { warn.push(`link ${a}→${b}: thiếu nút`); continue; }
     used.add(type);
     const [p1, p2] = route(A, B, type);
-    segs.push({ a, b, p1, p2, type });
+    if (type !== 'inherit') segs.push({ a, b, p1, p2, type });
     const dash = type === 'include' || type === 'extend' ? ' stroke-dasharray="7 5"' : '';
     const mk = type === 'include' || type === 'extend' ? ' marker-end="url(#open)"' : type === 'general' ? ' marker-end="url(#tri)"' : '';
-    parts.push(`<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${C.line}" stroke-width="1.4"${dash}${mk}/>`);
+    const light = type === 'inherit';
+    parts.push(`<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${light ? '#B8B2AA' : C.line}" stroke-width="${light ? 1.1 : 1.4}"${dash}${mk}/>`);
     if (type === 'include' || type === 'extend') labelJobs.push({ p1, p2, type, a, b });
     for (let i = 1; i < 80; i++) { // đường nối không được xuyên qua nút khác
       const t = i / 80, px = p1.x + (p2.x - p1.x) * t, py = p1.y + (p2.y - p1.y) * t;
@@ -349,7 +370,8 @@ function build(d) {
   const frame = `<rect x="${bd.x}" y="${bd.y}" width="${bd.w}" height="${bd.h}" fill="#fff" stroke="${C.line}" stroke-width="1.8"/>`;
   let lx = 24; const ly = d.h - 24, leg = [];
   const item = (w, svg, label) => { leg.push(`<g transform="translate(${lx},${ly})">${svg}<text x="${w + 8}" y="4" font-size="12" fill="${C.ink2}">${label}</text></g>`); lx += w + 8 + label.length * 6.4 + 28; };
-  item(34, `<line x1="0" y1="0" x2="34" y2="0" stroke="${C.line}" stroke-width="1.4"/>`, 'Kết hợp');
+  item(34, `<line x1="0" y1="0" x2="34" y2="0" stroke="${C.line}" stroke-width="1.4"/>`, 'Kết hợp trực tiếp');
+  if (used.has('inherit')) item(34, `<line x1="0" y1="0" x2="34" y2="0" stroke="#B8B2AA" stroke-width="1.1"/>`, 'Dùng được nhờ kế thừa');
   if (used.has('include') || used.has('extend')) item(34, `<line x1="0" y1="0" x2="34" y2="0" stroke="${C.line}" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>`, '«include» / «extend»');
   if (used.has('general')) item(34, `<line x1="0" y1="0" x2="34" y2="0" stroke="${C.line}" stroke-width="1.4" marker-end="url(#tri)"/>`, 'Kế thừa (actor con → actor cha)');
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
@@ -377,7 +399,7 @@ function stats() {
   const all = MODEL.flatMap((m) => m.g.ucs.map((u) => ({ gi: m.gi, u, owners: m.actorsOf(u.id), rel: m.byId.get(u.id).rel || [] })));
   const inc = MODEL.flatMap((m) => m.edges).filter((e) => e.type === 'include').length;
   const ext = MODEL.flatMap((m) => m.edges).filter((e) => e.type === 'extend').length;
-  const own = Object.fromEntries(ACTOR_KEYS.map((a) => [a, all.filter((x) => x.owners.includes(a)).length]));
+  const own = Object.fromEntries(ACTOR_KEYS.map((a) => [a, all.filter((x) => canDo(a, x.owners) && !ancestors(a).some((p) => canDo(p, x.owners))).length]));
   const total = Object.fromEntries(ACTOR_KEYS.map((a) => [a, all.filter((x) => canDo(a, x.owners)).length]));
   return { all, inc, ext, own, total, ucCount: all.length };
 }
@@ -385,10 +407,11 @@ function tables() {
   const S = stats();
   const nameOf = (gi, id) => { const u = GROUPS[gi].ucs.find((x) => x.id === String(id)); return `${codeOf(gi, u)} ${u.name}`; };
   // 1. nhóm chức năng
-  const groups = ['| Hình | Nhóm chức năng | Tác nhân làm trực tiếp | Số use case |', '|---|---|---|---|'];
+  const groups = ['| Hình | Nhóm chức năng | Tác nhân làm trực tiếp | Dùng được thêm nhờ kế thừa | Số use case |', '|---|---|---|---|---|'];
   GROUPS.forEach((g, gi) => {
-    const acts = ACTOR_KEYS.filter((a) => g.ucs.some((u) => u.by.includes(a))).map(actorName).join(', ');
-    groups.push(`| ${figOf(gi)} | ${g.title} | ${acts} | ${g.ucs.length} |`);
+    const dir = ACTOR_KEYS.filter((a) => g.ucs.some((u) => u.by.includes(a)));
+    const inh = actorsAll({ actors: dir }).filter((a) => !dir.includes(a));
+    groups.push(`| ${figOf(gi)} | ${g.title} | ${dir.map(actorName).join(', ')} | ${inh.length ? inh.map(actorName).join(', ') : '—'} | ${g.ucs.length} |`);
   });
   // 2. tác nhân × số chức năng
   const actors = ['| Tác nhân | Vai trò | Làm trực tiếp | Kế thừa thêm | Tổng chức năng |', '|---|---|---|---|---|'];
@@ -418,7 +441,7 @@ function tables() {
   // 4. hình
   const figs = [];
   for (const m of MODEL) {
-    const g = m.g, gi = m.gi, acts = g.actors.map(actorName).join(', ');
+    const g = m.g, gi = m.gi, acts = actorsAll(g).map(actorName).join(', ');
     figs.push(`### ${figOf(gi)} — ${g.title}`, '', `![${figOf(gi)} — ${g.title}](diagrams/${fileOf(gi)}.png)`, '');
     figs.push(`*${figOf(gi)} — ${g.title}. Tác nhân: ${acts}${g.systems.length ? `. Hệ thống ngoài: ${g.systems.map((s) => SYSTEMS[s].lines.join(' ')).join(', ')}` : ''}. ${g.ucs.length} use case: ${codeOf(gi, g.ucs[0])} → ${codeOf(gi, g.ucs[g.ucs.length - 1])}. Ảnh vector: [\`diagrams/${fileOf(gi)}.svg\`](diagrams/${fileOf(gi)}.svg).*`, '');
   }

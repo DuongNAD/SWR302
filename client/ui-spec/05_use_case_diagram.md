@@ -5,7 +5,7 @@ Sơ đồ use case của hệ thống **Gia Hòa Phát Bakery Supply** (Online S
 **Phủ đủ mọi chức năng người dùng.** Mỗi use case là **một thao tác** người dùng làm được trên giao diện — được trích trực tiếp từ nút, liên kết, tab, menu và thông báo trong mã nguồn (`src/pages`, `src/components`, `src/layouts`), không phải mô tả nhóm chung chung. Sơ đồ tổng quan chỉ cho thấy các nhóm chức năng; mỗi nhóm có một sơ đồ phân rã liệt kê **toàn bộ** thao tác bên trong, và mục 4 liệt kê chức năng của **từng tác nhân**.
 
 <!-- uc:summary:start -->
-5 tác nhân (người) · 4 hệ thống ngoài · **146 use case** · 19 nhóm chức năng · 20 hình · 23 quan hệ «include» · 71 quan hệ «extend» · 3 quan hệ kế thừa
+5 tác nhân (người) · 4 hệ thống ngoài · **148 use case** · 19 nhóm chức năng · 20 hình · 23 quan hệ «include» · 72 quan hệ «extend» · 3 quan hệ kế thừa
 <!-- uc:summary:end -->
 
 - **Dùng cho nhóm:** dán các ảnh `diagrams/uc-*.png` vào mục *Use case diagram* của SRS. Mã `UC-<nhóm>.<số>` do tài liệu này đặt; nếu SRS của nhóm đã có mã khác, sửa trong `diagrams/use-case-data.mjs` rồi chạy lại (mục 9).
@@ -23,12 +23,13 @@ Sơ đồ use case của hệ thống **Gia Hòa Phát Bakery Supply** (Online S
 | Hình chữ nhật «hệ thống ngoài» | Hệ thống bên ngoài tương tác với hệ thống (ở prototype chỉ mô phỏng) |
 | Elip | **Use case**; dòng nhỏ `UC-n.m` là mã (n = nhóm = số cuối của hình, m = số thứ tự trong nhóm). Ở sơ đồ tổng quan, mỗi elip là một **nhóm** chức năng |
 | Khung chữ nhật, thẻ tên ở góc trên phải | Ranh giới hệ thống (ở hình phân rã, thẻ ghi tên nhóm chức năng) |
-| Đường liền | **Kết hợp** — tác nhân dùng use case |
+| Đường liền đậm | **Kết hợp trực tiếp** — tác nhân làm use case (hoặc nhóm chức năng) đó |
+| Đường liền mờ *(chỉ ở sơ đồ tổng quan)* | Tác nhân **dùng được** nhóm đó nhờ kế thừa, không tự làm riêng |
 | Nét đứt, mũi tên hở, «include» | Use case gốc **luôn** gọi use case được bao hàm. Mũi tên đi từ *gốc* tới use case *được bao hàm* |
 | Nét đứt, mũi tên hở, «extend» | Hành vi **tùy chọn** mở rộng use case gốc. Mũi tên đi từ use case *mở rộng* tới *gốc* |
 | Mũi tên tam giác rỗng | **Kế thừa** — tác nhân con (đầu không có mũi tên) làm được mọi việc của tác nhân cha |
 
-**Cách đọc một hình phân rã.** Cột giữa là các use case mà tác nhân **trực tiếp** làm (có đường liền từ người tới elip). Cột bên phải là các use case **phụ** nối bằng nét đứt — chúng do **cùng tác nhân của use case gốc** thực hiện ngay trong màn hình đó, nên không vẽ thêm đường từ người. Hộp "hệ thống ngoài" nối với use case cần đến nó.
+**Cách đọc một hình phân rã.** Cột giữa là các use case mà tác nhân **trực tiếp** làm (có đường liền từ người tới elip). Cột bên phải là các use case **phụ** nối bằng nét đứt — chúng do **cùng tác nhân của use case gốc** thực hiện ngay trong màn hình đó, nên không vẽ thêm đường từ người. Hộp "hệ thống ngoài" nối với use case cần đến nó. Mỗi hình liệt kê **mọi tác nhân dùng được nhóm đó**: tác nhân làm trực tiếp có đường nối tới elip; tác nhân kế thừa (khách lẻ, khách sỉ, quản trị viên) đứng bên dưới chỉ có mũi tên kế thừa — họ làm được mọi use case của tác nhân cha.
 
 ## 2. Tác nhân và hệ thống ngoài
 
@@ -39,7 +40,7 @@ Con số bên dưới do script đếm từ dữ liệu: *làm trực tiếp* l�
 |---|---|---|---|---|
 | Khách vãng lai | Guest | 36 | — | **36** |
 | Khách hàng lẻ | Customer | 38 | 36 (từ Khách vãng lai) | **74** |
-| Khách hàng sỉ | Wholesale | 3 | 74 (từ Khách hàng lẻ và cấp trên) | **77** |
+| Khách hàng sỉ | Wholesale | 5 | 74 (từ Khách hàng lẻ và cấp trên) | **79** |
 | Nhân viên kho và vận hành | Staff | 26 | — | **26** |
 | Quản trị viên | Admin | 44 | 26 (từ Nhân viên kho và vận hành) | **70** |
 <!-- uc:actors:end -->
@@ -61,32 +62,34 @@ Người dùng demo trong ứng dụng: **Trần Mai Anh** (Customer, thợ làm
 
 ![Hình 1 — Sơ đồ use case tổng quan](diagrams/uc-00-tong-quan.png)
 
-*Hình 1 — Sơ đồ use case tổng quan: 19 nhóm chức năng. Khách hàng sỉ kế thừa khách hàng lẻ, khách hàng lẻ kế thừa khách vãng lai; quản trị viên kế thừa nhân viên. Ảnh vector: [`diagrams/uc-00-tong-quan.svg`](diagrams/uc-00-tong-quan.svg).*
+*Hình 1 — Sơ đồ use case tổng quan: 19 nhóm chức năng, kèm số chức năng của từng tác nhân. Khách hàng sỉ kế thừa khách hàng lẻ, khách hàng lẻ kế thừa khách vãng lai; quản trị viên kế thừa nhân viên. Ảnh vector: [`diagrams/uc-00-tong-quan.svg`](diagrams/uc-00-tong-quan.svg).*
 
-Mỗi elip là một nhóm, kèm số hiệu hình phân rã (Hình 2.n) và số chức năng bên trong. Một đường nối từ tác nhân tới nhóm nghĩa là tác nhân đó **trực tiếp** làm ít nhất một thao tác trong nhóm; các tác nhân kế thừa thì làm được mọi việc của tác nhân cha (mục 4).
+Mỗi elip là một nhóm, kèm số hiệu hình phân rã (Hình 2.n) và số chức năng bên trong. **Đường đậm**: tác nhân trực tiếp làm ít nhất một thao tác trong nhóm. **Đường mờ**: tác nhân dùng được nhóm đó nhờ kế thừa (khách lẻ dùng được mọi thứ của khách vãng lai, khách sỉ dùng được mọi thứ của khách lẻ, quản trị viên dùng được mọi thứ của nhân viên). Dưới tên mỗi tác nhân là **tổng số chức năng**, tách thành *riêng* và *kế thừa*.
+
+Khách hàng sỉ chỉ có ít thao tác riêng vì trong ứng dụng khách sỉ đặt hàng, theo dõi đơn, giỏ hàng… giống hệt khách lẻ (giá bậc thang áp dụng theo số lượng cho mọi khách). Phần riêng của khách sỉ là hồ sơ doanh nghiệp, bảng chiết khấu, hạn mức công nợ và hóa đơn VAT điền sẵn (Hình 2.7 và 2.9).
 
 <!-- uc:groups:start -->
-| Hình | Nhóm chức năng | Tác nhân làm trực tiếp | Số use case |
-|---|---|---|---|
-| Hình 2.1 | Cửa hàng, hỗ trợ và mua sỉ | Khách vãng lai | 10 |
-| Hình 2.2 | Xem chi tiết sản phẩm | Khách vãng lai | 9 |
-| Hình 2.3 | Duyệt, tìm kiếm và combo | Khách vãng lai, Khách hàng lẻ | 11 |
-| Hình 2.4 | Tài khoản và xác thực | Khách vãng lai, Khách hàng lẻ, Nhân viên kho và vận hành | 7 |
-| Hình 2.5 | Theo dõi và quản lý đơn hàng | Khách vãng lai, Khách hàng lẻ | 8 |
-| Hình 2.6 | Giỏ hàng | Khách hàng lẻ | 8 |
-| Hình 2.7 | Đặt hàng và thanh toán | Khách hàng lẻ | 9 |
-| Hình 2.8 | Yêu thích và đánh giá | Khách hàng lẻ | 4 |
-| Hình 2.9 | Hồ sơ, sổ địa chỉ và doanh nghiệp | Khách hàng lẻ, Khách hàng sỉ | 11 |
-| Hình 2.10 | Quản lý đơn hàng | Nhân viên kho và vận hành | 12 |
-| Hình 2.11 | Quản lý kho và lô hàng | Nhân viên kho và vận hành | 7 |
-| Hình 2.12 | Vận chuyển và chuỗi lạnh | Nhân viên kho và vận hành | 6 |
-| Hình 2.13 | Tổng quan quản trị | Quản trị viên | 7 |
-| Hình 2.14 | Báo cáo | Quản trị viên | 5 |
-| Hình 2.15 | Quản lý sản phẩm và danh mục | Quản trị viên | 11 |
-| Hình 2.16 | Quản lý khách hàng | Quản trị viên | 6 |
-| Hình 2.17 | Khuyến mãi và voucher | Quản trị viên | 5 |
-| Hình 2.18 | Nhân viên và phân quyền | Quản trị viên | 6 |
-| Hình 2.19 | Cài đặt hệ thống | Quản trị viên | 4 |
+| Hình | Nhóm chức năng | Tác nhân làm trực tiếp | Dùng được thêm nhờ kế thừa | Số use case |
+|---|---|---|---|---|
+| Hình 2.1 | Cửa hàng, hỗ trợ và mua sỉ | Khách vãng lai | Khách hàng lẻ, Khách hàng sỉ | 10 |
+| Hình 2.2 | Xem chi tiết sản phẩm | Khách vãng lai | Khách hàng lẻ, Khách hàng sỉ | 9 |
+| Hình 2.3 | Duyệt, tìm kiếm và combo | Khách vãng lai, Khách hàng lẻ | Khách hàng sỉ | 11 |
+| Hình 2.4 | Tài khoản và xác thực | Khách vãng lai, Khách hàng lẻ, Nhân viên kho và vận hành | Quản trị viên, Khách hàng sỉ | 7 |
+| Hình 2.5 | Theo dõi và quản lý đơn hàng | Khách vãng lai, Khách hàng lẻ | Khách hàng sỉ | 8 |
+| Hình 2.6 | Giỏ hàng | Khách hàng lẻ | Khách hàng sỉ | 8 |
+| Hình 2.7 | Đặt hàng và thanh toán | Khách hàng lẻ, Khách hàng sỉ | — | 10 |
+| Hình 2.8 | Yêu thích và đánh giá | Khách hàng lẻ | Khách hàng sỉ | 4 |
+| Hình 2.9 | Hồ sơ, sổ địa chỉ và doanh nghiệp | Khách hàng lẻ, Khách hàng sỉ | — | 12 |
+| Hình 2.10 | Quản lý đơn hàng | Nhân viên kho và vận hành | Quản trị viên | 12 |
+| Hình 2.11 | Quản lý kho và lô hàng | Nhân viên kho và vận hành | Quản trị viên | 7 |
+| Hình 2.12 | Vận chuyển và chuỗi lạnh | Nhân viên kho và vận hành | Quản trị viên | 6 |
+| Hình 2.13 | Tổng quan quản trị | Quản trị viên | — | 7 |
+| Hình 2.14 | Báo cáo | Quản trị viên | — | 5 |
+| Hình 2.15 | Quản lý sản phẩm và danh mục | Quản trị viên | — | 11 |
+| Hình 2.16 | Quản lý khách hàng | Quản trị viên | — | 6 |
+| Hình 2.17 | Khuyến mãi và voucher | Quản trị viên | — | 5 |
+| Hình 2.18 | Nhân viên và phân quyền | Quản trị viên | — | 6 |
+| Hình 2.19 | Cài đặt hệ thống | Quản trị viên | — | 4 |
 <!-- uc:groups:end -->
 
 ## 4. Chức năng của từng tác nhân
@@ -116,11 +119,12 @@ Thợ làm bánh tại gia, đã đăng nhập: giỏ hàng, đặt hàng, theo 
 - **Hình 2.8 — Yêu thích và đánh giá:** Xem sản phẩm yêu thích (UC-8.1) · Thêm sản phẩm vào yêu thích (UC-8.2) · Bỏ sản phẩm khỏi yêu thích (UC-8.3) · Viết đánh giá sản phẩm (UC-8.4)
 - **Hình 2.9 — Hồ sơ, sổ địa chỉ và doanh nghiệp:** Xem tổng quan tài khoản (UC-9.1) · Xem sổ địa chỉ (UC-9.2) · Thêm địa chỉ mới (UC-9.3) · Sửa địa chỉ (UC-9.4) · Xóa địa chỉ (UC-9.5) · Đặt địa chỉ mặc định (UC-9.6) · Cập nhật thông tin cá nhân (UC-9.7) · Đổi mật khẩu (UC-9.8)
 
-#### Khách hàng sỉ (Wholesale) — 77 chức năng
+#### Khách hàng sỉ (Wholesale) — 79 chức năng
 
-Chủ tiệm bánh, nhà hàng, đại lý có tài khoản doanh nghiệp đã duyệt: giá sỉ, hóa đơn VAT. Làm được **toàn bộ 74 chức năng của Khách hàng lẻ** và thêm 3 chức năng riêng dưới đây.
+Chủ tiệm bánh, nhà hàng, đại lý có tài khoản doanh nghiệp đã duyệt: giá sỉ, hóa đơn VAT. Làm được **toàn bộ 74 chức năng của Khách hàng lẻ** và thêm 5 chức năng riêng dưới đây.
 
-- **Hình 2.9 — Hồ sơ, sổ địa chỉ và doanh nghiệp:** Xem hồ sơ doanh nghiệp (UC-9.9) · Cập nhật thông tin xuất hóa đơn VAT (UC-9.10) · Xem bảng chiết khấu của tôi (UC-9.11)
+- **Hình 2.7 — Đặt hàng và thanh toán:** Yêu cầu xuất hóa đơn VAT (UC-7.7) · Xuất VAT bằng thông tin doanh nghiệp điền sẵn (UC-7.10)
+- **Hình 2.9 — Hồ sơ, sổ địa chỉ và doanh nghiệp:** Xem hồ sơ doanh nghiệp (UC-9.9) · Cập nhật thông tin xuất hóa đơn VAT (UC-9.10) · Xem bảng chiết khấu của tôi (UC-9.11) · Xem hạn mức công nợ (UC-9.12)
 
 #### Nhân viên kho và vận hành (Staff) — 26 chức năng
 
@@ -153,55 +157,55 @@ Mỗi hình liệt kê **mọi** thao tác của một nhóm. Ảnh `.png` đã 
 
 ![Hình 2.1 — Cửa hàng, hỗ trợ và mua sỉ](diagrams/uc-01-cua-hang-ho-tro-mua-si.png)
 
-*Hình 2.1 — Cửa hàng, hỗ trợ và mua sỉ. Tác nhân: Khách vãng lai. Hệ thống ngoài: Dịch vụ Email / SMS. 10 use case: UC-1.1 → UC-1.10. Ảnh vector: [`diagrams/uc-01-cua-hang-ho-tro-mua-si.svg`](diagrams/uc-01-cua-hang-ho-tro-mua-si.svg).*
+*Hình 2.1 — Cửa hàng, hỗ trợ và mua sỉ. Tác nhân: Khách vãng lai, Khách hàng lẻ, Khách hàng sỉ. Hệ thống ngoài: Dịch vụ Email / SMS. 10 use case: UC-1.1 → UC-1.10. Ảnh vector: [`diagrams/uc-01-cua-hang-ho-tro-mua-si.svg`](diagrams/uc-01-cua-hang-ho-tro-mua-si.svg).*
 
 ### Hình 2.2 — Xem chi tiết sản phẩm
 
 ![Hình 2.2 — Xem chi tiết sản phẩm](diagrams/uc-02-chi-tiet-san-pham.png)
 
-*Hình 2.2 — Xem chi tiết sản phẩm. Tác nhân: Khách vãng lai. 9 use case: UC-2.1 → UC-2.9. Ảnh vector: [`diagrams/uc-02-chi-tiet-san-pham.svg`](diagrams/uc-02-chi-tiet-san-pham.svg).*
+*Hình 2.2 — Xem chi tiết sản phẩm. Tác nhân: Khách vãng lai, Khách hàng lẻ, Khách hàng sỉ. 9 use case: UC-2.1 → UC-2.9. Ảnh vector: [`diagrams/uc-02-chi-tiet-san-pham.svg`](diagrams/uc-02-chi-tiet-san-pham.svg).*
 
 ### Hình 2.3 — Duyệt, tìm kiếm và combo
 
 ![Hình 2.3 — Duyệt, tìm kiếm và combo](diagrams/uc-03-duyet-tim-kiem-combo.png)
 
-*Hình 2.3 — Duyệt, tìm kiếm và combo. Tác nhân: Khách vãng lai, Khách hàng lẻ. 11 use case: UC-3.1 → UC-3.11. Ảnh vector: [`diagrams/uc-03-duyet-tim-kiem-combo.svg`](diagrams/uc-03-duyet-tim-kiem-combo.svg).*
+*Hình 2.3 — Duyệt, tìm kiếm và combo. Tác nhân: Khách vãng lai, Khách hàng lẻ, Khách hàng sỉ. 11 use case: UC-3.1 → UC-3.11. Ảnh vector: [`diagrams/uc-03-duyet-tim-kiem-combo.svg`](diagrams/uc-03-duyet-tim-kiem-combo.svg).*
 
 ### Hình 2.4 — Tài khoản và xác thực
 
 ![Hình 2.4 — Tài khoản và xác thực](diagrams/uc-04-tai-khoan-xac-thuc.png)
 
-*Hình 2.4 — Tài khoản và xác thực. Tác nhân: Nhân viên kho và vận hành, Khách vãng lai, Khách hàng lẻ. Hệ thống ngoài: Dịch vụ Email / SMS. 7 use case: UC-4.1 → UC-4.7. Ảnh vector: [`diagrams/uc-04-tai-khoan-xac-thuc.svg`](diagrams/uc-04-tai-khoan-xac-thuc.svg).*
+*Hình 2.4 — Tài khoản và xác thực. Tác nhân: Nhân viên kho và vận hành, Quản trị viên, Khách vãng lai, Khách hàng lẻ, Khách hàng sỉ. Hệ thống ngoài: Dịch vụ Email / SMS. 7 use case: UC-4.1 → UC-4.7. Ảnh vector: [`diagrams/uc-04-tai-khoan-xac-thuc.svg`](diagrams/uc-04-tai-khoan-xac-thuc.svg).*
 
 ### Hình 2.5 — Theo dõi và quản lý đơn hàng
 
 ![Hình 2.5 — Theo dõi và quản lý đơn hàng](diagrams/uc-05-theo-doi-don-hang.png)
 
-*Hình 2.5 — Theo dõi và quản lý đơn hàng. Tác nhân: Khách vãng lai, Khách hàng lẻ. Hệ thống ngoài: Cảm biến nhiệt độ xe lạnh, Dịch vụ hóa đơn điện tử. 8 use case: UC-5.1 → UC-5.8. Ảnh vector: [`diagrams/uc-05-theo-doi-don-hang.svg`](diagrams/uc-05-theo-doi-don-hang.svg).*
+*Hình 2.5 — Theo dõi và quản lý đơn hàng. Tác nhân: Khách vãng lai, Khách hàng lẻ, Khách hàng sỉ. Hệ thống ngoài: Cảm biến nhiệt độ xe lạnh, Dịch vụ hóa đơn điện tử. 8 use case: UC-5.1 → UC-5.8. Ảnh vector: [`diagrams/uc-05-theo-doi-don-hang.svg`](diagrams/uc-05-theo-doi-don-hang.svg).*
 
 ### Hình 2.6 — Giỏ hàng
 
 ![Hình 2.6 — Giỏ hàng](diagrams/uc-06-gio-hang.png)
 
-*Hình 2.6 — Giỏ hàng. Tác nhân: Khách hàng lẻ. 8 use case: UC-6.1 → UC-6.8. Ảnh vector: [`diagrams/uc-06-gio-hang.svg`](diagrams/uc-06-gio-hang.svg).*
+*Hình 2.6 — Giỏ hàng. Tác nhân: Khách hàng lẻ, Khách hàng sỉ. 8 use case: UC-6.1 → UC-6.8. Ảnh vector: [`diagrams/uc-06-gio-hang.svg`](diagrams/uc-06-gio-hang.svg).*
 
 ### Hình 2.7 — Đặt hàng và thanh toán
 
 ![Hình 2.7 — Đặt hàng và thanh toán](diagrams/uc-07-dat-hang-thanh-toan.png)
 
-*Hình 2.7 — Đặt hàng và thanh toán. Tác nhân: Khách hàng lẻ. Hệ thống ngoài: Dịch vụ Email / SMS, Cổng thanh toán VNPay / MoMo, Dịch vụ hóa đơn điện tử. 9 use case: UC-7.1 → UC-7.9. Ảnh vector: [`diagrams/uc-07-dat-hang-thanh-toan.svg`](diagrams/uc-07-dat-hang-thanh-toan.svg).*
+*Hình 2.7 — Đặt hàng và thanh toán. Tác nhân: Khách hàng lẻ, Khách hàng sỉ. Hệ thống ngoài: Dịch vụ Email / SMS, Cổng thanh toán VNPay / MoMo, Dịch vụ hóa đơn điện tử. 10 use case: UC-7.1 → UC-7.10. Ảnh vector: [`diagrams/uc-07-dat-hang-thanh-toan.svg`](diagrams/uc-07-dat-hang-thanh-toan.svg).*
 
 ### Hình 2.8 — Yêu thích và đánh giá
 
 ![Hình 2.8 — Yêu thích và đánh giá](diagrams/uc-08-yeu-thich-danh-gia.png)
 
-*Hình 2.8 — Yêu thích và đánh giá. Tác nhân: Khách hàng lẻ. 4 use case: UC-8.1 → UC-8.4. Ảnh vector: [`diagrams/uc-08-yeu-thich-danh-gia.svg`](diagrams/uc-08-yeu-thich-danh-gia.svg).*
+*Hình 2.8 — Yêu thích và đánh giá. Tác nhân: Khách hàng lẻ, Khách hàng sỉ. 4 use case: UC-8.1 → UC-8.4. Ảnh vector: [`diagrams/uc-08-yeu-thich-danh-gia.svg`](diagrams/uc-08-yeu-thich-danh-gia.svg).*
 
 ### Hình 2.9 — Hồ sơ, sổ địa chỉ và doanh nghiệp
 
 ![Hình 2.9 — Hồ sơ, sổ địa chỉ và doanh nghiệp](diagrams/uc-09-ho-so-so-dia-chi.png)
 
-*Hình 2.9 — Hồ sơ, sổ địa chỉ và doanh nghiệp. Tác nhân: Khách hàng lẻ, Khách hàng sỉ. 11 use case: UC-9.1 → UC-9.11. Ảnh vector: [`diagrams/uc-09-ho-so-so-dia-chi.svg`](diagrams/uc-09-ho-so-so-dia-chi.svg).*
+*Hình 2.9 — Hồ sơ, sổ địa chỉ và doanh nghiệp. Tác nhân: Khách hàng lẻ, Khách hàng sỉ. 12 use case: UC-9.1 → UC-9.12. Ảnh vector: [`diagrams/uc-09-ho-so-so-dia-chi.svg`](diagrams/uc-09-ho-so-so-dia-chi.svg).*
 
 ### Hình 2.10 — Quản lý đơn hàng
 
@@ -328,6 +332,7 @@ Mỗi hình liệt kê **mọi** thao tác của một nhóm. Ảnh `.png` đã 
 | Hình 2.7 | «extend» | UC-7.6 Thanh toán bằng mã QR VNPay | UC-7.5 Chọn phương thức thanh toán |
 | Hình 2.7 | «extend» | UC-7.7 Yêu cầu xuất hóa đơn VAT | UC-7.1 Đặt hàng |
 | Hình 2.7 | «extend» | UC-7.9 In phiếu đơn hàng | UC-7.8 Xem xác nhận đặt hàng thành công |
+| Hình 2.7 | «extend» | UC-7.10 Xuất VAT bằng thông tin doanh nghiệp điền sẵn | UC-7.7 Yêu cầu xuất hóa đơn VAT |
 | Hình 2.9 | «extend» | UC-9.3 Thêm địa chỉ mới | UC-9.2 Xem sổ địa chỉ |
 | Hình 2.9 | «extend» | UC-9.4 Sửa địa chỉ | UC-9.2 Xem sổ địa chỉ |
 | Hình 2.9 | «extend» | UC-9.5 Xóa địa chỉ | UC-9.2 Xem sổ địa chỉ |
@@ -457,9 +462,10 @@ Cột **Màn hình** nối use case với mã `SCR-xx` trong `02_pages.md`; cộ
 | UC-7.4 | Chọn phương thức vận chuyển | Khách hàng lẻ *(qua use case gốc)* | SCR-08 (bước 2) | FR-CHK-06, BR-RULE-01 | Giao tiêu chuẩn 25.000₫ hoặc xe lạnh 45.000₫ |
 | UC-7.5 | Chọn phương thức thanh toán | Khách hàng lẻ *(qua use case gốc)* | SCR-08 (bước 3) | FR-CHK-06 | VNPay QR, MoMo, chuyển khoản, COD |
 | UC-7.6 | Thanh toán bằng mã QR VNPay | Khách hàng lẻ *(qua use case gốc)* | SCR-08 (bước 3) | FR-CHK-06 |  |
-| UC-7.7 | Yêu cầu xuất hóa đơn VAT | Khách hàng lẻ *(qua use case gốc)* | SCR-08 (bước 1) | FR-CHK-06 | Khách sỉ được gợi ý bật sẵn |
+| UC-7.7 | Yêu cầu xuất hóa đơn VAT | Khách hàng lẻ, Khách hàng sỉ *(qua use case gốc)* | SCR-08 (bước 1) | FR-CHK-06 | Khách sỉ được gợi ý bật sẵn |
 | UC-7.8 | Xem xác nhận đặt hàng thành công | Khách hàng lẻ *(qua use case gốc)* | SCR-09 | FR-CHK-06 |  |
 | UC-7.9 | In phiếu đơn hàng | Khách hàng lẻ *(qua use case gốc)* | SCR-09 | FR-CHK-06 |  |
+| UC-7.10 | Xuất VAT bằng thông tin doanh nghiệp điền sẵn | Khách hàng sỉ | SCR-08 (bước 1) | FR-CHK-06 | Khách sỉ: hóa đơn VAT bật sẵn, tự điền mã số thuế, tên và địa chỉ công ty |
 | UC-8.1 | Xem sản phẩm yêu thích | Khách hàng lẻ | SCR-18 | đề xuất FR mới |  |
 | UC-8.2 | Thêm sản phẩm vào yêu thích | Khách hàng lẻ | SCR-02, SCR-04 | đề xuất FR mới | Nút ♡ ở thẻ sản phẩm và trang chi tiết |
 | UC-8.3 | Bỏ sản phẩm khỏi yêu thích | Khách hàng lẻ | SCR-18, SCR-04 | đề xuất FR mới |  |
@@ -475,6 +481,7 @@ Cột **Màn hình** nối use case với mã `SCR-xx` trong `02_pages.md`; cộ
 | UC-9.9 | Xem hồ sơ doanh nghiệp | Khách hàng sỉ | SCR-20 | BR-RULE-02, đề xuất FR mới |  |
 | UC-9.10 | Cập nhật thông tin xuất hóa đơn VAT | Khách hàng sỉ *(qua use case gốc)* | SCR-20 | đề xuất FR mới |  |
 | UC-9.11 | Xem bảng chiết khấu của tôi | Khách hàng sỉ | SCR-15, SCR-20 | BR-RULE-02 |  |
+| UC-9.12 | Xem hạn mức công nợ | Khách hàng sỉ | SCR-15 | đề xuất FR mới | Hiện trong thẻ đại lý ở tổng quan tài khoản |
 | UC-10.1 | Xem danh sách đơn hàng | Nhân viên kho và vận hành | SCR-A02 | FR-ADM-08 |  |
 | UC-10.2 | Lọc đơn theo trạng thái | Nhân viên kho và vận hành *(qua use case gốc)* | SCR-A02 | FR-ADM-08 |  |
 | UC-10.3 | Lọc đơn theo hình thức vận chuyển | Nhân viên kho và vận hành *(qua use case gốc)* | SCR-A02 | FR-ADM-08 |  |

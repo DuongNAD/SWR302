@@ -310,7 +310,7 @@ Mọi bảng admin: tìm kiếm + bộ lọc + phân trang theo `01_design_rules
 | BR-RULE-01 | Giỏ hàng, thanh toán, `/san-pham/:id` — hàng lạnh → xe lạnh + phí đóng gói |
 | BR-RULE-02 | `/san-pham/:id`, `/gio-hang` — giá tự hạ theo mốc số lượng |
 
-**Use case ↔ màn hình:** mỗi màn hình ở trên phục vụ use case nào — xem cột "Màn hình" ở `05_use_case_diagram.md` mục 7 (146 use case, 1 sơ đồ tổng quan và 19 sơ đồ phân rã).
+**Use case ↔ màn hình:** mỗi màn hình ở trên phục vụ use case nào — xem cột "Màn hình" ở `05_use_case_diagram.md` mục 7 (148 use case, 1 sơ đồ tổng quan và 19 sơ đồ phân rã).
 
 **Màn hình chưa có FR tương ứng trong ma trận** (SCR-10, 14, 17–22, 24; SCR-A06, A08–A13): ghi chú trong báo cáo là *"đề xuất FR mới"* để nhóm bổ sung vào SRS nếu giữ lại — Antigravity **không** tự sửa tài liệu SRS.
 

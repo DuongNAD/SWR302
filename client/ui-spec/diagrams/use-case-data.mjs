@@ -125,7 +125,7 @@ export const GROUPS = [
     ],
   },
   {
-    slug: 'dat-hang-thanh-toan', title: 'Đặt hàng và thanh toán', actors: ['KL'], systems: ['MAIL', 'PAY', 'EINV'], req: 'FR-CHK-06',
+    slug: 'dat-hang-thanh-toan', title: 'Đặt hàng và thanh toán', actors: ['KL', 'KS'], systems: ['MAIL', 'PAY', 'EINV'], req: 'FR-CHK-06',
     ucs: [
       u(1, 'Đặt hàng', ['KL'], 'SCR-08', { sys: ['MAIL'], rel: [['include', 2], ['include', 3], ['include', 4], ['include', 5], ['include', 8]], note: 'Thanh toán 3 bước: nhận hàng, vận chuyển, thanh toán' }),
       u(2, 'Chọn hình thức nhận hàng', null, 'SCR-08 (bước 1)', { note: 'Giao tận nơi hoặc nhận tại cửa hàng' }),
@@ -136,6 +136,7 @@ export const GROUPS = [
       u(7, 'Yêu cầu xuất hóa đơn VAT', null, 'SCR-08 (bước 1)', { rel: [['extend', 1]], sys: ['EINV'], note: 'Khách sỉ được gợi ý bật sẵn' }),
       u(8, 'Xem xác nhận đặt hàng thành công', null, 'SCR-09'),
       u(9, 'In phiếu đơn hàng', null, 'SCR-09', { rel: [['extend', 8]] }),
+      u(10, 'Xuất VAT bằng thông tin doanh nghiệp điền sẵn', ['KS'], 'SCR-08 (bước 1)', { rel: [['extend', 7]], note: 'Khách sỉ: hóa đơn VAT bật sẵn, tự điền mã số thuế, tên và địa chỉ công ty' }),
     ],
   },
   {
@@ -161,6 +162,7 @@ export const GROUPS = [
       u(9, 'Xem hồ sơ doanh nghiệp', ['KS'], 'SCR-20', { req: 'BR-RULE-02, đề xuất FR mới' }),
       u(10, 'Cập nhật thông tin xuất hóa đơn VAT', null, 'SCR-20', { rel: [['extend', 9]] }),
       u(11, 'Xem bảng chiết khấu của tôi', ['KS'], 'SCR-15, SCR-20', { req: 'BR-RULE-02' }),
+      u(12, 'Xem hạn mức công nợ', ['KS'], 'SCR-15', { req: 'đề xuất FR mới', note: 'Hiện trong thẻ đại lý ở tổng quan tài khoản' }),
     ],
   },
 

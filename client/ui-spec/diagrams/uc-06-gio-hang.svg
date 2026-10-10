@@ -11,6 +11,7 @@
 <line x1="131.0" y1="275.0" x2="312.0" y2="122.0" stroke="#292524" stroke-width="1.4"/>
 <line x1="131.0" y1="275.0" x2="312.0" y2="222.0" stroke="#292524" stroke-width="1.4"/>
 <line x1="131.0" y1="275.0" x2="312.0" y2="514.0" stroke="#292524" stroke-width="1.4"/>
+<line x1="110.0" y1="452.0" x2="110.0" y2="371.0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/>
 <line x1="430.0" y1="188.0" x2="430.0" y2="156.0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
 <line x1="642.0" y1="322.0" x2="524.9" y2="493.8" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
 <line x1="642.0" y1="418.0" x2="540.7" y2="502.2" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/>
@@ -24,6 +25,7 @@
 <text x="620.2" y="557.8" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
 <text x="796.4" y="662.0" text-anchor="middle" font-size="12" font-style="italic" fill="#57534E" stroke="#fff" stroke-width="4" paint-order="stroke">«extend»</text>
 <g><circle cx="110" cy="252" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 263 V296 M89 275 H131 M110 296 L94 324 M110 296 L126 324" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="344" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách hàng lẻ</text><text x="110" y="361" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Customer)</text></g>
+<g><circle cx="110" cy="467" r="11" fill="#fff" stroke="#292524" stroke-width="2"/><path d="M110 478 V511 M89 490 H131 M110 511 L94 539 M110 511 L126 539" fill="none" stroke="#292524" stroke-width="2" stroke-linecap="round"/><text x="110" y="559" text-anchor="middle" font-size="14" font-weight="700" fill="#1C1917">Khách hàng sỉ</text><text x="110" y="576" text-anchor="middle" font-size="12.5" font-weight="400" fill="#57534E">(Wholesale)</text></g>
 <g><ellipse cx="430" cy="122" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="117.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-6.1</text><text x="430" y="133.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Thêm sản phẩm vào giỏ</text></g>
 <g><ellipse cx="430" cy="222" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="217.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-6.2</text><text x="430" y="233.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Mua ngay</text></g>
 <g><ellipse cx="430" cy="514" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="430" y="509.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-6.3</text><text x="430" y="525.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xem giỏ hàng</text></g>
@@ -32,6 +34,7 @@
 <g><ellipse cx="760" cy="514" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="509.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-6.6</text><text x="760" y="525.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Xóa toàn bộ giỏ hàng</text></g>
 <g><ellipse cx="760" cy="610" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="605.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-6.7</text><text x="760" y="621.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Áp dụng mã giảm giá</text></g>
 <g><ellipse cx="760" cy="706" rx="118" ry="34" fill="#fff" stroke="#292524" stroke-width="1.5"/><text x="760" y="701.6" text-anchor="middle" font-size="11" font-weight="700" fill="#57534E">UC-6.8</text><text x="760" y="717.2" text-anchor="middle" font-size="13.5" font-weight="500" fill="#1C1917">Bỏ mã giảm giá</text></g>
-<g transform="translate(24,830)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp</text></g>
-<g transform="translate(138.8,830)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
+<g transform="translate(24,830)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4"/><text x="42" y="4" font-size="12" fill="#57534E">Kết hợp trực tiếp</text></g>
+<g transform="translate(202.8,830)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" stroke-dasharray="7 5" marker-end="url(#open)"/><text x="42" y="4" font-size="12" fill="#57534E">«include» / «extend»</text></g>
+<g transform="translate(400.8,830)"><line x1="0" y1="0" x2="34" y2="0" stroke="#292524" stroke-width="1.4" marker-end="url(#tri)"/><text x="42" y="4" font-size="12" fill="#57534E">Kế thừa (actor con → actor cha)</text></g>
 </svg>

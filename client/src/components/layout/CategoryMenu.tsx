@@ -16,13 +16,13 @@ export const CategoryMenu: React.FC = () => {
     <div className="h-10 border-b border-line bg-surface text-ink hidden lg:block">
       <div className="wrap flex items-center justify-between h-full text-xs">
         {/* Left: Dropdown + Quick Category Links */}
-        <div className="flex items-center gap-6 h-full min-w-0">
+        <div className="flex items-center gap-3 h-full min-w-0">
           {/* Category Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-2 font-semibold text-ink hover:text-brand transition-colors h-full cursor-pointer pr-4 border-r border-line shrink-0 select-none outline-none focus-visible:ring-1 focus-visible:ring-brand"
+                className="flex items-center gap-2 font-semibold text-ink hover:text-brand transition-colors h-full cursor-pointer pr-3 border-r border-line shrink-0 select-none outline-none focus-visible:ring-1 focus-visible:ring-brand"
               >
                 <Menu className="h-4 w-4 text-brand" />
                 <span>Tất cả danh mục</span>
@@ -47,7 +47,7 @@ export const CategoryMenu: React.FC = () => {
           </DropdownMenu>
 
           {/* Quick links */}
-          <nav className="flex items-center gap-5 whitespace-nowrap overflow-x-auto no-scrollbar py-1">
+          <nav className="flex items-center gap-4 whitespace-nowrap overflow-x-auto no-scrollbar py-1">
             <Link
               to="/san-pham?danh-muc=cat-dairy"
               className="text-ink-2 hover:text-ink font-medium transition-colors shrink-0"
@@ -82,7 +82,7 @@ export const CategoryMenu: React.FC = () => {
         </div>
 
         {/* Right Links */}
-        <div className="flex items-center gap-5 font-medium text-ink-2 shrink-0 whitespace-nowrap pl-4">
+        <div className="flex items-center gap-4 font-medium text-ink-2 shrink-0 whitespace-nowrap pl-2">
           <Link
             to="/combo"
             className="hover:text-brand transition-colors flex items-center gap-1.5"

@@ -83,22 +83,23 @@ export const SiteHeader: React.FC = () => {
                       <span className="text-xs font-semibold truncate max-w-[110px]">
                         {currentUser.name}
                       </span>
-                      <span className="text-xs text-brand leading-none">
-                        {currentUser.role === 'wholesale_client' ? 'Khách sỉ' : 'Khách lẻ'}
-                      </span>
+                      {currentUser.role === 'wholesale_client' && (
+                        <span className="text-xs text-brand leading-none">
+                          Khách sỉ
+                        </span>
+                      )}
                     </div>
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>
                     <p className="font-semibold text-ink text-sm">{currentUser.name}</p>
-                    <p className="text-xs text-brand font-normal">
-                      {currentUser.role === 'wholesale_client'
-                        ? 'Khách hàng sỉ'
-                        : currentUser.role === 'admin'
-                        ? 'Quản trị viên'
-                        : 'Khách hàng lẻ'}
-                    </p>
+                    {currentUser.role === 'wholesale_client' && (
+                      <p className="text-xs text-brand font-normal">Khách hàng sỉ</p>
+                    )}
+                    {currentUser.role === 'admin' && (
+                      <p className="text-xs text-brand font-normal">Quản trị viên</p>
+                    )}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate('/tai-khoan')}>

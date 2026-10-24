@@ -465,7 +465,9 @@ flowchart TD
 
 # ⚖️ QUY TẮC NGHIỆP VỤ HỆ THỐNG (BUSINESS RULES - BRs)
 
-> Phân loại theo 5 loại chuẩn của Karl Wiegers: **Fact, Constraint, Action Enabler, Inference, Computation**.
+> **Dự án:** Topic 1 — Hệ Thống Mua Sắm Nguyên Liệu & Thiết Bị Làm Bánh Trực Tuyến (Gia Hoa Phat Bakery Supply)  
+> **Môn học:** SWR302 — Software Requirements  
+> **Phân loại theo Karl Wiegers:** Fact, Constraint, Action Enabler, Inference, Computation.
 
 ---
 
@@ -473,47 +475,72 @@ flowchart TD
 
 | Mã BR | Tên quy tắc | Loại quy tắc (Type) | Mô tả chi tiết quy tắc nghiệp vụ | FRs / UCs thực thi |
 | :---: | :--- | :---: | :--- | :--- |
-| **BR-01** | Quyền đăng nhập hệ thống | **Constraint** | Chỉ những tài khoản có trạng thái \`Active\` và đã xác thực email/số điện thoại mới được phép đăng nhập. | \`FR-AUTH-03\`, \`UC-01\` |
-| **BR-02** | Độ phức tạp của mật khẩu | **Constraint** | Mật khẩu phải có độ dài từ 8 đến 32 ký tự, bao gồm ít nhất 1 chữ cái in hoa, 1 chữ cái thường, 1 chữ số và 1 ký tự đặc biệt (@, #, $, %, !). | \`FR-AUTH-01\`, \`UC-01\` |
-| **BR-03** | Khóa tài khoản tạm thời | **Action Enabler** | Nếu người dùng nhập sai mật khẩu quá 5 lần liên tiếp trong khoảng thời gian 10 phút, hệ thống tự động khóa đăng nhập 15 phút. | \`FR-AUTH-04\`, \`UC-01\` |
-| **BR-04** | Giữ chỗ lịch hẹn tạm thời | **Action Enabler** | Khi khách hàng chọn khung giờ và bấm "Tiến hành thanh toán", hệ thống tạm thời giữ chỗ (lock slot) trong 10 phút. Nếu quá thời gian chưa thanh toán, slot tự động mở lại cho người khác. | \`FR-BOK-02\`, \`UC-03\` |
-| **BR-05** | Chính sách hủy hẹn & hoàn tiền | **Computation** | - Hủy trước giờ hẹn > 24 giờ: Hoàn 100% tiền.<br>- Hủy trước giờ hẹn từ 12 - 24 giờ: Phí phạt 30%, hoàn 70%.<br>- Hủy trước giờ hẹn < 12 giờ hoặc vắng mặt: Phí phạt 100%, không hoàn tiền. | \`FR-BOK-04\`, \`UC-04\` |
-| **BR-06** | Định nghĩa khách hàng VIP | **Inference** | Khách hàng có tổng chi tiêu trong năm dương lịch đạt từ 10.000.000 VNĐ trở lên được tự động xếp hạng \`Thành viên VIP\` và được giảm giá 5% cho mọi dịch vụ. | \`FR-CUST-02\`, \`UC-04\` |
-| **BR-07** | Đơn vị tiền tệ và định dạng | **Fact** | Đơn vị tiền tệ chính thức của hệ thống là Việt Nam Đồng (VNĐ). Mọi số tiền hiển thị trên giao diện phải có dấu phân cách hàng nghìn (ví dụ: \`150,000 VNĐ\`). | \`FR-PAY-01\`, \`UC-03\` |
-| **BR-08** | Lịch làm việc của nhà cung cấp | **Constraint** | Mỗi nhà cung cấp dịch vụ không được phép mở quá 12 ca hẹn trong một ngày làm việc để đảm bảo chất lượng dịch vụ. | \`FR-ADM-02\`, \`UC-08\` |
+| **BR-RULE-01** | Quy tắc Chuỗi Cung Ứng Lạnh (Cold Chain Rule) | **Constraint** | Nếu giỏ hàng chứa bất kỳ sản phẩm nào có điều kiện lưu trữ là "chilled" (mát) hoặc "frozen" (đông lạnh) như bơ lạt, kem whipping, men tươi: đơn hàng bắt buộc phải đóng gói thùng cách nhiệt đá gel và áp dụng phí đóng gói bảo quản lạnh. Phương thức giao hàng ưu tiên là Hỏa tốc xe lạnh 2-4h. | \`FR-CART-05\`, \`FR-CHK-06\`, \`UC-08\`, \`UC-09\` |
+| **BR-RULE-02** | Quy tắc Chiết Khấu Sỉ Tự Động (Wholesale Tier Rule) | **Computation** | Khi số lượng một mặt hàng vượt qua các mốc tối thiểu quy định (Ví dụ: bơ Anchor mua từ 10 thỏi giảm 5%, từ 40 thỏi giảm 12%), hệ thống tự động hạ đơn giá theo bảng giá sỉ bậc thang ngay trong giỏ hàng mà không cần nhập mã. | \`FR-PROD-03\`, \`FR-CART-05\`, \`UC-03\`, \`UC-07\` |
+| **BR-RULE-03** | Quy tắc Quản Lý Hạn Dùng FEFO (First-Expired, First-Out) | **Action Enabler** | Nhân viên kho khi gom hàng đóng gói bắt buộc phải xuất những lô hàng có hạn sử dụng gần nhất trước. Hệ thống tự động gửi cảnh báo đẩy đến Quản lý kho khi một lô bơ sữa/men còn dưới 30 ngày sử dụng. | \`FR-ADM-08\`, \`UC-13\`, \`UC-14\`, \`UC-15\` |
+| **BR-RULE-04** | Quy tắc Đăng Ký Tài Khoản Khách Sỉ B2B | **Constraint** | Tài khoản khách hàng muốn kích hoạt chính sách giá sỉ đại lý/tiệm bánh phải cung cấp Tên cơ sở kinh doanh, Mã số thuế và Địa chỉ tiệm, sau đó phải được Nhân viên CSKH/Admin phê duyệt trạng thái \`Approved\`. | \`FR-AUTH-01\`, \`UC-05\` |
+| **BR-RULE-05** | Quy tắc Bảo Mật & Xác Thực OTP | **Constraint** | Đăng ký tài khoản mới bắt buộc phải kích hoạt qua mã OTP 6 chữ số có hiệu lực trong 5 phút. Khóa tạm thời 15 phút nếu người dùng nhập sai mật khẩu 5 lần liên tiếp. | \`FR-AUTH-01\`, \`UC-05\`, \`UC-06\` |
+| **BR-RULE-06** | Quy tắc Combo Nguyên Liệu Theo Món (Recipe Kit Rule) | **Inference** | Một bộ Recipe Kit (Ví dụ: Kit làm bánh Tiramisu chuẩn Ý) chỉ có trạng thái \`In Stock\` (Còn hàng) khi tất cả các nguyên liệu thành phần (Mascarpone, bánh sâm banh, bột cacao, cà phê espresso) đều còn hàng trong kho. | \`FR-KIT-04\`, \`UC-04\`, \`UC-17\` |
+| **BR-RULE-07** | Đơn vị tiền tệ và định dạng | **Fact** | Đơn vị tiền tệ chính thức của hệ thống là Việt Nam Đồng (VNĐ). Mọi số tiền hiển thị trên giao diện phải có dấu phân cách hàng nghìn (ví dụ: \`150,000 VNĐ\`). | Toàn hệ thống |
 
 
 ---
 
 <!-- FILE: use_case_index.md -->
 
-# 📚 DANH MỤC USE CASE (USE CASE INDEX)
+# 📚 DANH MỤC USE CASE HỆ THỐNG (USE CASE INDEX)
 
-> Tổng hợp danh mục Use Case theo từng phân hệ, ánh xạ với Actor và độ ưu tiên.
+> **Dự án:** Topic 1 — Hệ Thống Mua Sắm Nguyên Liệu & Thiết Bị Làm Bánh Trực Tuyến (Gia Hoa Phat Bakery Supply)  
+> **Môn học:** SWR302 — Software Requirements  
+> **Phiên bản:** 2.0 (Đồng bộ chuẩn IEEE Std 830 & Client SPA)
 
 ---
 
 ## 1. MA TRẬN PHÂN QUYỀN ACTOR VÀ USE CASE (ACTOR - USE CASE MATRIX)
 
-| Mã UC | Tên Use Case | Primary Actor | Secondary Actor | Độ ưu tiên | File đặc tả chi tiết |
-| :---: | :--- | :--- | :--- | :---: | :--- |
-| **UC-01** | Đăng ký & Đăng nhập hệ thống | Khách vãng lai, Người dùng | Mail/SMS Service | High | [UC01_Authentication.md](specs/UC01_Authentication.md) |
-| **UC-02** | Tìm kiếm & Xem chi tiết dịch vụ | Khách vãng lai, Người dùng | — | High | [specs/UC02_Search.md](specs/UC02_Search.md) |
-| **UC-03** | Khởi tạo lịch hẹn dịch vụ | Người dùng đã đăng ký | Provider | High | [specs/UC03_Booking.md](specs/UC03_Booking.md) |
-| **UC-04** | Thanh toán đơn dịch vụ | Người dùng đã đăng ký | Payment Gateway | High | [specs/UC04_Payment.md](specs/UC04_Payment.md) |
-| **UC-05** | Hủy hoặc đổi lịch hẹn | Người dùng đã đăng ký | Mail Service | Medium | [specs/UC05_Cancel_Booking.md](specs/UC05_Cancel_Booking.md) |
-| **UC-06** | Quản lý ca làm việc & tiếp nhận | Nhà cung cấp (Provider) | — | High | [specs/UC06_Manage_Schedule.md](specs/UC06_Manage_Schedule.md) |
-| **UC-07** | Đánh giá & Phản hồi dịch vụ | Người dùng đã đăng ký | — | Low | [specs/UC07_Review_Feedback.md](specs/UC07_Review_Feedback.md) |
-| **UC-08** | Quản trị người dùng & Phân quyền | Quản trị viên (Admin) | — | High | [specs/UC08_Manage_Users.md](specs/UC08_Manage_Users.md) |
-| **UC-09** | Quản lý danh mục & Bảng giá | Quản trị viên (Admin) | — | Medium | [specs/UC09_Manage_Catalog.md](specs/UC09_Manage_Catalog.md) |
-| **UC-10** | Xem báo cáo & Thống kê doanh thu | Quản trị viên, Provider | — | Medium | [specs/UC10_View_Reports.md](specs/UC10_View_Reports.md) |
+| Mã UC | Tên Use Case | Primary Actor | Secondary Actor | Độ ưu tiên | Phân hệ (Module) | Traceability (FRs / BRs) |
+| :---: | :--- | :--- | :--- | :---: | :--- | :--- |
+| **UC-01** | Tìm kiếm nguyên liệu & Gợi ý từ khóa | Khách vãng lai, Khách hàng | — | Must | Khám phá & Tra cứu | \`FR-SRC-01\` |
+| **UC-02** | Lọc theo chuỗi cung ứng lạnh & thương hiệu | Khách vãng lai, Khách hàng | — | Must | Khám phá & Tra cứu | \`FR-FIL-02\`, \`BR-RULE-01\` |
+| **UC-03** | Xem chi tiết, HSD theo lô & Bảng giá sỉ | Khách vãng lai, Khách sỉ | — | Must | Sản phẩm & Giá sỉ | \`FR-PROD-03\`, \`BR-RULE-02\` |
+| **UC-04** | Khám phá & Mua combo công thức bánh (Recipe Kit) | Khách vãng lai, Khách hàng | — | Should | Combo làm bánh | \`FR-KIT-04\` |
+| **UC-05** | Đăng ký tài khoản (Khách lẻ / Khách sỉ B2B) | Khách vãng lai | Dịch vụ gửi OTP | Must | Tài khoản & Xác thực | \`FR-AUTH-01\` |
+| **UC-06** | Đăng nhập hệ thống & Phân quyền RBAC | Tất cả người dùng | — | Must | Tài khoản & Xác thực | \`FR-AUTH-01\` |
+| **UC-07** | Quản lý giỏ hàng thông minh & Tự tính trọng lượng | Khách hàng, Khách sỉ | — | Must | Giỏ hàng | \`FR-CART-05\`, \`BR-RULE-02\` |
+| **UC-08** | Đặt hàng & Chọn phương thức giao xe lạnh | Khách hàng, Khách sỉ | Đơn vị xe lạnh 2-4h | Must | Đặt hàng & Vận chuyển | \`FR-CHK-06\`, \`BR-RULE-01\` |
+| **UC-09** | Tính phí đóng thùng xốp đá gel tự động | Hệ thống (Hỗ trợ đặt hàng) | — | Must | Chuỗi lạnh (Cold Chain) | \`FR-CART-05\`, \`BR-RULE-01\` |
+| **UC-10** | Thanh toán đơn hàng trực tuyến (VNPay / MoMo) | Khách hàng, Khách sỉ | Cổng thanh toán | Must | Thanh toán | \`FR-CHK-06\` |
+| **UC-11** | Áp dụng mã giảm giá / Voucher | Khách hàng | — | Should | Thanh toán | \`FR-CHK-06\` |
+| **UC-12** | Theo dõi tiến trình đơn hàng xe lạnh real-time | Khách hàng, Khách vãng lai | Đơn vị xe lạnh, SMS | Must | Theo dõi đơn hàng | \`FR-TRK-07\` |
+| **UC-13** | Quản lý tồn kho theo số lô & Kho mát/đông | Nhân viên kho | — | Must | Quản trị kho bãi | \`FR-ADM-08\` |
+| **UC-14** | Giám sát hạn sử dụng & Cảnh báo FEFO cận date | Nhân viên kho | Hệ thống cảnh báo | Must | Quản trị kho bãi | \`FR-ADM-08\` |
+| **UC-15** | Xử lý đóng gói chuỗi lạnh đá gel | Nhân viên kho | Đơn vị xe lạnh | Must | Vận hành kho | \`FR-ADM-08\`, \`BR-RULE-01\` |
+| **UC-16** | Quản lý sản phẩm & Bảng giá sỉ bậc thang | Quản trị viên (Admin) | — | Must | Quản trị hệ thống | \`FR-ADM-08\`, \`BR-RULE-02\` |
+| **UC-17** | Quản lý bộ combo nguyên liệu (Recipe Kits) | Quản trị viên (Admin) | — | Should | Quản trị hệ thống | \`FR-KIT-04\` |
+| **UC-18** | Quản lý đơn hàng & Điều phối vận chuyển | Admin, CSKH | Đơn vị vận chuyển | Must | Xử lý đơn hàng | \`FR-ADM-08\` |
+| **UC-19** | Quản trị người dùng & Phân quyền (RBAC) | Quản trị viên (Admin) | — | Must | Quản trị hệ thống | \`FR-AUTH-01\` |
+| **UC-20** | Xem báo cáo doanh thu & Thống kê tồn kho | Quản trị viên (Admin) | — | Should | Báo cáo & Thống kê | \`FR-ADM-08\` |
 
 ---
 
 ## 2. QUAN HỆ GIỮA CÁC USE CASE (UML RELATIONSHIPS)
-- \`UC-03 (Khởi tạo lịch hẹn)\` **<<include>>** \`UC-04 (Thanh toán đơn dịch vụ)\`.
-- \`UC-04 (Thanh toán đơn dịch vụ)\` **<<extend>>** \`Áp dụng mã giảm giá\` (Chỉ kích hoạt khi khách hàng chọn nhập voucher).
-- \`UC-01 (Đăng ký)\` **<<include>>** \`Xác thực mã OTP\`.
+
+1. **Quan hệ Bao hàm (\`<<include>>\`):**
+   - \`UC-05 (Đăng ký)\` **<<include>>** \`Xác thực mã OTP điện tử\`.
+   - \`UC-07 (Quản lý giỏ hàng)\` **<<include>>** \`Tự động áp dụng giá sỉ theo bậc (Wholesale Tier)\`.
+   - \`UC-08 (Đặt hàng xe lạnh)\` **<<include>>** \`UC-09 (Tính phí thùng xốp đá gel)\` (Bắt buộc nếu có hàng chilled/frozen).
+   - \`UC-08 (Đặt hàng xe lạnh)\` **<<include>>** \`UC-10 (Thanh toán đơn hàng)\`.
+   - \`UC-16 (Quản lý sản phẩm)\` **<<include>>** \`Thiết lập bảng giá sỉ bậc thang\`.
+
+2. **Quan hệ Mở rộng (\`<<extend>>\`):**
+   - \`UC-11 (Áp dụng voucher)\` **<<extend>>** \`UC-10 (Thanh toán đơn hàng)\` (Chỉ kích hoạt khi khách nhập mã khuyến mãi hợp lệ).
+   - \`Yêu cầu hóa đơn đỏ VAT Doanh nghiệp\` **<<extend>>** \`UC-08 (Đặt hàng)\` (Kích hoạt khi khách sỉ B2B tick chọn xuất hóa đơn).
+   - \`UC-14 (Cảnh báo hàng cận date FEFO)\` **<<extend>>** \`UC-13 (Quản lý tồn kho theo số lô)\` (Tự động thông báo khi lô hàng bơ sữa còn dưới 30 ngày).
+   - \`Đăng ký tài khoản mua sỉ B2B\` **<<extend>>** \`UC-05 (Đăng ký tài khoản)\`.
+
+3. **Quan hệ Kế thừa Tác nhân (Actor Generalization):**
+   - \`Khách Mua Sỉ B2B\` —|> \`Khách Mua Lẻ (Customer)\` —|> \`Khách Vãng Lai (Guest)\`
+   - \`Quản Trị Viên (Admin)\` —|> \`Nhân Viên CSKH\`
 
 
 ---
@@ -597,55 +624,302 @@ flowchart TD
 
 <!-- FILE: use_case_diagram.md -->
 
-# 📊 SƠ ĐỒ USE CASE TỔNG THỂ (USE CASE DIAGRAM)
+# 📊 SƠ ĐỒ USE CASE DỰ ÁN (USE CASE DIAGRAMS)
 
-> Sơ đồ được dựng bằng cú pháp **Mermaid.js**, tự động render trực tiếp trên GitHub, VS Code và Antigravity IDE.
+> **Môn học:** SWR302 — Software Requirements Engineering  
+> **Đề tài:** Topic 1 — Hệ Thống Mua Sắm Nguyên Liệu & Thiết Bị Làm Bánh Trực Tuyến (**Gia Hoa Phat Bakery Supply**)  
+> **Định dạng:** Chuẩn giáo trình kỹ nghệ phần mềm Việt Nam & Quốc tế (UML 2.5 / Cockburn Use Case Model)  
+> **Xem trực tiếp trên Web:** [http://localhost:5500/use_case_viewer.html](http://localhost:5500/use_case_viewer.html)
+
+---
+
+## 2.1 BIỂU ĐỒ USE CASE TỔNG QUAN (SYSTEM OVERVIEW USE CASE DIAGRAM)
+
+Mô hình bố cục 2 phía kinh điển theo chuẩn giáo trình:
+- **Phía bên trái:** Tác nhân Quản trị & Vận hành (\`Admin / Quản Trị Viên\`, \`Nhân Viên Kho\`).
+- **Phía bên phải:** Tác nhân Người dùng (\`Khách Vãng Lai / Guest\`, \`Khách Mua Hàng / Customer\`, \`Khách Mua Sỉ / Wholesale B2B\`) có quan hệ kế thừa (\`Generalization ▲\`).
+- **Ở giữa:** Khung ranh giới hệ thống (*System Boundary*) chứa cột các Use Case hình Oval xếp dọc thẳng hàng, ngăn nắp.
+
+\`\`\`mermaid
+flowchart LR
+    %% Primary Actors Left
+    subgraph LeftActors["Quản Trị & Vận Hành"]
+        Admin["👤\\nQuản Trị Viên\\n(Admin)"]
+        Warehouse["👤\\nNhân Viên Kho\\n(Warehouse Staff)"]
+    end
+
+    %% Primary Actors Right
+    subgraph RightActors["Khách Hàng"]
+        direction TB
+        Guest["👤\\nKhách Vãng Lai\\n(Guest)"]
+        Customer["👤\\nKhách Mua Hàng\\n(Customer)"]
+        Wholesale["👤\\nKhách Mua Sỉ\\n(Wholesale B2B)"]
+
+        Customer -- "|kế thừa|" --> Guest
+        Wholesale -- "|kế thừa|" --> Customer
+    end
+
+    %% System Boundary
+    subgraph SystemBoundary["Hệ Thống Mua Sắm Nguyên Liệu Làm Bánh Gia Hòa Phát"]
+        direction TB
+        UC01(["Đăng ký tài khoản"]):::uc
+        UC02(["Đăng nhập hệ thống"]):::uc
+        UC03(["Tìm kiếm nguyên liệu"]):::uc
+        UC04(["Lọc theo chuỗi lạnh & giá"]):::uc
+        UC05(["Xem chi tiết & HSD lô hàng"]):::uc
+        UC06(["Xem combo công thức làm bánh"]):::uc
+        UC07(["Quản lý giỏ hàng"]):::uc
+        UC08(["Đặt hàng hỏa tốc xe lạnh"]):::uc
+        UC09(["Thanh toán trực tuyến"]):::uc
+        UC10(["Tra cứu & Theo dõi đơn hàng"]):::uc
+        UC11(["Quản lý sản phẩm & Bảng giá sỉ"]):::uc
+        UC12(["Quản lý combo làm bánh (Recipe Kits)"]):::uc
+        UC13(["Quản lý nhập/xuất kho theo lô"]):::uc
+        UC14(["Giám sát HSD & Cảnh báo FEFO"]):::uc
+        UC15(["Xử lý đóng gói đá gel chuỗi lạnh"]):::uc
+        UC16(["Quản lý đơn hàng & Giao hàng"]):::uc
+        UC17(["Quản trị người dùng & Phân quyền"]):::uc
+        UC18(["Báo cáo thống kê doanh thu"]):::uc
+    end
+
+    %% Association Lines Right (Guest, Customer, Wholesale)
+    Guest --- UC01
+    Guest --- UC02
+    Guest --- UC03
+    Guest --- UC04
+    Guest --- UC05
+    Guest --- UC06
+    Guest --- UC10
+
+    Customer --- UC07
+    Customer --- UC08
+    Customer --- UC09
+    Customer --- UC10
+
+    Wholesale --- UC08
+    Wholesale --- UC09
+
+    %% Association Lines Left (Admin, Warehouse)
+    Admin --- UC02
+    Admin --- UC11
+    Admin --- UC12
+    Admin --- UC16
+    Admin --- UC17
+    Admin --- UC18
+
+    Warehouse --- UC02
+    Warehouse --- UC13
+    Warehouse --- UC14
+    Warehouse --- UC15
+    Warehouse --- UC16
+
+    classDef uc fill:#FFFDF0,stroke:#8B2500,stroke-width:1.5px,color:#3D1200,font-weight:600;
+\`\`\`
+
+---
+
+## 2.2 BIỂU ĐỒ USE CASE PHÂN RÃ (DECOMPOSED USE CASE DIAGRAMS)
+
+### 2.2.1 Phân Rã 1: Phân Hệ Khách Hàng & Mua Sắm (Customer & Shopping)
+Thể hiện chi tiết các quan hệ \`<<include>>\` (Bao hàm bắt buộc) và \`<<extend>>\` (Mở rộng có điều kiện) trong quá trình tìm kiếm, quản lý giỏ hàng và đặt hàng nguyên liệu làm bánh.
 
 \`\`\`mermaid
 flowchart LR
     %% Actors
-    subgraph Actors["Tác Nhân (Actors)"]
-        Guest["Khách Vãng Lai (Guest)"]
-        Customer["Khách Hàng (Customer)"]
-        Provider["Nhà Cung Cấp (Provider)"]
-        Admin["Quản Trị Viên (Admin)"]
-        PaymentSystem["Hệ Thống Thanh Toán"]
+    subgraph ActorsPhanHe1["Tác Nhân"]
+        direction TB
+        Guest["👤\\nKhách Vãng Lai\\n(Guest)"]
+        Customer["👤\\nKhách Hàng\\n(Customer)"]
+        Wholesale["👤\\nKhách Mua Sỉ\\n(Wholesale B2B)"]
+
+        Customer -- "|kế thừa|" --> Guest
+        Wholesale -- "|kế thừa|" --> Customer
     end
 
-    %% Use Cases Boundary
-    subgraph SystemBoundary["Hệ Thống Phần Mềm SWR302"]
-        UC01(["UC-01: Đăng Ký / Đăng Nhập"])
-        UC02(["UC-02: Tìm Kiếm & Xem Dịch Vụ"])
-        UC03(["UC-03: Đặt Lịch Hẹn"])
-        UC04(["UC-04: Thanh Toán Trực Tuyến"])
-        UC05(["UC-05: Áp Dụng Mã Giảm Giá"])
-        UC06(["UC-06: Hủy / Đổi Lịch Hẹn"])
-        UC07(["UC-07: Quản Lý Lịch Trực & Nhận Đơn"])
-        UC08(["UC-08: Quản Trị Người Dùng"])
-        UC09(["UC-09: Xem Báo Cáo Doanh Thu"])
+    %% Use Cases
+    subgraph CustomerSubsystem["Phân Hệ Khám Phá & Mua Hàng"]
+        direction TB
+        UC_Home(["Xem trang chủ"]):::uc
+        UC_ViewProd(["Xem sản phẩm"]):::uc
+        UC_CatFilter(["Xem theo danh mục / chuỗi lạnh"]):::uc
+        UC_BrandFilter(["Xem theo thương hiệu"]):::uc
+        UC_Search(["Tìm kiếm nguyên liệu"]):::uc
+        UC_ProdDetail(["Xem chi tiết sản phẩm"]):::uc
+        UC_TierPrice(["Xem bảng giá sỉ bậc thang"]):::uc
+        UC_RecipeKit(["Xem combo công thức làm bánh"]):::uc
+        UC_Cart(["Quản lý giỏ hàng"]):::uc
+        UC_AutoDiscount(["Tự động áp dụng giá sỉ"]):::uc
+        UC_Checkout(["Đặt hàng xe lạnh"]):::uc
+        UC_ColdPackFee(["Tính phí thùng xốp đá gel"]):::uc
+        UC_Payment(["Thanh toán đơn hàng"]):::uc
+        UC_Voucher(["Áp dụng voucher"]):::uc
+        UC_VAT(["Yêu cầu hóa đơn đỏ VAT"]):::uc
+        UC_Track(["Theo dõi đơn hàng"]):::uc
+        UC_RegMember(["Đăng ký thành viên"]):::uc
+        UC_RegB2B(["Đăng ký khách sỉ B2B"]):::uc
+        UC_VerifyOTP(["Xác thực OTP"]):::uc
     end
 
-    %% Interactions
-    Guest --> UC01
-    Guest --> UC02
+    %% Connections
+    Guest --- UC_Home
+    Guest --- UC_ViewProd
+    Guest --- UC_Search
+    Guest --- UC_ProdDetail
+    Guest --- UC_RecipeKit
+    Guest --- UC_RegMember
+    Guest --- UC_Track
 
-    Customer --> UC01
-    Customer --> UC02
-    Customer --> UC03
-    Customer --> UC06
+    Customer --- UC_Cart
+    Customer --- UC_Checkout
+    Customer --- UC_Track
+    Customer --- UC_RegB2B
 
-    Provider --> UC01
-    Provider --> UC07
-    Provider --> UC09
+    Wholesale --- UC_Checkout
 
-    Admin --> UC01
-    Admin --> UC08
-    Admin --> UC09
+    %% UML Include Relationships
+    UC_ViewProd -.->|"<<include>>"| UC_CatFilter
+    UC_ViewProd -.->|"<<include>>"| UC_BrandFilter
+    UC_Cart -.->|"<<include>>"| UC_AutoDiscount
+    UC_Checkout -.->|"<<include>>"| UC_Payment
+    UC_Checkout -.->|"<<include>>"| UC_ColdPackFee
+    UC_RegMember -.->|"<<include>>"| UC_VerifyOTP
 
-    %% Includes & Extends
-    UC03 -.->|"<<include>>"| UC04
-    UC05 -.->|"<<extend>>"| UC04
-    UC04 <--> PaymentSystem
+    %% UML Extend Relationships
+    UC_ProdDetail -.->|"<<extend>>"| UC_TierPrice
+    UC_Voucher -.->|"<<extend>>"| UC_Payment
+    UC_VAT -.->|"<<extend>>"| UC_Checkout
+
+    classDef uc fill:#FFFDF0,stroke:#8B2500,stroke-width:1.5px,color:#3D1200;
+\`\`\`
+
+---
+
+### 2.2.2 Phân Rã 2: Phân Hệ Quản Trị Cửa Hàng & Kho Vận (Admin & Warehouse)
+Thể hiện luồng quản lý đơn hàng chuỗi lạnh và quản trị kho bơ sữa theo hạn sử dụng FEFO.
+
+\`\`\`mermaid
+flowchart LR
+    %% Actors
+    subgraph ActorsPhanHe2["Tác Nhân Quản Trị"]
+        direction TB
+        Admin["👤\\nQuản Trị Viên\\n(Admin)"]
+        Warehouse["👤\\nNhân Viên Kho\\n(Warehouse Staff)"]
+        ColdCarrier["🚚\\nĐơn Vị Xe Lạnh 2-4h"]
+    end
+
+    %% Use Cases
+    subgraph AdminSubsystem["Phân Hệ Quản Trị & Vận Hành Kho"]
+        direction TB
+        UC_OrderMgt(["Quản lý đơn hàng"]):::uc
+        UC_ConfirmOrder(["Tiếp nhận & Xác nhận"]):::uc
+        UC_Packing(["Đóng gói thùng đá gel"]):::uc
+        UC_Handover(["Bàn giao xe lạnh"]):::uc
+        UC_Inventory(["Quản lý tồn kho theo lô"]):::uc
+        UC_LotBatch(["Ghi nhận số lô & vị trí kho"]):::uc
+        UC_ExpiryAlert(["Cảnh báo bơ sữa cận date"]):::uc
+        UC_ProdMgt(["Quản lý sản phẩm"]):::uc
+        UC_TierConfig(["Cấu hình giá sỉ bậc thang"]):::uc
+        UC_KitMgt(["Quản lý bộ Recipe Kit"]):::uc
+        UC_UserMgt(["Quản trị tài khoản & Duyệt B2B"]):::uc
+        UC_Report(["Báo cáo doanh thu & kho"]):::uc
+    end
+
+    Admin --- UC_OrderMgt
+    Admin --- UC_ProdMgt
+    Admin --- UC_KitMgt
+    Admin --- UC_UserMgt
+    Admin --- UC_Report
+
+    Warehouse --- UC_OrderMgt
+    Warehouse --- UC_Inventory
+
+    %% UML Includes
+    UC_OrderMgt -.->|"<<include>>"| UC_ConfirmOrder
+    UC_OrderMgt -.->|"<<include>>"| UC_Packing
+    UC_OrderMgt -.->|"<<include>>"| UC_Handover
+    UC_Inventory -.->|"<<include>>"| UC_LotBatch
+    UC_ProdMgt -.->|"<<include>>"| UC_TierConfig
+
+    %% UML Extends
+    UC_ExpiryAlert -.->|"<<extend>>"| UC_Inventory
+
+    UC_Handover <--> ColdCarrier
+
+    classDef uc fill:#FFFDF0,stroke:#8B2500,stroke-width:1.5px,color:#3D1200;
+\`\`\`
+
+---
+
+## 2.3 MÃ PLANTUML CHUẨN ĐỂ IMPORT VÀO DRAW.IO / WORD
+
+Sinh viên có thể sao chép đoạn mã PlantUML dưới đây vào **Draw.io** (\`Arrange -> Insert -> Advanced -> PlantUML\`) hoặc công cụ **PlantText.com** để xuất ra sơ đồ hình người que chuẩn 100%:
+
+\`\`\`plantuml
+@startuml GiaHoaPhat_UseCase_TongQuan
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "Khách Vãng Lai\\n(Guest)" as Guest
+actor "Khách Mua Hàng\\n(Customer)" as Customer
+actor "Khách Mua Sỉ\\n(Wholesale B2B)" as Wholesale
+actor "Quản Trị Viên\\n(Admin)" as Admin
+actor "Nhân Viên Kho\\n(Warehouse)" as Warehouse
+
+Customer --|> Guest
+Wholesale --|> Customer
+
+rectangle "Hệ Thống Mua Sắm Nguyên Liệu Làm Bánh Gia Hòa Phát" {
+  (Đăng ký tài khoản) as UC_Reg
+  (Đăng nhập hệ thống) as UC_Login
+  (Tìm kiếm nguyên liệu) as UC_Search
+  (Lọc theo chuỗi lạnh & giá) as UC_Filter
+  (Xem chi tiết & HSD lô hàng) as UC_Detail
+  (Xem combo công thức làm bánh) as UC_Combo
+  (Quản lý giỏ hàng) as UC_Cart
+  (Đặt hàng hỏa tốc xe lạnh) as UC_Order
+  (Thanh toán trực tuyến) as UC_Pay
+  (Tra cứu & Theo dõi đơn hàng) as UC_Track
+  
+  (Quản lý sản phẩm & Bảng giá sỉ) as UC_Prod
+  (Quản lý combo làm bánh) as UC_Kit
+  (Quản lý kho theo số lô) as UC_Inv
+  (Cảnh báo HSD cận date FEFO) as UC_FEFO
+  (Đóng gói đá gel chuỗi lạnh) as UC_Pack
+  (Xử lý đơn hàng) as UC_OrderMgt
+  (Quản trị người dùng & Phân quyền) as UC_User
+  (Báo cáo doanh thu & Kho) as UC_Report
+}
+
+Guest --> UC_Reg
+Guest --> UC_Login
+Guest --> UC_Search
+Guest --> UC_Filter
+Guest --> UC_Detail
+Guest --> UC_Combo
+Guest --> UC_Track
+
+Customer --> UC_Cart
+Customer --> UC_Order
+Customer --> UC_Pay
+Customer --> UC_Track
+
+Wholesale --> UC_Order
+
+Admin --> UC_Login
+Admin --> UC_Prod
+Admin --> UC_Kit
+Admin --> UC_OrderMgt
+Admin --> UC_User
+Admin --> UC_Report
+
+Warehouse --> UC_Login
+Warehouse --> UC_Inv
+Warehouse --> UC_FEFO
+Warehouse --> UC_Pack
+Warehouse --> UC_OrderMgt
+
+@enduml
 \`\`\`
 
 

@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sơ Đồ Use Case — Gia Hoa Phat Bakery Supply (SWR302)</title>
+  
+  <!-- Google Fonts: Rubik & Nunito Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300..900;1,6..12,300..900&family=Rubik:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+  
+  <!-- Mermaid.js for rendering UML diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #92400E;
+      --primary-hover: #78350F;
+      --primary-light: #FEF3C7;
+      --primary-soft: #FFFBEB;
+      --accent: #D97706;
+      --bg: #FDFBF7;
+      --card: #FFFFFF;
+      --border: #FDE68A;
+      --border-subtle: #E2E8F0;
+      --text: #1C1917;
+      --text-muted: #78716C;
+      --text-brown: #78350F;
+      --tag-green: #059669;
+      --tag-green-bg: #ECFDF5;
+      --tag-blue: #2563EB;
+      --tag-blue-bg: #EFF6FF;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Rubik', sans-serif;
+      color: var(--text-brown);
+    }
+
+    /* Top Navbar */
+    .navbar {
+      background: #FFFFFF;
+      border-bottom: 2px solid var(--border);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #B45309, #92400E);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      box-shadow: 0 2px 8px rgba(146, 64, 14, 0.3);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .brand-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #FFFFFF;
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background-color: #FFFFFF;
+      border-color: var(--border);
+      color: var(--primary);
+    }
+    .btn-outline:hover {
+      background-color: var(--primary-soft);
+      border-color: var(--primary);
+    }
+
+    /* Header Banner */
+    .header-banner {
+      background: linear-gradient(180deg, #FEF3C7 0%, #FFFBEB 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .header-text h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+    }
+
+    .header-text p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 820px;
+    }
+
+    .header-stats {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-pill {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.65rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-number {
+      font-family: 'Rubik', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Navigation Tabs */
+    .tabs-container {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 2rem;
+      display: flex;
+      gap: 0.35rem;
+      overflow-x: auto;
+      position: sticky;
+      top: 66px;
+      z-index: 90;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .tab-btn {
+      padding: 0.85rem 1.15rem;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 0.925rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    /* Main Container */
+    .main-content {
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+      flex: 1;
+    }
+
+    /* Toolbar */
+    .diagram-toolbar {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.65rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .toggle-grid-btn {
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-brown);
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: #FFFFFF;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-icon:hover {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Diagram Card */
+    .diagram-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .diagram-header {
+      padding: 0.85rem 1.5rem;
+      background: #FAF8F5;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .diagram-header-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-brown);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .style-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      background: #FEF3C7;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+
+    /* Canvas with optional grid */
+    .diagram-canvas {
+      padding: 2rem 1.5rem;
+      min-height: 600px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #FFFFFF;
+      overflow: auto;
+      cursor: grab;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .diagram-canvas.with-grid {
+      background-color: #FFFFFF;
+      background-image: 
+        linear-gradient(to right, #F3F4F6 1px, transparent 1px),
+        linear-gradient(to bottom, #F3F4F6 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .diagram-canvas:active {
+      cursor: grabbing;
+    }
+
+    .svg-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
+      transform-origin: center center;
+    }
+
+    .svg-container svg {
+      max-width: 100%;
+      height: auto;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.04));
+    }
+
+    /* Code View / PlantUML */
+    .code-box {
+      background: #1F2937;
+      color: #F3F4F6;
+      padding: 1.25rem;
+      border-radius: 10px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .btn-copy {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-copy:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* Use Case Cards Grid */
+    .specs-section {
+      margin-top: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1rem;
+    }
+
+    .uc-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .uc-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      background: var(--primary-soft);
+    }
+
+    .uc-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.4rem;
+    }
+
+    .uc-id {
+      font-family: 'Rubik', monospace;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+    }
+
+    .badge-priority {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .badge-must {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+    .badge-should {
+      background: #FEF3C7;
+      color: #B45309;
+    }
+
+    .uc-name {
+      font-weight: 700;
+      font-size: 0.925rem;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+      line-height: 1.35;
+    }
+
+    .uc-actor {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    /* Modal / Drawer for Specification */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 760px;
+      max-height: 90vh;
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: modalSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FAF8F5 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 1.15rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .btn-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      line-height: 1;
+      padding: 0.25rem;
+    }
+    .btn-close:hover {
+      color: var(--primary);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .meta-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .meta-val {
+      font-weight: 600;
+      color: var(--text-brown);
+    }
+
+    .flow-box {
+      margin-top: 1rem;
+    }
+    .flow-box h4 {
+      font-size: 0.925rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--primary);
+    }
+
+    .flow-steps {
+      padding-left: 1.25rem;
+      margin-bottom: 0.85rem;
+    }
+    .flow-steps li {
+      margin-bottom: 0.3rem;
+    }
+
+    .rule-tag {
+      display: inline-block;
+      background: var(--tag-green-bg);
+      color: var(--tag-green);
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      margin-top: 0.25rem;
+    }
+
+    /* Traceability Table */
+    .table-container {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    th {
+      background: #FAF8F5;
+      font-weight: 700;
+      color: var(--text-brown);
+      font-size: 0.825rem;
+    }
+
+    tr:hover td {
+      background: var(--primary-soft);
+    }
+
+    /* Footer */
+    footer {
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-logo">🥐</div>
+      <div>
+        <div class="brand-title">Gia Hoa Phat Bakery Supply</div>
+        <div class="brand-subtitle">SWR302 — Software Requirements Engineering (Topic 1)</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a href="SWR302_Full_Specification_Report.html" target="_blank" class="btn btn-outline">
+        📄 Báo Cáo SRS (HTML)
+      </a>
+      <button class="btn btn-primary" onclick="window.print()">
+        🖨️ In / Xuất PDF Báo Cáo
+      </button>
+    </div>
+  </header>
+
+  <!-- Header Banner with Stats -->
+  <section class="header-banner">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Sơ Đồ Use Case Chuẩn Giáo Trình & Đồ Án (SWR302)</h1>
+        <p>
+          Mô hình hóa chính xác theo phong cách kinh điển trong các tài liệu đặc tả phần mềm tại Việt Nam: 
+          <strong>Hình người que (Stick-figures)</strong> phân 2 phía, <strong>Cột Use Case elip xếp thẳng thớm</strong> bên trong khung System Boundary, 
+          mũi tên kế thừa (Generalization ▲) và các quan hệ <strong>&lt;&lt;include&gt;&gt;</strong> / <strong>&lt;&lt;extend&gt;&gt;</strong> chuẩn mực.
+        </p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill">
+          <span class="stat-number">2 Phía</span>
+          <span class="stat-label">Bố Cục Chuẩn Mực</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-number">Stickman</span>
+          <span class="stat-label">Biểu Tượng Người Que</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-number">Draw.io</span>
+          <span class="stat-label">Sẵn Sàng Xuất Word</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Tabs -->
+  <nav class="tabs-container">
+    <button class="tab-btn active" onclick="switchTab('classic_overview')">
+      🖼️ 1. Biểu Đồ Tổng Quan (Chuẩn Hình 2)
+    </button>
+    <button class="tab-btn" onclick="switchTab('decomposed_shop')">
+      🔍 2. Phân Rã: Khách Hàng & Mua Sắm (Chuẩn Hình 3/4)
+    </button>
+    <button class="tab-btn" onclick="switchTab('decomposed_admin')">
+      📦 3. Phân Rã: Quản Trị Cửa Hàng & Kho Vận
+    </button>
+    <button class="tab-btn" onclick="switchTab('matrix')">
+      📋 4. Ma Trận Use Case & Bảng Đặc Tả
+    </button>
+    <button class="tab-btn" onclick="switchTab('plantuml')">
+      💻 5. Mã PlantUML / Draw.io (Dán Vào Word)
+    </button>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+
+    <!-- DIAGRAM VIEW CONTAINER (Active for tab 1-3) -->
+    <div id="diagramSection">
+      <!-- Toolbar Controls -->
+      <div class="diagram-toolbar">
+        <div class="toolbar-left">
+          <button class="toggle-grid-btn" onclick="toggleGrid()">▦ Bật/Tắt Lưới Ô Vuông (Grid)</button>
+          <span style="color: var(--text-muted); font-size: 0.8rem;">
+            Tip: Nhấp đúp hoặc lăn chuột / kéo để xem phóng to chi tiết.
+          </span>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn-icon" title="Phóng to (+)" onclick="zoomDiagram(1.15)">＋</button>
+          <button class="btn-icon" title="Thu nhỏ (-)" onclick="zoomDiagram(0.85)">－</button>
+          <button class="btn-icon" title="Reset Zoom (100%)" onclick="resetZoom()">⟲</button>
+          <button class="btn-icon" title="Toàn màn hình" onclick="toggleFullscreen()">⛶</button>
+        </div>
+      </div>
+
+      <!-- Diagram Card -->
+      <div class="diagram-card" id="diagramWrapper">
+        <div class="diagram-header">
+          <div class="diagram-header-title" id="diagramTitle">
+            🖼️ Biểu đồ use case tổng quan — Hệ Thống Mua Sắm Nguyên Liệu Bánh (Gia Hoa Phat)
+          </div>
+          <span class="style-badge" id="diagramSubtitle">Phong cách giáo trình & Draw.io</span>
+        </div>
+
+        <div class="diagram-canvas with-grid" id="canvasArea">
+          <div id="svgTarget" class="svg-container">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Use Case Cards (Click to open spec) -->
+      <section class="specs-section">
+        <h2 class="section-title">
+          📌 Bấm Vào Từng Use Case Để Xem Đặc Tả Chi Tiết (Alistair Cockburn Format)
+        </h2>
+        <div class="chips-grid" id="useCaseCardsContainer">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+    </div>
+
+    <!-- TRACEABILITY MATRIX TABLE VIEW (Active for tab 4) -->
+    <div id="matrixSection" style="display: none;">
+      <h2 class="section-title">
+        📋 Ma Trận Truy Vết Use Case Đầy Đủ (SWR302 Traceability Index)
+      </h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 85px;">Mã UC</th>
+              <th>Tên Use Case</th>
+              <th>Primary Actor</th>
+              <th>Độ Ưu Tiên</th>
+              <th>Phân Hệ</th>
+              <th>Quan Hệ UML</th>
+              <th>Traceability (FR / BR)</th>
+              <th style="width: 90px; text-align: center;">Hành Động</th>
+            </tr>
+          </thead>
+          <tbody id="matrixTableBody">
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PLANTUML / DRAW.IO CODE VIEW (Active for tab 5) -->
+    <div id="codeSection" style="display: none;">
+      <h2 class="section-title">
+        💻 Mã Nguồn PlantUML Chuẩn Để Dán Vào Draw.io / Word / Báo Cáo
+      </h2>
+      <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+        Hướng dẫn sử dụng: Mở <a href="https://app.diagrams.net/" target="_blank" style="color: var(--primary); font-weight: 700;">Draw.io</a> 
+        ➔ Chọn <strong>Arrange ➔ Insert ➔ Advanced ➔ PlantUML</strong> ➔ Dán toàn bộ mã dưới đây vào để tự động sinh ra sơ đồ hình người que chuẩn 100%!
+      </p>
+      <div class="code-box">
+        <button class="btn-copy" onclick="copyPlantUML()">📋 Sao chép mã PlantUML</button>
+        <pre><code id="plantUmlCode">@startuml GiaHoaPhat_UseCase_TongQuan
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+
+actor "Khách Vãng Lai\n(Guest)" as Guest
+actor "Khách Mua Hàng\n(Customer)" as Customer
+actor "Khách Mua Sỉ\n(Wholesale B2B)" as Wholesale
+actor "Quản Trị Viên\n(Admin)" as Admin
+actor "Nhân Viên Kho\n(Warehouse)" as Warehouse
+
+Customer --|> Guest
+Wholesale --|> Customer
+
+rectangle "Hệ Thống Mua Sắm Nguyên Liệu Làm Bánh Gia Hòa Phát" {
+  (Đăng ký tài khoản) as UC_Reg
+  (Đăng nhập hệ thống) as UC_Login
+  (Tìm kiếm nguyên liệu) as UC_Search
+  (Lọc theo chuỗi lạnh & giá) as UC_Filter
+  (Xem chi tiết & HSD lô hàng) as UC_Detail
+  (Xem combo công thức làm bánh) as UC_Combo
+  (Quản lý giỏ hàng) as UC_Cart
+  (Đặt hàng hỏa tốc xe lạnh) as UC_Order
+  (Thanh toán trực tuyến) as UC_Pay
+  (Tra cứu & Theo dõi đơn hàng) as UC_Track
+  
+  (Quản lý sản phẩm & Bảng giá sỉ) as UC_Prod
+  (Quản lý combo làm bánh) as UC_Kit
+  (Quản lý kho theo số lô) as UC_Inv
+  (Cảnh báo HSD cận date FEFO) as UC_FEFO
+  (Đóng gói đá gel chuỗi lạnh) as UC_Pack
+  (Xử lý đơn hàng) as UC_OrderMgt
+  (Quản trị người dùng & Phân quyền) as UC_User
+  (Báo cáo doanh thu & Kho) as UC_Report
+}
+
+Guest --> UC_Reg
+Guest --> UC_Login
+Guest --> UC_Search
+Guest --> UC_Filter
+Guest --> UC_Detail
+Guest --> UC_Combo
+Guest --> UC_Track
+
+Customer --> UC_Cart
+Customer --> UC_Order
+Customer --> UC_Pay
+Customer --> UC_Track
+
+Wholesale --> UC_Order
+
+Admin --> UC_Login
+Admin --> UC_Prod
+Admin --> UC_Kit
+Admin --> UC_OrderMgt
+Admin --> UC_User
+Admin --> UC_Report
+
+Warehouse --> UC_Login
+Warehouse --> UC_Inv
+Warehouse --> UC_FEFO
+Warehouse --> UC_Pack
+Warehouse --> UC_OrderMgt
+@enduml</code></pre>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Modal Specification Drawer -->
+  <div class="modal-overlay" id="specModal" onclick="closeModalOutside(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="uc-id" id="modalUcId">UC-01</span>
+          <h3 id="modalUcName" style="margin-top: 0.35rem;">Tìm Kiếm Sản Phẩm & Gợi Ý Nhanh</h3>
+        </div>
+        <button class="btn-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modalBodyContent">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Đồ Án Môn Học SWR302 (Software Requirements) — FPT University — Fall 2026</p>
+    <p style="margin-top: 0.25rem;">Topic 1: Hệ Thống Mua Sắm Nguyên Liệu & Thiết Bị Làm Bánh Trực Tuyến (Gia Hoa Phat Bakery Supply)</p>
+  </footer>
+
+  <!-- Script Data & Logic -->
+  <script>
+    // ==========================================
+    // 1. HIGH-FIDELITY SVG DIAGRAM GENERATORS
+    // ==========================================
+
+    // Helper: Draw Stick Figure Actor
+    function renderStickFigure(x, y, label, subLabel = '', color = '#000000', fillColor = '#FFFFFF') {
+      return `
+        <g class="actor-group" style="cursor: pointer;">
+          <!-- Head -->
+          <circle cx="${x}" cy="${y - 30}" r="12" fill="${fillColor}" stroke="${color}" stroke-width="1.8"/>
+          <!-- Body -->
+          <line x1="${x}" y1="${y - 18}" x2="${x}" y2="${y + 20}" stroke="${color}" stroke-width="1.8"/>
+          <!-- Arms -->
+          <line x1="${x - 22}" y1="${y - 3}" x2="${x + 22}" y2="${y - 3}" stroke="${color}" stroke-width="1.8"/>
+          <!-- Legs -->
+          <line x1="${x}" y1="${y + 20}" x2="${x - 18}" y2="${y + 55}" stroke="${color}" stroke-width="1.8"/>
+          <line x1="${x}" y1="${y + 20}" x2="${x + 18}" y2="${y + 55}" stroke="${color}" stroke-width="1.8"/>
+          <!-- Text Labels -->
+          <text x="${x}" y="${y + 75}" font-family="'Nunito Sans', sans-serif" font-size="13" font-weight="700" fill="${color}" text-anchor="middle">${label}</text>
+          ${subLabel ? `<text x="${x}" y="${y + 92}" font-family="'Nunito Sans', sans-serif" font-size="11" font-weight="600" fill="#666666" text-anchor="middle">${subLabel}</text>` : ''}
+        </g>
+      `;
+    }
+
+    // Helper: Draw Oval Use Case
+    function renderUseCaseOval(cx, cy, rx, ry, text, ucId = '', fill = '#FFFFFF', stroke = '#000000', textColor = '#000000') {
+      return `
+        <g class="use-case-node" onclick="openModal('${ucId}')" style="cursor: pointer;">
+          <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${fill}" stroke="${stroke}" stroke-width="1.6" />
+          <text x="${cx}" y="${cy + 4}" font-family="'Nunito Sans', sans-serif" font-size="12.5" font-weight="600" fill="${textColor}" text-anchor="middle" pointer-events="none">${text}</text>
+        </g>
+      `;
+    }
+
+    // SVG 1: Biểu đồ Use Case Tổng Quan (Chuẩn Hình 2)
+    function generateClassicOverviewSVG() {
+      const ovals = [
+        { id: "UC-01", name: "Đăng ký tài khoản", y: 100 },
+        { id: "UC-02", name: "Đăng nhập hệ thống", y: 152 },
+        { id: "UC-03", name: "Tìm kiếm nguyên liệu", y: 204 },
+        { id: "UC-04", name: "Lọc theo chuỗi lạnh & giá", y: 256 },
+        { id: "UC-05", name: "Xem chi tiết & HSD theo lô", y: 308 },
+        { id: "UC-06", name: "Xem combo công thức làm bánh", y: 360 },
+        { id: "UC-07", name: "Quản lý giỏ hàng", y: 412 },
+        { id: "UC-08", name: "Đặt hàng hỏa tốc xe lạnh", y: 464 },
+        { id: "UC-09", name: "Thanh toán trực tuyến", y: 516 },
+        { id: "UC-10", name: "Tra cứu & Theo dõi đơn hàng", y: 568 },
+        { id: "UC-11", name: "Quản lý sản phẩm & Bảng giá sỉ", y: 620 },
+        { id: "UC-12", name: "Quản lý kho hàng theo số lô", y: 672 },
+        { id: "UC-13", name: "Cảnh báo bơ sữa cận date (FEFO)", y: 724 },
+        { id: "UC-14", name: "Quản lý & Xử lý đơn hàng", y: 776 },
+        { id: "UC-15", name: "Báo cáo thống kê doanh thu", y: 828 }
+      ];
+
+      const cx = 560;
+      const rx = 135;
+      const ry = 19;
+
+      // Lines from Admin (x=120, y=470)
+      const adminLines = [152, 620, 672, 724, 776, 828].map(y => 
+        `<line x1="120" y1="470" x2="${cx - rx + 4}" y2="${y}" stroke="#000000" stroke-width="1.2" opacity="0.8"/>`
+      ).join('');
+
+      // Lines from Guest (x=980, y=210)
+      const guestLines = [100, 152, 204, 256, 308, 360, 568].map(y => 
+        `<line x1="980" y1="210" x2="${cx + rx - 4}" y2="${y}" stroke="#000000" stroke-width="1.2" opacity="0.8"/>`
+      ).join('');
+
+      // Lines from Customer (x=980, y=530)
+      const customerLines = [412, 464, 516, 568].map(y => 
+        `<line x1="980" y1="530" x2="${cx + rx - 4}" y2="${y}" stroke="#000000" stroke-width="1.2" opacity="0.8"/>`
+      ).join('');
+
+      // Lines from Wholesale (x=980, y=750)
+      const wholesaleLines = [464, 516].map(y => 
+        `<line x1="980" y1="750" x2="${cx + rx - 4}" y2="${y}" stroke="#000000" stroke-width="1.2" opacity="0.8"/>`
+      ).join('');
+
+      return `
+        <svg viewBox="0 0 1120 900" width="100%" height="900" xmlns="http://www.w3.org/2000/svg">
+          <!-- Defs for Generalization Arrow -->
+          <defs>
+            <marker id="arrowUp" markerWidth="12" markerHeight="12" refX="6" refY="12" orient="auto">
+              <path d="M 0 12 L 6 0 L 12 12 Z" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" />
+            </marker>
+          </defs>
+
+          <!-- System Boundary Box -->
+          <rect x="250" y="45" width="620" height="825" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="2" />
+          
+          <!-- Boundary Header Box -->
+          <rect x="660" y="28" width="190" height="28" rx="2" fill="#FFFFFF" stroke="#000000" stroke-width="1.5" />
+          <text x="755" y="46" font-family="'Nunito Sans', sans-serif" font-size="11.5" font-weight="700" fill="#000000" text-anchor="middle">Web Bán Nguyên Liệu Bánh</text>
+
+          <!-- Association Lines -->
+          ${adminLines}
+          ${guestLines}
+          ${customerLines}
+          ${wholesaleLines}
+
+          <!-- Left Actor: Admin -->
+          ${renderStickFigure(120, 470, "Quản trị viên", "(Admin)", "#000000")}
+
+          <!-- Right Actors -->
+          <!-- Guest -->
+          ${renderStickFigure(980, 210, "Khách vãng lai", "(Guest)", "#000000")}
+
+          <!-- Customer -->
+          ${renderStickFigure(980, 530, "Khách hàng", "(Customer)", "#000000")}
+          <!-- Generalization line from Customer to Guest -->
+          <line x1="980" y1="455" x2="980" y2="305" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowUp)" />
+
+          <!-- Wholesale Customer -->
+          ${renderStickFigure(980, 750, "Khách mua sỉ", "(Wholesale B2B)", "#000000")}
+          <!-- Generalization line from Wholesale to Customer -->
+          <line x1="980" y1="675" x2="980" y2="625" stroke="#000000" stroke-width="1.5" marker-end="url(#arrowUp)" />
+
+          <!-- Center Use Cases (Ovals) -->
+          ${ovals.map(o => renderUseCaseOval(cx, o.y, rx, ry, o.name, o.id, "#FFFFFF", "#000000", "#000000")).join('')}
+        </svg>
+      `;
+    }
+
+    // SVG 2: Biểu đồ Use Case Phân Rã Khách Hàng & Mua Sắm (Chuẩn Hình 3/4)
+    function generateDecomposedShopSVG() {
+      return `
+        <svg viewBox="0 0 1000 880" width="100%" height="880" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="dashArrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M 0 0 L 8 5 L 0 10 Z" fill="#8B2500" />
+            </marker>
+          </defs>
+
+          <!-- Actors -->
+          ${renderStickFigure(120, 280, "Khách hàng tiềm năng", "(Guest)", "#8B2500", "#FFFDF0")}
+          ${renderStickFigure(120, 700, "Khách hàng", "(Customer)", "#8B2500", "#FFFDF0")}
+          ${renderStickFigure(880, 680, "Người bán hàng", "(Seller / Staff)", "#8B2500", "#FFFDF0")}
+
+          <!-- Top-level Use Cases for Guest -->
+          ${renderUseCaseOval(260, 100, 80, 24, "Xem trang chủ", "UC-01", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(440, 100, 80, 24, "Xem sản phẩm", "UC-03", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(750, 60, 105, 24, "Xem theo chủng loại / lạnh", "UC-02", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(750, 130, 115, 24, "Xem theo thương hiệu", "UC-03", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          ${renderUseCaseOval(470, 180, 75, 22, "Tìm kiếm", "UC-01", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(500, 245, 115, 23, "Xem chi tiết sản phẩm", "UC-03", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(500, 310, 85, 22, "Xem khuyến mãi", "UC-03", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(500, 370, 85, 22, "Xem combo bánh", "UC-04", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          <!-- Cart & Checkout Group -->
+          ${renderUseCaseOval(520, 440, 90, 23, "Quản lý giỏ hàng", "UC-07", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(760, 440, 75, 23, "Đặt hàng", "UC-08", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(200, 440, 95, 23, "Đăng ký thành viên", "UC-05", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          <!-- Shared Chat & Login -->
+          ${renderUseCaseOval(560, 520, 65, 22, "Chat tư vấn", "UC-05", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(440, 580, 75, 22, "Đăng nhập", "UC-05", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          <!-- Customer Order Section -->
+          ${renderUseCaseOval(420, 660, 125, 24, "Quản lý đơn cá nhân", "UC-12", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(280, 760, 75, 24, "Thanh toán", "UC-10", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          <!-- Seller Order Section -->
+          ${renderUseCaseOval(720, 660, 90, 24, "Quản lý đơn hàng", "UC-14", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(600, 760, 70, 24, "Thu tiền", "UC-10", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(830, 760, 105, 24, "Theo dõi chuyển hàng", "UC-12", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          <!-- Association Lines (Solid Red-Brown) -->
+          <!-- Guest Lines -->
+          <line x1="150" y1="230" x2="210" y2="115" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="240" x2="365" y2="105" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="250" x2="395" y2="180" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="265" x2="385" y2="245" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="275" x2="415" y2="310" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="285" x2="415" y2="370" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="300" x2="430" y2="440" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="130" y1="340" x2="180" y2="420" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="315" x2="505" y2="510" stroke="#8B2500" stroke-width="1.3" />
+
+          <!-- Customer Lines -->
+          <line x1="150" y1="680" x2="365" y2="585" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="700" x2="300" y2="665" stroke="#8B2500" stroke-width="1.3" />
+
+          <!-- Seller Lines -->
+          <line x1="840" y1="655" x2="625" y2="525" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="840" y1="665" x2="515" y2="585" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="840" y1="680" x2="810" y2="665" stroke="#8B2500" stroke-width="1.3" />
+
+          <!-- <<include>> Dashed Arrows -->
+          <!-- Xem sản phẩm -> Xem theo chủng loại -->
+          <line x1="515" y1="90" x2="645" y2="68" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrow)" />
+          <text x="585" y="70" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+
+          <!-- Xem sản phẩm -> Xem theo thương hiệu -->
+          <line x1="515" y1="110" x2="640" y2="125" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrow)" />
+          <text x="585" y="128" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+
+          <!-- Giỏ hàng -> Đặt hàng -->
+          <line x1="610" y1="440" x2="680" y2="440" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrow)" />
+          <text x="645" y="432" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+
+          <!-- Quản lý đơn cá nhân -> Thanh toán -->
+          <line x1="365" y1="682" x2="310" y2="738" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrow)" />
+          <text x="345" y="718" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+
+          <!-- Quản lý đơn hàng -> Thu tiền -->
+          <line x1="675" y1="682" x2="630" y2="738" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrow)" />
+          <text x="655" y="718" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+
+          <!-- Quản lý đơn hàng -> Theo dõi giao hàng -->
+          <line x1="765" y1="682" x2="805" y2="738" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrow)" />
+          <text x="785" y="718" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+        </svg>
+      `;
+    }
+
+    // SVG 3: Biểu đồ Use Case Phân Rã Quản Trị & Kho Vận
+    function generateDecomposedAdminSVG() {
+      return `
+        <svg viewBox="0 0 1000 800" width="100%" height="800" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="dashArrowAdmin" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+              <path d="M 0 0 L 8 5 L 0 10 Z" fill="#8B2500" />
+            </marker>
+          </defs>
+
+          <!-- Actors -->
+          ${renderStickFigure(120, 240, "Quản Trị Viên", "(Admin)", "#8B2500", "#FFFDF0")}
+          ${renderStickFigure(120, 580, "Nhân Viên Kho", "(Warehouse Staff)", "#8B2500", "#FFFDF0")}
+          ${renderStickFigure(880, 580, "Đơn Vị Xe Lạnh", "(Cold Carrier)", "#8B2500", "#FFFDF0")}
+
+          <!-- Admin Core Use Cases -->
+          ${renderUseCaseOval(440, 100, 110, 24, "Quản lý sản phẩm", "UC-11", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(780, 100, 115, 24, "Cấu hình giá sỉ bậc thang", "UC-11", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          ${renderUseCaseOval(440, 175, 115, 24, "Quản lý combo làm bánh", "UC-04", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(440, 250, 120, 24, "Quản trị người dùng & RBAC", "UC-05", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(440, 325, 115, 24, "Báo cáo doanh thu & kho", "UC-15", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          <!-- Warehouse & Cold Chain Use Cases -->
+          ${renderUseCaseOval(450, 440, 120, 24, "Quản lý kho theo số lô", "UC-12", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(780, 400, 115, 24, "Ghi nhận mã lô & vị trí kho", "UC-12", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(780, 480, 120, 24, "Cảnh báo HSD cận date (FEFO)", "UC-13", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          ${renderUseCaseOval(450, 560, 115, 24, "Đóng gói đá gel chuỗi lạnh", "UC-14", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(450, 660, 110, 24, "Xử lý & Phê duyệt đơn", "UC-14", "#FFFDF0", "#8B2500", "#3D1200")}
+          ${renderUseCaseOval(780, 660, 115, 24, "Bàn giao đơn cho xe lạnh", "UC-14", "#FFFDF0", "#8B2500", "#3D1200")}
+
+          <!-- Lines from Admin -->
+          <line x1="150" y1="210" x2="330" y2="105" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="225" x2="325" y2="175" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="240" x2="320" y2="250" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="255" x2="325" y2="325" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="280" x2="345" y2="655" stroke="#8B2500" stroke-width="1.3" />
+
+          <!-- Lines from Warehouse Staff -->
+          <line x1="150" y1="560" x2="330" y2="445" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="580" x2="335" y2="560" stroke="#8B2500" stroke-width="1.3" />
+          <line x1="150" y1="600" x2="345" y2="660" stroke="#8B2500" stroke-width="1.3" />
+
+          <!-- Lines from Cold Carrier -->
+          <line x1="840" y1="610" x2="780" y2="640" stroke="#8B2500" stroke-width="1.3" />
+
+          <!-- <<include>> and <<extend>> -->
+          <!-- Quản lý sản phẩm -> Cấu hình giá sỉ -->
+          <line x1="550" y1="100" x2="660" y2="100" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrowAdmin)" />
+          <text x="605" y="92" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+
+          <!-- Quản lý kho -> Ghi nhận mã lô -->
+          <line x1="555" y1="425" x2="665" y2="410" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrowAdmin)" />
+          <text x="615" y="412" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+
+          <!-- Cảnh báo FEFO extend Quản lý kho -->
+          <line x1="665" y1="475" x2="565" y2="455" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrowAdmin)" />
+          <text x="615" y="475" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;extend&gt;&gt;</text>
+
+          <!-- Xử lý đơn -> Bàn giao xe lạnh -->
+          <line x1="560" y1="660" x2="660" y2="660" stroke="#8B2500" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#dashArrowAdmin)" />
+          <text x="610" y="652" font-family="'Nunito Sans', sans-serif" font-size="10.5" fill="#8B2500" font-weight="600">&lt;&lt;include&gt;&gt;</text>
+        </svg>
+      `;
+    }
+
+    // ==========================================
+    // 2. DETAILED USE CASE DATA SPECIFICATIONS
+    // ==========================================
+    const USE_CASES_DATA = [
+      {
+        id: "UC-01",
+        name: "Đăng Ký Tài Khoản & Kích Hoạt OTP",
+        tab: "decomposed_shop",
+        actor: "Khách Vãng Lai (Guest)",
+        priority: "Must",
+        module: "Khám Phá & Đăng Ký",
+        relations: "<<include>> Xác thực OTP điện tử",
+        fr: "FR-AUTH-01",
+        br: "BR-RULE-05",
+        preCondition: "Người dùng chưa có tài khoản.",
+        postCondition: "Hệ thống cấp tài khoản với quyền Khách hàng mua lẻ.",
+        mainFlow: [
+          "1. Người dùng nhập số điện thoại, mật khẩu và họ tên.",
+          "2. Hệ thống gửi mã OTP 6 chữ số có hiệu lực trong 5 phút.",
+          "3. Người dùng nhập OTP để kích hoạt tài khoản.",
+          "4. Hệ thống hoàn tất đăng ký và tự động đăng nhập."
+        ],
+        exceptions: ["Nhập sai OTP quá 3 lần: Yêu cầu nhấn gửi lại mã mới."]
+      },
+      {
+        id: "UC-02",
+        name: "Xem Theo Chủng Loại & Chuỗi Lạnh",
+        tab: "decomposed_shop",
+        actor: "Khách Vãng Lai, Khách Hàng",
+        priority: "Must",
+        module: "Khám Phá & Mua Hàng",
+        relations: "<<include>> từ Xem sản phẩm",
+        fr: "FR-FIL-02",
+        br: "BR-RULE-01 (Cold Chain Rule)",
+        preCondition: "Người dùng truy cập vào trang danh mục.",
+        postCondition: "Danh sách sản phẩm được lọc theo chuẩn bảo quản mát (Chilled) / đông lạnh (Frozen).",
+        mainFlow: [
+          "1. Người dùng tick chọn phân loại bảo quản lạnh.",
+          "2. Hệ thống hiển thị các sản phẩm có biểu tượng xe lạnh và quy định đá gel.",
+          "3. Cập nhật danh sách tức thì theo thời gian thực."
+        ],
+        exceptions: ["Không có sản phẩm nào: Hiển thị gợi ý mặt hàng tương đương."]
+      },
+      {
+        id: "UC-03",
+        name: "Xem Chi Tiết & Bảng Giá Sỉ Bậc Thang",
+        tab: "decomposed_shop",
+        actor: "Khách Hàng, Khách Sỉ B2B",
+        priority: "Must",
+        module: "Khám Phá & Mua Hàng",
+        relations: "<<extend>> Xem bảng giá sỉ bậc thang",
+        fr: "FR-PROD-03",
+        br: "BR-RULE-02 (Wholesale Tier)",
+        preCondition: "Khách click vào sản phẩm bất kỳ.",
+        postCondition: "Hiển thị đầy đủ thông số kỹ thuật, hạn sử dụng theo lô và mốc giảm giá.",
+        mainFlow: [
+          "1. Hiển thị thông số lô hàng (Batch No, NSX, HSD).",
+          "2. Hiển thị bảng chiết khấu theo số lượng (1-9 thỏi, 10-39 thỏi, >=40 thỏi).",
+          "3. Tự động tính tiền tạm tính theo mốc số lượng khách chọn."
+        ],
+        exceptions: ["Sản phẩm tạm hết hàng: Nút mua chuyển sang trạng thái disabled."]
+      },
+      {
+        id: "UC-04",
+        name: "Xem & Mua Bộ Combo Recipe Kit",
+        tab: "decomposed_shop",
+        actor: "Khách Vãng Lai, Khách Hàng",
+        priority: "Should",
+        module: "Khám Phá & Mua Hàng",
+        relations: "<<include>> Thêm cả combo vào giỏ",
+        fr: "FR-KIT-04",
+        br: "BR-RULE-06 (Recipe Kit Rule)",
+        preCondition: "Khách vào chuyên mục Combo Làm Bánh.",
+        postCondition: "Toàn bộ nguyên liệu định lượng chuẩn của món bánh được đưa vào giỏ với 1 click.",
+        mainFlow: [
+          "1. Khách chọn món bánh (Tiramisu, Sourdough, Cookie).",
+          "2. Xem công thức và danh sách nguyên liệu định lượng chi tiết.",
+          "3. Nhấn 'Thêm trọn bộ vào giỏ hàng'."
+        ],
+        exceptions: ["1 nguyên liệu hết hàng: Cảnh báo và gợi ý nguyên liệu thay thế."]
+      },
+      {
+        id: "UC-07",
+        name: "Quản Lý Giỏ Hàng Thông Minh",
+        tab: "decomposed_shop",
+        actor: "Khách Hàng",
+        priority: "Must",
+        module: "Giỏ Hàng & Đặt Hàng",
+        relations: "<<include>> Đặt hàng; <<include>> Tự động áp giá sỉ",
+        fr: "FR-CART-05",
+        br: "BR-RULE-01, BR-RULE-02",
+        preCondition: "Giỏ hàng có ít nhất 1 sản phẩm.",
+        postCondition: "Tự động hạ giá sỉ khi đủ số lượng, tính tổng khối lượng và phí thùng đá gel.",
+        mainFlow: [
+          "1. Khách hàng tăng/giảm số lượng trong giỏ.",
+          "2. Khi số lượng chạm mốc giá sỉ, hệ thống tự động giảm giá trực tiếp.",
+          "3. Nếu có hàng lạnh, tự động tính phí đóng gói đá gel thùng xốp."
+        ],
+        exceptions: ["Số lượng vượt tồn kho: Giới hạn số lượng tối đa khả dụng."]
+      },
+      {
+        id: "UC-08",
+        name: "Đặt Hàng Hỏa Tốc Xe Lạnh",
+        tab: "decomposed_shop",
+        actor: "Khách Hàng, Khách Sỉ",
+        priority: "Must",
+        module: "Giỏ Hàng & Đặt Hàng",
+        relations: "<<include>> Thanh toán; <<include>> Tính phí thùng đá gel",
+        fr: "FR-CHK-06",
+        br: "BR-RULE-01 (Cold Chain Rule)",
+        preCondition: "Hoàn tất chọn sản phẩm vào giỏ.",
+        postCondition: "Đơn hàng được khởi tạo thành công với mã đơn duy nhất.",
+        mainFlow: [
+          "1. Khách nhập địa chỉ giao hàng.",
+          "2. Chọn phương thức 'Hỏa tốc xe lạnh 2-4h' (bắt buộc nếu có bơ sữa).",
+          "3. Chọn hình thức thanh toán và xác nhận."
+        ],
+        exceptions: ["Ngoài bán kính giao xe lạnh: Đề xuất chuyển phát xe tải đông lạnh liên tỉnh."]
+      },
+      {
+        id: "UC-10",
+        name: "Thanh Toán Đơn Hàng Trực Tuyến",
+        tab: "decomposed_shop",
+        actor: "Khách Hàng, Khách Sỉ",
+        priority: "Must",
+        module: "Thanh Toán",
+        relations: "<<extend>> Áp dụng voucher",
+        fr: "FR-CHK-06",
+        br: "BR-07",
+        preCondition: "Khách hàng hoàn tất bước đặt hàng.",
+        postCondition: "Giao dịch thành công qua VNPay QR / MoMo / Chuyển khoản.",
+        mainFlow: [
+          "1. Hiển thị mã QR động chứa đúng số tiền và nội dung đơn.",
+          "2. Khách quét mã trên app ngân hàng / ví điện tử.",
+          "3. Cổng thanh toán gửi IPN xác nhận và chuyển trạng thái 'Đã thanh toán'."
+        ],
+        exceptions: ["Hết thời gian 15 phút: Cho phép bấm tạo lại mã QR mới."]
+      },
+      {
+        id: "UC-11",
+        name: "Quản Lý Sản Phẩm & Bảng Giá Sỉ",
+        tab: "decomposed_admin",
+        actor: "Quản Trị Viên (Admin)",
+        priority: "Must",
+        module: "Quản Trị",
+        relations: "<<include>> Cấu hình giá sỉ bậc thang",
+        fr: "FR-ADM-08",
+        br: "BR-RULE-02",
+        preCondition: "Admin đăng nhập.",
+        postCondition: "Sản phẩm và bảng giá mới được xuất bản lên website.",
+        mainFlow: [
+          "1. Admin thêm/sửa sản phẩm.",
+          "2. Khai báo quy chuẩn nhiệt độ bảo quản.",
+          "3. Nhập bảng giá sỉ bậc thang theo số lượng mua.",
+          "4. Bấm lưu và cập nhật."
+        ],
+        exceptions: ["Giá sỉ cao hơn giá bán lẻ: Báo lỗi validation."]
+      },
+      {
+        id: "UC-12",
+        name: "Quản Lý Kho Hàng Theo Số Lô (Lot/Batch)",
+        tab: "decomposed_admin",
+        actor: "Nhân Viên Kho",
+        priority: "Must",
+        module: "Kho Vận",
+        relations: "<<include>> Ghi nhận số lô & vị trí kho",
+        fr: "FR-ADM-08",
+        br: "BR-RULE-03 (FEFO Rule)",
+        preCondition: "Nhân viên kho đăng nhập.",
+        postCondition: "Ghi nhận tồn kho chính xác theo từng lô nhập kèm HSD.",
+        mainFlow: [
+          "1. Nhận hàng từ nhà sản xuất (Anchor, Puratos).",
+          "2. Nhập mã số lô, số lượng, NSX và HSD.",
+          "3. Chỉ định vị trí kho mát (2-4°C) hoặc kho đông (-18°C)."
+        ],
+        exceptions: ["Hàng cận date dưới định mức: Từ chối nhận kho."]
+      },
+      {
+        id: "UC-13",
+        name: "Cảnh Báo Hạn Dùng FEFO Cận Date",
+        tab: "decomposed_admin",
+        actor: "Nhân Viên Kho",
+        priority: "Must",
+        module: "Kho Vận",
+        relations: "<<extend>> Quản lý kho theo số lô",
+        fr: "FR-ADM-08",
+        br: "BR-RULE-03 (First-Expired, First-Out)",
+        preCondition: "Tồn kho có lô nguyên liệu dưới 30 ngày HSD.",
+        postCondition: "Hệ thống gắn cờ cảnh báo và ưu tiên xuất lô cận date trước.",
+        mainFlow: [
+          "1. Hệ thống tự động quét kiểm tra HSD hàng ngày.",
+          "2. Bắn cảnh báo đỏ/vàng trên màn hình kho.",
+          "3. Phiếu soạn hàng tự động chỉ định xuất mã lô có date gần nhất."
+        ],
+        exceptions: ["Lô hàng hết date: Tự động khóa, không cho xuất bán."]
+      },
+      {
+        id: "UC-14",
+        name: "Xử Lý Đơn & Đóng Gói Đá Gel Chuỗi Lạnh",
+        tab: "decomposed_admin",
+        actor: "Nhân Viên Kho, CSKH",
+        priority: "Must",
+        module: "Kho Vận",
+        relations: "<<include>> Bàn giao xe lạnh",
+        fr: "FR-ADM-08",
+        br: "BR-RULE-01 (Cold Chain Rule)",
+        preCondition: "Đơn hàng mới có chứa bơ sữa tươi.",
+        postCondition: "Đóng gói đúng tiêu chuẩn và bàn giao tài xế xe lạnh.",
+        mainFlow: [
+          "1. In phiếu xuất kho theo nguyên tắc FEFO.",
+          "2. Lấy nguyên liệu từ kho mát, xếp thùng xốp lót bạc và túi đá gel đông cứng.",
+          "3. Dán tem niêm phong chuỗi lạnh và bàn giao xe lạnh 2-4h."
+        ],
+        exceptions: ["Hết đá gel dự phòng: Báo động bổ sung đá gel từ khay trữ lạnh khẩn cấp."]
+      },
+      {
+        id: "UC-15",
+        name: "Báo Cáo Thống Kê Doanh Thu & Kho",
+        tab: "decomposed_admin",
+        actor: "Quản Trị Viên (Admin)",
+        priority: "Should",
+        module: "Quản Trị",
+        relations: "Tổng hợp từ Đơn hàng & Kho",
+        fr: "FR-ADM-08",
+        br: "—",
+        preCondition: "Admin đăng nhập.",
+        postCondition: "Hiển thị biểu đồ doanh thu bán lẻ, bán sỉ B2B và tồn kho.",
+        mainFlow: [
+          "1. Chọn mốc thời gian báo cáo.",
+          "2. Xem tỷ trọng doanh thu khách lẻ vs khách sỉ.",
+          "3. Xem top 10 sản phẩm bán chạy nhất."
+        ],
+        exceptions: ["Không có dữ liệu trong kỳ: Hiển thị thông báo trống."]
+      }
+    ];
+
+    // ==========================================
+    // 3. TAB CONTROLLER & EVENT LISTENERS
+    // ==========================================
+    let currentTab = 'classic_overview';
+    let currentZoom = 1;
+    let isGridOn = true;
+
+    function switchTab(tabId) {
+      currentTab = tabId;
+
+      // Update Tab active styling
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        const tabs = ['classic_overview', 'decomposed_shop', 'decomposed_admin', 'matrix', 'plantuml'];
+        if (tabs[idx] === tabId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      const diagramSection = document.getElementById('diagramSection');
+      const matrixSection = document.getElementById('matrixSection');
+      const codeSection = document.getElementById('codeSection');
+
+      if (tabId === 'matrix') {
+        diagramSection.style.display = 'none';
+        matrixSection.style.display = 'block';
+        codeSection.style.display = 'none';
+        renderMatrixTable();
+        return;
+      }
+
+      if (tabId === 'plantuml') {
+        diagramSection.style.display = 'none';
+        matrixSection.style.display = 'none';
+        codeSection.style.display = 'block';
+        return;
+      }
+
+      diagramSection.style.display = 'block';
+      matrixSection.style.display = 'none';
+      codeSection.style.display = 'none';
+
+      // Update Titles & Render SVG
+      const target = document.getElementById('svgTarget');
+      const titleEl = document.getElementById('diagramTitle');
+      const subTitleEl = document.getElementById('diagramSubtitle');
+
+      if (tabId === 'classic_overview') {
+        titleEl.innerHTML = "🖼️ Biểu đồ use case tổng quan — Hệ Thống Mua Sắm Bánh (Chuẩn Hình 2)";
+        subTitleEl.innerText = "Bố cục 2 phía kinh điển: Admin (trái) - Guest & Customer (phải)";
+        target.innerHTML = generateClassicOverviewSVG();
+        renderUseCaseCards('all');
+      } else if (tabId === 'decomposed_shop') {
+        titleEl.innerHTML = "🔍 Biểu đồ use case phân rã: Khách Hàng & Mua Sắm (Chuẩn Hình 3/4)";
+        subTitleEl.innerText = "Chi tiết quan hệ <<include>> và <<extend>> với màu vàng kem + viền nâu đỏ";
+        target.innerHTML = generateDecomposedShopSVG();
+        renderUseCaseCards('decomposed_shop');
+      } else if (tabId === 'decomposed_admin') {
+        titleEl.innerHTML = "📦 Biểu đồ use case phân rã: Quản Trị Cửa Hàng & Kho Vận";
+        subTitleEl.innerText = "Phân rã luồng đóng gói chuỗi lạnh xe lạnh và quản lý hạn dùng FEFO";
+        target.innerHTML = generateDecomposedAdminSVG();
+        renderUseCaseCards('decomposed_admin');
+      }
+
+      resetZoom();
+    }
+
+    // Toggle Grid
+    function toggleGrid() {
+      isGridOn = !isGridOn;
+      const canvas = document.getElementById('canvasArea');
+      if (isGridOn) {
+        canvas.classList.add('with-grid');
+      } else {
+        canvas.classList.remove('with-grid');
+      }
+    }
+
+    // Zoom Functions
+    function zoomDiagram(factor) {
+      currentZoom *= factor;
+      if (currentZoom < 0.4) currentZoom = 0.4;
+      if (currentZoom > 2.5) currentZoom = 2.5;
+      const target = document.querySelector('#svgTarget svg');
+      if (target) {
+        target.style.transform = `scale(${currentZoom})`;
+      }
+    }
+
+    function resetZoom() {
+      currentZoom = 1;
+      const target = document.querySelector('#svgTarget svg');
+      if (target) {
+        target.style.transform = `scale(1)`;
+      }
+    }
+
+    function toggleFullscreen() {
+      const card = document.getElementById('diagramWrapper');
+      if (!document.fullscreenElement) {
+        card.requestFullscreen().catch(err => alert(err.message));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // Render Cards
+    function renderUseCaseCards(filterTab) {
+      const container = document.getElementById('useCaseCardsContainer');
+      container.innerHTML = '';
+
+      let list = USE_CASES_DATA;
+      if (filterTab !== 'all') {
+        list = USE_CASES_DATA.filter(uc => uc.tab === filterTab);
+      }
+
+      list.forEach(uc => {
+        const card = document.createElement('div');
+        card.className = 'uc-card';
+        card.onclick = () => openModal(uc.id);
+        card.innerHTML = `
+          <div>
+            <div class="uc-card-top">
+              <span class="uc-id">${uc.id}</span>
+              <span class="badge-priority badge-${uc.priority.toLowerCase()}">${uc.priority}</span>
+            </div>
+            <div class="uc-name">${uc.name}</div>
+            <div class="uc-actor">👤 <strong>Actor:</strong> ${uc.actor}</div>
+          </div>
+          <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #8B2500; font-weight: 600;">
+            🔗 ${uc.relations}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Render Traceability Matrix
+    function renderMatrixTable() {
+      const tbody = document.getElementById('matrixTableBody');
+      tbody.innerHTML = '';
+
+      USE_CASES_DATA.forEach(uc => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="uc-id">${uc.id}</span></td>
+          <td><strong>${uc.name}</strong></td>
+          <td>${uc.actor}</td>
+          <td><span class="badge-priority badge-${uc.priority.toLowerCase()}">${uc.priority}</span></td>
+          <td>${uc.module}</td>
+          <td style="font-size: 0.8rem; color: #8B2500;">${uc.relations}</td>
+          <td><code>${uc.fr}</code> ${uc.br !== '—' ? `<br><span class="rule-tag">${uc.br}</span>` : ''}</td>
+          <td style="text-align: center;">
+            <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="openModal('${uc.id}')">
+              Đặc tả 👁️
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Modal Drawer Logic
+    function openModal(ucId) {
+      const uc = USE_CASES_DATA.find(item => item.id === ucId);
+      if (!uc) return;
+
+      document.getElementById('modalUcId').innerText = uc.id;
+      document.getElementById('modalUcName').innerText = uc.name;
+
+      const body = document.getElementById('modalBodyContent');
+      body.innerHTML = `
+        <div class="meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Primary Actor</span>
+            <span class="meta-val">${uc.actor}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Phân hệ nghiệp vụ</span>
+            <span class="meta-val">${uc.module}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Mức độ ưu tiên</span>
+            <span class="meta-val">${uc.priority}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Traceability (FRs)</span>
+            <span class="meta-val"><code>${uc.fr}</code></span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 0.75rem;">
+          <strong>🚩 Điều kiện tiên quyết (Pre-conditions):</strong>
+          <p style="color: var(--text-muted);">${uc.preCondition}</p>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <strong>🎯 Điều kiện sau hoàn thành (Post-conditions):</strong>
+          <p style="color: var(--text-muted);">${uc.postCondition}</p>
+        </div>
+
+        <div class="flow-box">
+          <h4>📋 Luồng Sự Kiện Chính (Main Success Scenario)</h4>
+          <ol class="flow-steps">
+            ${uc.mainFlow.map(step => `<li>${step}</li>`).join('')}
+          </ol>
+        </div>
+
+        <div class="flow-box">
+          <h4>⚠️ Luồng Ngoại Lệ (Exception Flows)</h4>
+          <ul class="flow-steps" style="list-style-type: square; color: #DC2626;">
+            ${uc.exceptions.map(ex => `<li>${ex}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+
+      document.getElementById('specModal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('specModal').classList.remove('open');
+    }
+
+    function closeModalOutside(e) {
+      if (e.target.id === 'specModal') {
+        closeModal();
+      }
+    }
+
+    function copyPlantUML() {
+      const code = document.getElementById('plantUmlCode').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        alert("Đã sao chép mã PlantUML thành công! Bạn có thể dán vào Draw.io hoặc PlantText.com");
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      switchTab('classic_overview');
+    });
+  </script>
+</body>
+</html>

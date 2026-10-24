@@ -128,12 +128,15 @@ export const AdminOrdersPage: React.FC = () => {
       header: 'Mã đơn',
       className: 'w-32',
       cell: (order) => (
-        <Link
-          to={`/admin/don-hang/${order.orderNumber}`}
-          className="font-mono font-bold text-brand hover:underline"
-        >
-          #{order.orderNumber}
-        </Link>
+        <div className="space-y-0.5">
+          <Link
+            to={`/admin/don-hang/${order.orderNumber}`}
+            className="font-mono font-bold text-brand hover:underline"
+          >
+            #{order.orderNumber}
+          </Link>
+          <p className="text-xs text-ink-3 tabular-nums">{order.createdAt}</p>
+        </div>
       ),
     },
     {
@@ -146,15 +149,9 @@ export const AdminOrdersPage: React.FC = () => {
       ),
     },
     {
-      header: 'Thời gian đặt',
-      cell: (order) => (
-        <span className="text-xs text-ink-3 tabular-nums">{order.createdAt}</span>
-      ),
-    },
-    {
       header: 'Sản phẩm',
       cell: (order) => (
-        <div className="space-y-0.5 max-w-[200px] truncate">
+        <div className="space-y-0.5 max-w-[110px] truncate">
           <span className="font-medium text-ink">{order.items.length} món</span>
           <p className="text-xs text-ink-3 truncate">
             {order.items.map((i) => i.productName).join(', ')}

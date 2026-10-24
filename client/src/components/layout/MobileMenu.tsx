@@ -43,13 +43,12 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ open, onOpenChange }) =>
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-ink">{currentUser.name}</p>
-                    <span className="text-xs text-brand font-medium">
-                      {currentUser.role === 'wholesale_client'
-                        ? 'Khách sỉ doanh nghiệp'
-                        : currentUser.role === 'admin'
-                        ? 'Quản trị viên'
-                        : 'Khách lẻ'}
-                    </span>
+                    {currentUser.role === 'wholesale_client' && (
+                      <span className="text-xs text-brand font-medium">Khách sỉ doanh nghiệp</span>
+                    )}
+                    {currentUser.role === 'admin' && (
+                      <span className="text-xs text-brand font-medium">Quản trị viên</span>
+                    )}
                   </div>
                 </div>
 

@@ -1,0 +1,75 @@
+@startuml SD14_UC14_ApproveWholesale
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD14 - UC14 Manage customers: approve or reject a wholesale account
+actor "Admin" as A
+boundary ":CustomersPage\n(SCR-A08)" as UI
+control ":CustomerController" as C
+entity ":Customer" as CUS
+
+A -> UI : open "Khách hàng", tab "Chờ duyệt"
+activate UI
+UI -> C : getCustomers(PENDING_APPROVAL)
+activate C
+C -> CUS : findByStatus(PENDING_APPROVAL)
+CUS --> C : wholesale applicants
+C --> UI : customer list
+deactivate C
+UI --> A : show the pending accounts
+opt search and export
+  A -> UI : type name, e-mail, phone or company; click "Xuất CSV"
+  UI -> C : exportCustomers(filter)
+  activate C
+  C -> CUS : search(filter)
+  CUS --> C : customers
+  C --> UI : CSV file
+  deactivate C
+end
+A -> UI : open the business profile of a customer
+UI -> C : getCustomerDetail(customerId)
+activate C
+C -> CUS : findById(customerId)
+CUS --> C : customer and BusinessProfile\n(company, tax code, representative, licence)
+C --> UI : profile
+deactivate C
+UI --> A : show the profile and the licence
+alt Admin approves
+  A -> UI : click "Duyệt tài khoản sỉ"
+  UI -> C : approveWholesale(customerId)
+  activate C
+  C -> CUS : approveWholesale()
+  note right of CUS
+    customerType = WHOLESALE, status = ACTIVE:
+    tier prices and VAT pre-filling now apply (BR-04)
+  end note
+  C --> UI : approved
+  deactivate C
+  UI --> A : move the customer to tab "Khách sỉ"
+else A1: Admin rejects
+  A -> UI : click "Từ chối", enter the reason
+  UI -> C : rejectWholesale(customerId, reason)
+  activate C
+  C -> CUS : rejectWholesale(reason)
+  note right of CUS
+    the request is closed;
+    the account stays RETAIL
+  end note
+  C --> UI : rejected
+  deactivate C
+  UI --> A : remove the customer from tab "Chờ duyệt"
+end
+deactivate UI
+@enduml

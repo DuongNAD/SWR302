@@ -1,0 +1,69 @@
+@startuml SD08_UC06_TrackOrder
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD08 - UC06 Track an order (guest look-up) and cancel it
+actor "User\n(Guest)" as U
+boundary ":OrderLookupPage\n(SCR-10)" as LP
+boundary ":OrderTrackingPage\n(SCR-11)" as TP
+control ":OrderController" as C
+entity ":Order" as O
+entity ":DeliveryTrip" as T
+
+U -> LP : open "Tra cứu đơn hàng"
+activate LP
+U -> LP : enter the order code and the phone number
+LP -> C : lookupOrder(orderNumber, phone)
+activate C
+C -> O : findByNumberAndPhone(orderNumber, phone)
+O --> C : order or null
+C --> LP : result
+deactivate C
+alt A1: code and phone do not match any order
+  LP --> U : show "Không tìm thấy đơn hàng"
+else order found
+  LP -> TP : open(orderId)
+  activate TP
+  TP -> C : getTracking(orderId)
+  activate C
+  C -> O : getStatusHistory()
+  O --> C : 5-step journey with times
+  opt the order uses the cold truck and is shipping
+    C -> T : getLatestTemperature()
+    T --> C : driver, vehicle, box temperature
+  end
+  C --> TP : tracking data
+  deactivate C
+  TP --> U : show status, journey, driver, temperature,\npayment status and cost summary
+  opt order is PENDING or CONFIRMED (BR-08)
+    U -> TP : click "Hủy đơn hàng" and confirm
+    TP -> C : cancelOrder(orderId, reason)
+    activate C
+    C -> O : canCancel()
+    O --> C : true / false
+    alt order can be cancelled
+      C -> O : updateStatus(CANCELLED, customer)
+      C --> TP : order cancelled
+      TP --> U : show status "Đã hủy"
+    else A2: order already packed or shipped
+      C --> TP : CANCEL_NOT_ALLOWED
+      TP --> U : show the message; cancelling is not offered
+    end
+    deactivate C
+  end
+  deactivate TP
+end
+deactivate LP
+@enduml

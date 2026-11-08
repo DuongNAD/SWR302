@@ -1,0 +1,68 @@
+@startuml SD12_UC13_CreateVoucher
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD12 - UC13 Manage promotions: create and disable a voucher
+actor "Admin" as A
+boundary ":PromotionsPage\n(SCR-A09)" as UI
+control ":PromotionController" as C
+entity ":Voucher" as V
+
+A -> UI : open "Khuyến mãi và mã"
+activate UI
+UI -> C : getVouchers(ALL)
+activate C
+C -> V : findAll()
+V --> C : vouchers
+C --> UI : vouchers with type, condition, usage, validity
+deactivate C
+UI --> A : show the voucher list
+opt filter by type
+  A -> UI : choose "Giảm cố định", "Giảm %" or "Miễn phí vận chuyển"
+  UI -> C : getVouchers(type)
+  activate C
+  C -> V : findByType(type)
+  V --> C : vouchers
+  C --> UI : filtered list
+  deactivate C
+end
+A -> UI : click "Tạo mã mới"
+A -> UI : enter code, type, value, minimum order,\nmaximum discount, validity, usage limit
+A -> UI : click "Lưu"
+UI -> C : createVoucher(data)
+activate C
+C -> V : existsByCode(code)
+V --> C : true / false
+alt A1: code already exists or a value is invalid
+  C --> UI : validation error
+  UI --> A : show the error on the form
+else data is valid
+  C -> V : create(data, isActive = true)
+  V --> C : voucher
+  C --> UI : voucher created
+  UI --> A : show the new voucher in the list
+end
+deactivate C
+opt disable a voucher
+  A -> UI : switch the voucher toggle off
+  UI -> C : setActive(voucherId, false)
+  activate C
+  C -> V : deactivate()
+  C --> UI : updated
+  deactivate C
+  UI --> A : show status "Tạm dừng"
+end
+deactivate UI
+@enduml

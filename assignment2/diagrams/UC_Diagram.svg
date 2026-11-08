@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1840" viewBox="0 0 1480 1840">
+<defs><marker id="open" markerWidth="14" markerHeight="12" refX="13" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L13,6 L1,11" fill="none" stroke="#111" stroke-width="1.6"/></marker></defs>
+<rect width="1480" height="1840" fill="#fff"/>
+<text x="740.0" y="48.0" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="bold" font-style="normal" text-anchor="middle" fill="#111">Use Case Diagram - Gia Hoa Phat Bakery Supply (Topic 1)</text>
+<rect x="320" y="95" width="810" height="1625" fill="none" stroke="#111" stroke-width="2"/>
+<text x="725.0" y="125.0" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" font-style="normal" text-anchor="middle" fill="#111">Gia Hoa Phat Bakery Supply</text>
+<text x="1114.0" y="153.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="end" fill="#666">Storefront</text>
+<line x1="334" y1="855" x2="1116" y2="855" stroke="#999" stroke-dasharray="5 5"/>
+<text x="1114.0" y="875.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="end" fill="#666">Shared</text>
+<line x1="334" y1="975" x2="1116" y2="975" stroke="#999" stroke-dasharray="5 5"/>
+<text x="1114.0" y="995.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="end" fill="#666">Administration</text>
+<line x1="170.0" y1="492.0" x2="365.0" y2="190.0" stroke="#111" stroke-width="1.6"/>
+<line x1="170.0" y1="492.0" x2="365.0" y2="290.0" stroke="#111" stroke-width="1.6"/>
+<line x1="170.0" y1="492.0" x2="365.0" y2="390.0" stroke="#111" stroke-width="1.6"/>
+<line x1="170.0" y1="492.0" x2="365.0" y2="490.0" stroke="#111" stroke-width="1.6"/>
+<line x1="170.0" y1="492.0" x2="365.0" y2="590.0" stroke="#111" stroke-width="1.6"/>
+<line x1="170.0" y1="492.0" x2="365.0" y2="690.0" stroke="#111" stroke-width="1.6"/>
+<line x1="170.0" y1="492.0" x2="365.0" y2="790.0" stroke="#111" stroke-width="1.6"/>
+<line x1="170.0" y1="492.0" x2="365.0" y2="915.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="915.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="1040.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="1140.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="1240.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="1340.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="1440.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="1540.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="1282.0" x2="715.0" y2="1640.0" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="922.0" x2="614.6" y2="622.6" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="712.0" x2="951.0" y2="219.6" stroke="#111" stroke-width="1.6"/>
+<line x1="1300.0" y1="712.0" x2="678.0" y2="612.1" stroke="#111" stroke-width="1.6"/>
+<line x1="715.0" y1="190.0" x2="800.0" y2="190.0" stroke="#111" stroke-width="1.5" stroke-dasharray="8 6" marker-end="url(#open)"/>
+<text x="757.5" y="181.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="normal" font-style="italic" text-anchor="middle" fill="#111">«include»</text>
+<line x1="800.0" y1="490.0" x2="715.0" y2="490.0" stroke="#111" stroke-width="1.5" stroke-dasharray="8 6" marker-end="url(#open)"/>
+<text x="757.5" y="481.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="normal" font-style="italic" text-anchor="middle" fill="#111">«extend»</text>
+<line x1="800.0" y1="590.0" x2="715.0" y2="590.0" stroke="#111" stroke-width="1.5" stroke-dasharray="8 6" marker-end="url(#open)"/>
+<text x="757.5" y="581.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="normal" font-style="italic" text-anchor="middle" fill="#111">«extend»</text>
+<ellipse cx="540" cy="190" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="184.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC01</text>
+<text x="540.0" y="205.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Register an account</text>
+<ellipse cx="540" cy="290" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="284.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC02</text>
+<text x="540.0" y="305.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Search and view products</text>
+<ellipse cx="540" cy="390" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="384.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC03</text>
+<text x="540.0" y="405.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">View recipe combos</text>
+<ellipse cx="540" cy="490" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="484.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC04</text>
+<text x="540.0" y="505.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Manage shopping cart</text>
+<ellipse cx="540" cy="590" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="584.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC05</text>
+<text x="540.0" y="605.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Place an order and pay</text>
+<ellipse cx="540" cy="690" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="684.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC06</text>
+<text x="540.0" y="705.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Track an order</text>
+<ellipse cx="540" cy="790" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="784.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC07</text>
+<text x="540.0" y="805.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Manage personal account</text>
+<ellipse cx="540" cy="915" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="909.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC08</text>
+<text x="540.0" y="930.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Log in</text>
+<ellipse cx="540" cy="1040" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="1034.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC09</text>
+<text x="540.0" y="1055.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">View dashboard and reports</text>
+<ellipse cx="540" cy="1140" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="1134.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC10</text>
+<text x="540.0" y="1155.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Process orders</text>
+<ellipse cx="540" cy="1240" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="1234.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC11</text>
+<text x="540.0" y="1255.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Manage products and categories</text>
+<ellipse cx="540" cy="1340" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="1334.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC12</text>
+<text x="540.0" y="1355.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Manage stock and expiry</text>
+<ellipse cx="540" cy="1440" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="1434.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC13</text>
+<text x="540.0" y="1455.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Manage promotions</text>
+<ellipse cx="540" cy="1540" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="1534.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC14</text>
+<text x="540.0" y="1555.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Manage customers</text>
+<ellipse cx="540" cy="1640" rx="175" ry="36" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="540.0" y="1634.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold" font-style="normal" text-anchor="middle" fill="#555">UC15</text>
+<text x="540.0" y="1655.0" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Manage staff and settings</text>
+<ellipse cx="930" cy="190" rx="130" ry="30" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="930.0" y="195.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Verify OTP code</text>
+<ellipse cx="930" cy="490" rx="130" ry="30" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="930.0" y="495.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Apply voucher code</text>
+<ellipse cx="930" cy="590" rx="130" ry="30" fill="#fff" stroke="#111" stroke-width="1.8"/>
+<text x="930.0" y="595.0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="normal" font-style="normal" text-anchor="middle" fill="#111">Request VAT invoice</text>
+<circle cx="140" cy="450" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="140" y1="465" x2="140" y2="508" stroke="#111" stroke-width="2"/>
+<line x1="114" y1="480" x2="166" y2="480" stroke="#111" stroke-width="2"/>
+<line x1="140" y1="508" x2="120" y2="542" stroke="#111" stroke-width="2"/>
+<line x1="140" y1="508" x2="160" y2="542" stroke="#111" stroke-width="2"/>
+<text x="140.0" y="568.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" font-style="normal" text-anchor="middle" fill="#111">User</text>
+<text x="140.0" y="590.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#444">Guest, retail customer,</text>
+<text x="140.0" y="608.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#444">wholesale customer</text>
+<circle cx="1330" cy="1240" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="1255" x2="1330" y2="1298" stroke="#111" stroke-width="2"/>
+<line x1="1304" y1="1270" x2="1356" y2="1270" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="1298" x2="1310" y2="1332" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="1298" x2="1350" y2="1332" stroke="#111" stroke-width="2"/>
+<text x="1330.0" y="1358.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" font-style="normal" text-anchor="middle" fill="#111">Admin</text>
+<text x="1330.0" y="1380.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#444">GHP operators: sales,</text>
+<text x="1330.0" y="1398.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#444">warehouse, accountant</text>
+<text x="1330.0" y="642.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#333">«system»</text>
+<circle cx="1330" cy="670" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="685" x2="1330" y2="728" stroke="#111" stroke-width="2"/>
+<line x1="1304" y1="700" x2="1356" y2="700" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="728" x2="1310" y2="762" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="728" x2="1350" y2="762" stroke="#111" stroke-width="2"/>
+<text x="1330.0" y="788.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" font-style="normal" text-anchor="middle" fill="#111">E-mail / SMS Service</text>
+<text x="1330.0" y="810.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#444">OTP, order confirmation</text>
+<text x="1330.0" y="852.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#333">«system»</text>
+<circle cx="1330" cy="880" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="895" x2="1330" y2="938" stroke="#111" stroke-width="2"/>
+<line x1="1304" y1="910" x2="1356" y2="910" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="938" x2="1310" y2="972" stroke="#111" stroke-width="2"/>
+<line x1="1330" y1="938" x2="1350" y2="972" stroke="#111" stroke-width="2"/>
+<text x="1330.0" y="998.0" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="bold" font-style="normal" text-anchor="middle" fill="#111">Payment Gateway</text>
+<text x="1330.0" y="1020.0" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="normal" font-style="italic" text-anchor="middle" fill="#444">VNPay / MoMo</text>
+<line x1="330" y1="1770" x2="400" y2="1770" stroke="#111" stroke-width="1.6"/>
+<text x="412.0" y="1775.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="normal" font-style="normal" text-anchor="start" fill="#444">Association (actor takes part in the use case)</text>
+<line x1="800" y1="1770" x2="870" y2="1770" stroke="#111" stroke-width="1.5" stroke-dasharray="8 6" marker-end="url(#open)"/>
+<text x="882.0" y="1775.0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="normal" font-style="normal" text-anchor="start" fill="#444">«include» / «extend» dependency</text>
+</svg>

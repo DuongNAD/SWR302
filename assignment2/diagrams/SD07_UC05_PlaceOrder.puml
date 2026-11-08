@@ -1,0 +1,89 @@
+@startuml SD07_UC05_PlaceOrder
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD07 - UC05 Place an order and pay (cold-chain delivery, VNPay QR)
+actor "User\n(logged in)" as U
+boundary ":CheckoutPage\n(SCR-08, SCR-09)" as UI
+control ":OrderController" as C
+entity ":Cart" as CART
+entity ":SystemSetting" as SET
+entity ":Order" as O
+entity ":Payment" as PAY
+participant "Payment Gateway\n(VNPay / MoMo)" as PG <<system>>
+participant "E-mail / SMS\nService" as MAIL <<system>>
+
+U -> UI : click "Tiến hành thanh toán"
+activate UI
+== Step 1 - Thông tin nhận hàng ==
+U -> UI : choose home delivery, select a saved address\n(or enter name, phone, e-mail, address, note)
+opt <<extend>> Request VAT invoice
+  U -> UI : tick "Xuất hóa đơn VAT", enter company and tax code\n(pre-filled for a wholesale customer)
+end
+== Step 2 - Phương thức vận chuyển ==
+U -> UI : choose "Giao xe lạnh"
+UI -> C : getCheckoutSummary(cartId, COLD_CHAIN)
+activate C
+C -> CART : getSummary()
+CART --> C : subtotal, cold-pack fee, discount
+C -> SET : getShippingFee(COLD_CHAIN)
+SET --> C : shipping fee
+C --> UI : order summary
+deactivate C
+UI --> U : show fees and the total
+newpage SD07 - UC05 Place an order and pay (continued)
+== Step 3 - Thanh toán và xác nhận ==
+U -> UI : choose "VNPay QR", click "Đặt hàng"
+UI -> UI : validateSteps()
+alt A1: a required field is missing
+  UI --> U : show the errors, stay on the step
+else all steps are valid
+  UI -> C : placeOrder(checkoutData)
+  activate C
+  C -> CART : getItems()
+  CART --> C : cart items
+  C -> O ** : create(customer, items, shipping, voucher)
+  C -> O : calculateTotal()
+  O --> C : subtotal + shipping + cold-pack - discount
+  C -> PAY ** : create(order, VNPAY_QR, total)
+  C -> PG : createPaymentRequest(orderNumber, total, returnUrl)
+  activate PG
+  PG --> C : QR code / payment URL
+  deactivate PG
+  C --> UI : QR code
+  deactivate C
+  UI --> U : show the QR code and the amount
+  U -> PG : scan the QR code, confirm in the banking app
+  activate PG
+  PG -> C : paymentResult(orderNumber, status, signature)
+  deactivate PG
+  activate C
+  C -> C : verifySignature()
+  alt payment successful
+    C -> PAY : markPaid(transactionNo)
+    C -> O : setPaymentStatus(PAID)
+    C -> CART : clear()
+    C ->> MAIL : sendOrderConfirmation(email, phone, orderNumber)
+    C --> UI : success(orderNumber)
+    UI --> U : show "Đặt hàng thành công" with the order code (SCR-09)
+  else A2: payment failed or cancelled
+    C -> PAY : markFailed(reason)
+    C --> UI : payment failed
+    UI --> U : show the error; retry or choose another method
+  end
+  deactivate C
+end
+deactivate UI
+@enduml

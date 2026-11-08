@@ -1,0 +1,76 @@
+@startuml SD13_UC09_Reports
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD13 - UC09 View dashboard and reports, export CSV
+actor "Admin" as A
+boundary ":DashboardPage\n(SCR-A01)" as DB
+boundary ":ReportsPage\n(SCR-A11)" as RP
+control ":ReportController" as C
+entity ":Order" as O
+entity ":Product" as P
+entity ":ProductBatch" as PB
+
+A -> DB : open "Bảng điều khiển"
+activate DB
+DB -> C : getDashboard(7 days)
+activate C
+C -> O : sumRevenueByDay(from, to)
+O --> C : daily revenue
+C -> O : countByStatus(from, to)
+O --> C : orders per status
+C -> P : findLowStock()
+P --> C : low-stock products
+C -> PB : findNearExpiry(30 days)
+PB --> C : near-expiry batches
+C --> DB : KPIs, charts, alerts
+deactivate C
+alt A1: no data in the period
+  DB --> A : charts show an empty state
+else data available
+  DB --> A : show revenue, new orders, orders to process,\nstock and expiry alerts, charts
+end
+opt switch the period to 30 days
+  A -> DB : choose "30 ngày"
+  DB -> C : getDashboard(30 days)
+  activate C
+  note right of C : same queries as\nmessages 3-10
+  C --> DB : KPIs for 30 days
+  deactivate C
+  DB --> A : refresh the dashboard
+end
+deactivate DB
+A -> RP : open "Báo cáo doanh thu"
+activate RP
+RP -> C : getSalesReport(period)
+activate C
+C -> O : sumRevenueByDay(from, to)
+O --> C : revenue over time
+C -> O : topProducts(from, to, 10)
+O --> C : top 10 products
+C -> O : revenueByCustomerType(from, to)
+O --> C : retail / wholesale share
+C --> RP : report data
+deactivate C
+RP --> A : show charts and tables
+A -> RP : click "Xuất CSV"
+RP -> C : exportCsv(report)
+activate C
+C -> C : buildCsv(report)
+C --> RP : CSV file
+deactivate C
+RP --> A : download the CSV file
+deactivate RP
+@enduml

@@ -1,0 +1,63 @@
+@startuml AD01_Checkout
+' Sơ đồ hoạt động cho docs/06_diagrams_models/activity_diagrams.md (UC04, UC05; BR-01, BR-02, BR-05)
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam ActivityBorderColor #333333
+skinparam SwimlaneTitleFontStyle bold
+skinparam ArrowColor #333333
+title AD01 - Quy trình giỏ hàng, đặt hàng và thanh toán (UC04, UC05)
+
+|Khách hàng|
+start
+:Mở giỏ hàng;
+|Hệ thống|
+:Tính tạm tính theo giá bậc thang (BR-02)
+và phí đóng thùng lạnh (BR-01);
+|Khách hàng|
+if (Có mã giảm giá?) then (có)
+  :Nhập mã voucher;
+  |Hệ thống|
+  if (Voucher hợp lệ? (BR-05)) then (hợp lệ)
+    :Trừ tiền giảm giá vào đơn;
+  else (không)
+    :Báo lý do, giữ nguyên giá;
+  endif
+else (không)
+endif
+|Khách hàng|
+:Bấm "Tiến hành thanh toán";
+repeat
+  :Bước 1: chọn giao tận nơi hoặc nhận tại cửa hàng,
+  chọn hoặc nhập địa chỉ nhận hàng;
+  if (Cần hóa đơn VAT?) then (có)
+    :Nhập tên công ty, mã số thuế
+    (khách sỉ được điền sẵn);
+  else (không)
+  endif
+  :Bước 2: chọn giao tiêu chuẩn
+  hoặc giao xe lạnh 2–4 giờ;
+  :Bước 3: chọn phương thức thanh toán, bấm "Đặt hàng";
+  |Hệ thống|
+repeat while (Thiếu hoặc sai thông tin?) is (có: báo lỗi tại bước đó) not (không)
+:Cộng phí vận chuyển, tính tổng tiền;
+:Tạo đơn hàng, trạng thái "Chờ xác nhận";
+repeat
+  if (Phương thức thanh toán?) then (VNPay QR / MoMo)
+    :Gửi yêu cầu thanh toán;
+    |Cổng thanh toán|
+    :Hiện mã QR, khách quét và xác nhận;
+    :Trả kết quả giao dịch;
+    |Hệ thống|
+  else (COD / chuyển khoản)
+    :Ghi nhận "Chưa thanh toán";
+  endif
+repeat while (Thanh toán trực tuyến thất bại?) is (có: khách thử lại\nhoặc đổi phương thức) not (không)
+:Làm trống giỏ hàng;
+:Gửi e-mail / SMS xác nhận đơn;
+|Khách hàng|
+:Xem trang "Đặt hàng thành công" kèm mã đơn;
+stop
+@enduml

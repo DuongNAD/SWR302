@@ -1,0 +1,79 @@
+@startuml SD06_UC04_ManageCart
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD06 - UC04 Manage shopping cart (change quantity, apply voucher)
+actor "User\n(logged in)" as U
+boundary ":CartPage\n(SCR-07)" as UI
+control ":CartController" as C
+entity ":Cart" as CART
+entity ":Product" as P
+entity ":Voucher" as V
+
+U -> UI : open "Giỏ hàng"
+activate UI
+UI -> C : getCart(customerId)
+activate C
+C -> CART : getSummary()
+CART --> C : lines, subtotal, cold-pack fee,\nfree-shipping progress
+C --> UI : cart summary
+deactivate C
+alt A2: the cart is empty
+  UI --> U : show "Giỏ hàng trống" and a link to the product list
+else the cart has items
+  UI --> U : show cart lines and the order summary
+  U -> UI : change the quantity of an item (e.g. 10)
+  UI -> C : updateQuantity(itemId, 10)
+  activate C
+  C -> CART : updateQuantity(itemId, 10)
+  activate CART
+  CART -> P : getUnitPrice(10)
+  P --> CART : tier price (BR-02)
+  CART -> CART : recalculate()
+  note right of CART
+    cold-pack fee 15.000 ₫ when the cart has a
+    CHILLED / FROZEN item and subtotal < 300.000 ₫ (BR-01)
+  end note
+  deactivate CART
+  C -> CART : getSummary()
+  CART --> C : summary
+  C --> UI : updated summary
+  deactivate C
+  UI --> U : show the new line price and the next price tier
+  opt <<extend>> Apply voucher code
+    U -> UI : enter code "BAKING2026", click "Áp dụng"
+    UI -> C : applyVoucher(cartId, code)
+    activate C
+    C -> V : findByCode(code)
+    V --> C : voucher or null
+    C -> V : isValid(subtotal)
+    V --> C : true / false (BR-05)
+    alt A1: voucher invalid, expired or order below the minimum
+      C --> UI : error with the reason
+      UI --> U : show the voucher error
+    else voucher is valid
+      C -> V : calculateDiscount(subtotal)
+      V --> C : discount
+      C -> CART : applyVoucher(voucher, discount)
+      C --> UI : summary with discount
+      UI --> U : show the discount and the new total
+    end
+    deactivate C
+  end
+  U -> UI : click "Tiến hành thanh toán"
+  UI --> U : open the checkout (UC05)
+end
+deactivate UI
+@enduml

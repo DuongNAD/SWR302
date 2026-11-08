@@ -1,0 +1,67 @@
+@startuml SD11_UC12_StockReceipt
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD11 - UC12 Manage stock and expiry: stock receipt and FEFO alerts
+actor "Admin\n(warehouse staff)" as A
+boundary ":InventoryPage\n(SCR-A07)" as UI
+control ":InventoryController" as C
+entity ":Product" as P
+entity ":StockTransaction" as ST
+entity ":ProductBatch" as PB
+
+A -> UI : open "Tồn kho và lô HSD"
+activate UI
+UI -> C : getStockOverview()
+activate C
+C -> P : findAll()
+P --> C : products with stock and alert threshold
+C --> UI : stock list
+deactivate C
+UI --> A : show stock per product, low stock highlighted
+A -> UI : click "Tạo phiếu nhập kho"
+A -> UI : enter product, batch number, expiry date,\nquantity, supplier
+UI -> C : createStockReceipt(data)
+activate C
+alt A1: quantity <= 0 or expiry date in the past
+  C --> UI : validation error
+  UI --> A : show the error, nothing is saved
+else data is valid
+  C -> ST ** : create(IMPORT, supplier, staff)
+  C -> PB ** : create(product, batchNumber, expiryDate, quantity, zone)
+  note right of PB
+    zone follows the product storage condition
+    (CHILLED: cold room 2–8 °C)
+  end note
+  C -> ST : addBatch(batch, quantity)
+  C -> P : increaseStock(quantity)
+  C --> UI : receipt saved
+  UI --> A : show success, stock updated
+end
+deactivate C
+A -> UI : open tab "Lô hàng và hạn dùng (FEFO)"
+UI -> C : getBatchesByExpiry()
+activate C
+C -> PB : findAllOrderByExpiry()
+PB --> C : batches, earliest expiry first
+loop for each batch
+  C -> PB : getDaysRemaining()
+  PB --> C : days
+end
+C --> UI : batches with alert level
+deactivate C
+UI --> A : list batches; <= 30 days warning,\n<= 7 days critical (BR-09)
+deactivate UI
+@enduml

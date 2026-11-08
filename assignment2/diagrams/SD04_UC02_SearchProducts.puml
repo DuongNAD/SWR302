@@ -1,0 +1,76 @@
+@startuml SD04_UC02_SearchProducts
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD04 - UC02 Search and view products
+actor "User" as U
+boundary ":ProductListPage\n(SCR-02, SCR-03)" as LP
+boundary ":ProductDetailPage\n(SCR-04)" as DP
+control ":ProductController" as C
+entity ":Product" as P
+entity ":ProductBatch" as PB
+entity ":Review" as R
+
+U -> LP : type a keyword in the search box (e.g. "bơ lạt")
+activate LP
+LP -> C : suggest(keyword)
+activate C
+C -> P : findByKeyword(keyword, limit = 5)
+P --> C : matching products
+C --> LP : suggestions
+deactivate C
+LP --> U : show the suggestion list
+U -> LP : press Enter
+LP -> C : search(keyword, filters, sort, page)
+activate C
+C -> P : search(criteria)
+P --> C : product page
+C --> LP : result
+deactivate C
+alt A1: no product matches
+  LP --> U : show empty state with suggestions
+else products found
+  LP --> U : show the product grid
+  opt filter and sort
+    U -> LP : choose category, storage condition, brand,\nprice range, "còn hàng"; choose sort order
+    LP -> C : search(keyword, filters, sort, page)
+    activate C
+    C -> P : search(criteria)
+    P --> C : product page
+    C --> LP : filtered result
+    deactivate C
+    LP --> U : refresh the grid, show active filters
+  end
+  U -> LP : open a product
+  LP -> DP : open(productId)
+  activate DP
+  DP -> C : getProductDetail(productId)
+  activate C
+  C -> P : findById(productId)
+  P --> C : product, wholesale tiers, storage condition
+  C -> PB : findByProduct(productId)
+  PB --> C : batches ordered by expiry (FEFO)
+  C -> R : findByProduct(productId)
+  R --> C : reviews
+  C --> DP : product detail
+  deactivate C
+  DP --> U : show price, tiered price table, expiry date, batch,\nstock per store, description, ingredients, reviews
+  opt product is CHILLED or FROZEN (BR-01)
+    DP --> U : show cold-chain notice (2–8 °C, cold truck delivery)
+  end
+  deactivate DP
+end
+deactivate LP
+@enduml

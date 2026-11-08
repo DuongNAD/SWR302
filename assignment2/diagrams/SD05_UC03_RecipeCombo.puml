@@ -1,0 +1,71 @@
+@startuml SD05_UC03_RecipeCombo
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD05 - UC03 View recipe combos and add the ingredients to the cart
+actor "User" as U
+boundary ":ComboDetailPage\n(SCR-06)" as UI
+control ":ComboController" as CC
+entity ":RecipeBundle" as RB
+entity ":Product" as P
+control ":CartController" as KC
+entity ":Cart" as CART
+
+U -> UI : open "Combo công thức", select "Tiramisu"
+activate UI
+UI -> CC : getCombo(slug)
+activate CC
+CC -> RB : findBySlug(slug)
+RB --> CC : bundle
+CC -> RB : getItems()
+RB --> CC : ingredient products
+CC -> RB : isAvailable()
+activate RB
+loop for each ingredient
+  RB -> P : isInStock()
+  P --> RB : true / false
+end
+RB --> CC : available only if all are in stock (BR-06)
+deactivate RB
+CC --> UI : combo detail (ingredients, prices,\ntime, servings, steps, availability)
+deactivate CC
+UI --> U : show the combo and the preparation steps
+loop for each ingredient the user already owns
+  U -> UI : untick the ingredient
+  UI -> UI : recalculateTotal()
+  UI --> U : show the new total and item count
+end
+U -> UI : click "Thêm N nguyên liệu vào giỏ"
+alt A1: the user is not logged in
+  UI --> U : ask the user to log in (SCR-12)
+else the user is logged in
+  UI -> KC : addItems(customerId, selectedProductIds)
+  activate KC
+  KC -> CART : findByCustomer(customerId)
+  CART --> KC : cart
+  loop for each selected product
+    KC -> CART : addItem(product, 1)
+    activate CART
+    CART -> P : getUnitPrice(quantity)
+    P --> CART : unit price for the tier (BR-02)
+    deactivate CART
+  end
+  KC -> CART : recalculate()
+  KC --> UI : cart summary (item count, subtotal)
+  deactivate KC
+  UI --> U : update the mini cart, show "Đã thêm vào giỏ"
+end
+deactivate UI
+@enduml

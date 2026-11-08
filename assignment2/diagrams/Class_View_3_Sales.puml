@@ -1,0 +1,405 @@
+@startuml Class_View_3_Sales
+' SWR302 - Assignment 2 - Topic 1 - Class Diagram (analysis / domain level)
+' Attributes follow client/src/types/index.ts and client/src/mocks/*.ts; rules BR-01..BR-09 from the SRS.
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam nodesep 40
+skinparam ranksep 50
+skinparam packageStyle rectangle
+skinparam class {
+  BorderColor #333333
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #F2F2F2
+}
+hide empty members
+
+title Class Diagram - view 3: Sales, payment and delivery
+
+  abstract class Account $acc {
+    - accountId : String
+    - fullName : String
+    - email : String
+    - phone : String
+    - passwordHash : String
+    - status : AccountStatus
+    - failedLoginCount : int
+    - lockedUntil : DateTime
+    - createdAt : DateTime
+    + authenticate(password : String) : Boolean
+    + isLocked() : Boolean
+    + recordFailedLogin() : void
+    + resetFailedLogins() : void
+    + lock(minutes : int) : void
+    + changePassword(oldPwd : String, newPwd : String) : void
+  }
+
+  class Customer $acc {
+    - customerType : CustomerType
+    - loyaltyPoints : int
+    + getAddresses() : Address[*]
+    + addAddress(address : Address) : void
+    + setDefaultAddress(addressId : String) : void
+    + approveWholesale() : void
+    + rejectWholesale(reason : String) : void
+  }
+
+  class BusinessProfile $acc {
+    - companyName : String
+    - taxCode : String
+    - representative : String
+    - businessAddress : String
+    - invoiceEmail : String
+    - licenseNumber : String
+    - submittedAt : DateTime
+  }
+
+  class Address $acc {
+    - addressId : String
+    - label : String
+    - recipientName : String
+    - phone : String
+    - street : String
+    - city : String
+    - isDefault : Boolean
+  }
+
+  class StaffMember $acc {
+    - position : String
+    - joinedDate : Date
+    + suspend() : void
+  }
+
+  class Role $acc {
+    - roleId : String
+    - name : String
+    + grant(p : Permission) : void
+    + revoke(p : Permission) : void
+    + hasPermission(code : String) : Boolean
+  }
+
+  class Permission $acc {
+    - code : String
+    - category : String
+    - name : String
+  }
+
+  class StoreBranch $acc {
+    - branchId : String
+    - name : String
+    - address : String
+    - city : String
+    - phone : String
+    - openHours : String
+  }
+
+  class VerificationCode $acc {
+    - target : String
+    - codeHash : String
+    - purpose : String
+    - expiresAt : DateTime
+    - attempts : int
+    + verify(code : String) : Boolean
+    + isExpired() : Boolean
+  }
+
+  class Category $cat {
+    - categoryId : String
+    - name : String
+    - slug : String
+    - description : String
+  }
+
+  class Product $cat {
+    - productId : String
+    - sku : String
+    - name : String
+    - brand : String
+    - origin : String
+    - unit : String
+    - weightKg : Decimal
+    - price : Money
+    - storageCondition : StorageCondition
+    - stockQty : int
+    - lowStockThreshold : int
+    - description : String
+    - ingredients : String
+    - usageGuide : String
+    - isVisible : Boolean
+    - rating : Decimal
+    + getUnitPrice(qty : int) : Money
+    + isInStock() : Boolean
+    + isLowStock() : Boolean
+    + requiresColdChain() : Boolean
+    + addTier(tier : WholesaleTier) : void
+    + increaseStock(qty : int) : void
+  }
+
+  class WholesaleTier $cat {
+    - minQty : int
+    - price : Money
+    - discountPercent : Decimal
+  }
+
+  class ProductBatch $cat {
+    - batchNumber : String
+    - quantity : int
+    - expiryDate : Date
+    - zone : StorageCondition
+    + getDaysRemaining() : int
+    + getExpiryStatus() : String
+  }
+
+  class StockTransaction $cat {
+    - code : String
+    - date : DateTime
+    - type : String
+    - partnerName : String
+    - totalAmount : Money
+    + addBatch(batch : ProductBatch, qty : int) : void
+  }
+
+  class RecipeBundle $cat {
+    - bundleId : String
+    - name : String
+    - difficulty : String
+    - prepTime : String
+    - servings : String
+    - instructions : String[*]
+    + getItems() : Product[*]
+    + isAvailable() : Boolean
+  }
+
+  class Review $cat {
+    - reviewId : String
+    - rating : int
+    - content : String
+    - createdAt : DateTime
+    - isVerified : Boolean
+  }
+
+  class Cart $sales {
+    - cartId : String
+    - updatedAt : DateTime
+    - discountAmount : Money
+    + addItem(product : Product, qty : int) : void
+    + updateQuantity(itemId : String, qty : int) : void
+    + getItems() : CartItem[*]
+    + removeItem(itemId : String) : void
+    + applyVoucher(v : Voucher, discount : Money) : void
+    + recalculate() : void
+    + getSummary() : CartSummary
+    + clear() : void
+  }
+
+  class CartItem $sales {
+    - quantity : int
+    - unitPrice : Money
+    + getLineTotal() : Money
+  }
+
+  class Order $sales {
+    - orderId : String
+    - orderNumber : String
+    - createdAt : DateTime
+    - recipientName : String
+    - recipientPhone : String
+    - shippingAddress : String
+    - shippingMethod : ShippingMethod
+    - subtotal : Money
+    - shippingFee : Money
+    - coldPackagingFee : Money
+    - discountAmount : Money
+    - totalAmount : Money
+    - status : OrderStatus
+    - paymentStatus : PaymentStatus
+    - requiresColdChain : Boolean
+    + calculateTotal() : Money
+    + canCancel() : Boolean
+    + getStatusHistory() : OrderStatusHistory[*]
+    + updateStatus(s : OrderStatus, by : Account) : void
+    + setPaymentStatus(s : PaymentStatus) : void
+  }
+
+  class OrderItem $sales {
+    - productName : String
+    - sku : String
+    - unitPrice : Money
+    - quantity : int
+    - lineTotal : Money
+  }
+
+  class OrderStatusHistory $sales {
+    - status : OrderStatus
+    - changedAt : DateTime
+    - changedBy : String
+    - note : String
+  }
+
+  class Payment $sales {
+    - paymentId : String
+    - method : PaymentMethod
+    - amount : Money
+    - status : PaymentStatus
+    - transactionNo : String
+    - paidAt : DateTime
+    + markPaid(transactionNo : String) : void
+    + markFailed(reason : String) : void
+  }
+
+  class VatInvoiceRequest $sales {
+    - companyName : String
+    - taxCode : String
+    - companyAddress : String
+    - invoiceEmail : String
+  }
+
+  class Voucher $sales {
+    - code : String
+    - type : VoucherType
+    - value : Decimal
+    - minOrderValue : Money
+    - maxDiscount : Money
+    - usageCount : int
+    - usageLimit : int
+    - startDate : Date
+    - endDate : Date
+    - isActive : Boolean
+    + isValid(orderValue : Money) : Boolean
+    + calculateDiscount(orderValue : Money) : Money
+    + activate() : void
+    + deactivate() : void
+    + increaseUsage() : void
+  }
+
+  class DeliveryTrip $sales {
+    - tripCode : String
+    - driverName : String
+    - plateNumber : String
+    - status : String
+    - departureTime : DateTime
+    + assignOrder(order : Order) : void
+    + getLatestTemperature() : Decimal
+  }
+
+  class TemperatureLog $sales {
+    - time : DateTime
+    - sensorId : String
+    - temperature : Decimal
+    - status : String
+  }
+
+  class SystemSetting $sales {
+    - standardShippingFee : Money
+    - coldChainShippingFee : Money
+    - coldPackFee : Money
+    - freeShippingThreshold : Money
+    + getShippingFee(m : ShippingMethod) : Money
+  }
+
+  enum AccountStatus $enum {
+    ACTIVE
+    PENDING_APPROVAL
+    REJECTED
+    LOCKED
+    INVITED
+    SUSPENDED
+  }
+  enum CustomerType $enum {
+    RETAIL
+    WHOLESALE
+  }
+  enum StorageCondition $enum {
+    AMBIENT
+    CHILLED
+    FROZEN
+  }
+  enum OrderStatus $enum {
+    PENDING
+    CONFIRMED
+    PACKING
+    SHIPPING
+    DELIVERED
+    CANCELLED
+  }
+  enum ShippingMethod $enum {
+    STANDARD
+    COLD_CHAIN
+    STORE_PICKUP
+  }
+  enum PaymentMethod $enum {
+    VNPAY_QR
+    MOMO
+    BANK_TRANSFER
+    COD
+  }
+  enum PaymentStatus $enum {
+    UNPAID
+    PAID
+    FAILED
+  }
+  enum VoucherType $enum {
+    FIXED
+    PERCENT
+    FREE_SHIPPING
+  }
+
+' ---------------- relationships ----------------
+Account <|-- Customer
+Account <|-- StaffMember
+Customer "1" *-- "0..1" BusinessProfile
+Customer "1" *-- "0..*" Address
+StaffMember "0..*" --> "1" Role : has
+Role "0..*" --> "0..*" Permission : grants
+StaffMember "0..*" --> "0..1" StoreBranch : works at
+
+Category "1" o-- "0..*" Product
+Product "1" *-- "0..*" WholesaleTier : tier prices
+Product "1" *-- "0..*" ProductBatch : batches
+StockTransaction "1" --> "1..*" ProductBatch : records
+StaffMember "1" -- "0..*" StockTransaction : creates
+RecipeBundle "0..*" o-- "1..*" Product : ingredients
+Customer "1" -- "0..*" Review : writes
+Review "0..*" --> "1" Product : about
+Customer "0..*" -- "0..*" Product : wishlist
+
+Customer "1" -- "0..1" Cart : owns
+Cart "1" *-- "0..*" CartItem
+CartItem "0..*" --> "1" Product
+Cart "0..*" --> "0..1" Voucher : applies
+
+Customer "1" -- "0..*" Order : places
+Order "1" *-- "1..*" OrderItem
+OrderItem "0..*" --> "1" Product
+Order "1" *-- "1..*" OrderStatusHistory : history
+Order "1" -- "1..*" Payment
+Order "1" *-- "0..1" VatInvoiceRequest
+Order "0..*" --> "0..1" Voucher : uses
+Order "0..*" -- "0..1" DeliveryTrip : delivered by
+DeliveryTrip "1" *-- "0..*" TemperatureLog
+Order "0..*" --> "0..1" StoreBranch : pick-up at
+' ---- view filter (generated by tools/class_views.py) ----
+remove *
+restore $sales
+restore OrderStatus
+restore ShippingMethod
+restore PaymentMethod
+restore PaymentStatus
+restore VoucherType
+restore Customer
+restore Product
+restore StoreBranch
+restore Account
+hide Customer members
+hide Product members
+hide StoreBranch members
+hide Account members
+hide Customer circle
+hide Product circle
+hide StoreBranch circle
+hide Account circle
+@enduml

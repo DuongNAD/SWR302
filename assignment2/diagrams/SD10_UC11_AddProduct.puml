@@ -1,0 +1,67 @@
+@startuml SD10_UC11_AddProduct
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD10 - UC11 Manage products: add a product with tiered wholesale prices
+actor "Admin" as A
+boundary ":ProductFormPage\n(SCR-A05)" as UI
+control ":AdminProductController" as C
+entity ":Category" as CAT
+entity ":Product" as P
+entity ":WholesaleTier" as T
+
+A -> UI : open "Sản phẩm" > "Thêm sản phẩm mới"
+activate UI
+UI -> C : getCategories()
+activate C
+C -> CAT : findAll()
+CAT --> C : categories
+C --> UI : categories
+deactivate C
+UI --> A : show the empty product form
+A -> UI : enter name, SKU, category, brand, origin, unit, weight,\nstorage condition, description, ingredients, usage guide,\nimage, retail price, visibility
+loop for each price tier
+  A -> UI : add a tier (minimum quantity, tier price)
+end
+A -> UI : click "Lưu sản phẩm"
+UI -> UI : validateForm()
+alt A1: name or SKU is missing
+  UI --> A : show the error on the field
+else form is valid
+  UI -> C : createProduct(data)
+  activate C
+  C -> P : existsBySku(sku)
+  P --> C : true / false
+  alt SKU is already used
+    C --> UI : error DUPLICATE_SKU
+    UI --> A : show the error on the SKU field
+  else SKU is new
+    C -> P : create(data)
+    P --> C : product
+    loop for each tier
+      C -> T ** : create(minQty, price)
+      C -> P : addTier(tier)
+    end
+    note right of P
+      BR-02: tiers are sorted by minQty and
+      the price goes down when the quantity goes up
+    end note
+    C --> UI : product saved
+    UI --> A : show "Đã thêm sản phẩm", return to the list
+  end
+  deactivate C
+end
+deactivate UI
+@enduml

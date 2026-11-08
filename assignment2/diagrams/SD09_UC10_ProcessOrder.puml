@@ -1,0 +1,70 @@
+@startuml SD09_UC10_ProcessOrder
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD09 - UC10 Process orders (cold-chain order)
+actor "Admin" as A
+boundary ":OrderListPage\n(SCR-A02)" as LP
+boundary ":OrderDetailPage\n(SCR-A03)" as DP
+control ":AdminOrderController" as C
+entity ":Order" as O
+entity ":OrderStatusHistory" as H
+entity ":DeliveryTrip" as T
+
+A -> LP : open "Đơn hàng", tab "Chờ xác nhận",\nfilter "Xe lạnh"
+activate LP
+LP -> C : getOrders(PENDING, COLD_CHAIN, keyword)
+activate C
+C -> O : search(criteria)
+O --> C : orders
+C --> LP : order list
+deactivate C
+LP --> A : show the orders
+A -> LP : open an order
+LP -> DP : open(orderId)
+activate DP
+DP -> C : getOrderDetail(orderId)
+activate C
+C -> O : findById(orderId)
+O --> C : items, customer, delivery, payment, VAT request
+C --> DP : order detail
+deactivate C
+DP --> A : show the order and the packing checklist
+loop until the order is DELIVERED or CANCELLED (BR-08)
+  opt next status is SHIPPING and the order needs the cold chain (BR-01)
+    A -> DP : tick insulated box, gel packs,\ntemperature sensor, seal
+    DP -> DP : enable the hand-over button\nonly when all items are ticked
+  end
+  A -> DP : click the primary action\n(Xác nhận > Đóng gói > Giao xe lạnh > Hoàn tất)
+  DP -> C : advanceStatus(orderId)
+  activate C
+  C -> O : updateStatus(nextStatus, admin)
+  activate O
+  O -> H ** : create(nextStatus, admin, now)
+  deactivate O
+  opt nextStatus = SHIPPING
+    C -> T : assignOrder(order)
+  end
+  C --> DP : updated order and status history
+  deactivate C
+  DP --> A : show the new status and the history
+end
+opt print documents
+  A -> DP : click "In phiếu xuất kho" or "In hóa đơn VAT"
+  DP --> A : print preview
+end
+deactivate DP
+deactivate LP
+@enduml

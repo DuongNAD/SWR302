@@ -1,0 +1,67 @@
+@startuml SD02_UC08_Login
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD02 - UC08 Log in
+actor "User / Admin" as U
+boundary ":LoginPage\n(SCR-12)" as UI
+control ":AuthController" as C
+entity ":Account" as ACC
+
+U -> UI : open "Đăng nhập"
+activate UI
+U -> UI : enter e-mail or phone and password,\ntick "Ghi nhớ đăng nhập"
+U -> UI : click "Đăng nhập"
+UI -> C : login(identifier, password, remember)
+activate C
+C -> ACC : findByIdentifier(identifier)
+ACC --> C : account or null
+alt A1: no account with this e-mail / phone
+  C --> UI : error INVALID_CREDENTIALS
+  UI --> U : show "Sai thông tin đăng nhập"
+else account found
+  C -> ACC : isLocked()
+  ACC --> C : true / false
+  alt account is locked (BR-03)
+    C --> UI : error ACCOUNT_LOCKED(lockedUntil)
+    UI --> U : show "Tài khoản tạm khóa 15 phút"
+  else account is not locked
+    C -> ACC : authenticate(password)
+    ACC --> C : true / false
+    alt A1: wrong password
+      C -> ACC : recordFailedLogin()
+      opt failedLoginCount reaches 5 (BR-03)
+        C -> ACC : lock(15)
+      end
+      C --> UI : error INVALID_CREDENTIALS
+      UI --> U : show "Sai thông tin đăng nhập"
+    else password is correct
+      C -> ACC : resetFailedLogins()
+      C -> C : createSession(account, remember)
+      C --> UI : session, role
+      alt role = Admin
+        UI --> U : open the administration console (SCR-A01)
+      else role = Customer
+        UI --> U : open the storefront (previous page)
+      end
+    end
+  end
+end
+deactivate C
+deactivate UI
+note over U, ACC
+  A2 "Quên mật khẩu?": the user enters an e-mail on SCR-14 and receives a reset link.
+end note
+@enduml

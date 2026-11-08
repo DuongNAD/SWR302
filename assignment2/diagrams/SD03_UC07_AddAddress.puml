@@ -1,0 +1,53 @@
+@startuml SD03_UC07_AddAddress
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD03 - UC07 Manage personal account: add a delivery address
+actor "User\n(logged in)" as U
+boundary ":AddressBookPage\n(SCR-17)" as UI
+control ":AccountController" as C
+entity ":Customer" as CUS
+entity ":Address" as ADR
+
+U -> UI : open "Tài khoản" > "Sổ địa chỉ"
+activate UI
+UI -> C : getAddresses(customerId)
+activate C
+C -> CUS : getAddresses()
+CUS --> C : saved addresses
+C --> UI : address list
+deactivate C
+UI --> U : show the address book
+U -> UI : click "Thêm địa chỉ mới"
+U -> UI : enter label, recipient, phone, street, city;\ntick "Đặt làm địa chỉ mặc định"
+U -> UI : click "Lưu địa chỉ"
+UI -> UI : validateForm()
+alt A1: invalid data (empty field, wrong phone format)
+  UI --> U : show the error, nothing is saved
+else data is valid
+  UI -> C : addAddress(customerId, data)
+  activate C
+  C -> ADR ** : create(data)
+  C -> CUS : addAddress(address)
+  opt "default address" is ticked
+    C -> CUS : setDefaultAddress(addressId)
+    note right of CUS : the previous default\naddress is unset
+  end
+  C --> UI : updated address list
+  deactivate C
+  UI --> U : show "Đã lưu địa chỉ" and the new list
+end
+deactivate UI
+@enduml

@@ -1,33 +1,31 @@
 # 🔄 SƠ ĐỒ HOẠT ĐỘNG (ACTIVITY DIAGRAMS)
-### Quy trình nghiệp vụ cốt lõi: Đặt lịch và Thanh toán
 
-```mermaid
-flowchart TD
-    Start((● Bắt đầu)) --> Browse[Khách hàng tìm kiếm dịch vụ & chọn khung giờ]
-    Browse --> CheckSlot{Khung giờ còn trống?}
+> **Đề tài:** Topic 1 — Hệ thống mua sắm nguyên liệu và thiết bị làm bánh trực tuyến (Gia Hòa Phát Bakery Supply)
+> **Khớp với:** SRS_BakeCraft_v1.0 (luồng chính và luồng thay thế của use case, quy tắc BR-01–BR-09)
+> **Mã nguồn sơ đồ:** [`assignment2/diagrams/AD*.puml`](../../assignment2/diagrams) (PlantUML)
 
-    CheckSlot -- Không --> AlertSlot[Hiển thị cảnh báo slot đã kín & gợi ý giờ khác]
-    AlertSlot --> Browse
+Ba quy trình nghiệp vụ cốt lõi, mỗi sơ đồ chia làn (swimlane) theo người hoặc hệ thống thực hiện từng bước. Hình thoi là điểm rẽ nhánh hoặc gộp nhánh; vòng quay lại là bước được làm lại cho tới khi đạt điều kiện.
 
-    CheckSlot -- Có --> LockSlot[Hệ thống khóa tạm thời slot trong 10 phút]
-    LockSlot --> InputInfo[Khách hàng xác nhận thông tin & chọn thanh toán]
+| Mã | Quy trình | Use case | Quy tắc nghiệp vụ |
+| :---: | :--- | :--- | :--- |
+| AD01 | Giỏ hàng, đặt hàng và thanh toán | UC04, UC05 | BR-01, BR-02, BR-05 |
+| AD02 | Xử lý đơn và giao hàng chuỗi lạnh | UC10, UC06 | BR-01, BR-08, BR-09 |
+| AD03 | Đăng ký tài khoản và duyệt khách sỉ | UC01, UC14 | BR-03, BR-04 |
 
-    InputInfo --> ApplyVoucher{Có mã giảm giá?}
-    ApplyVoucher -- Có --> ValidateVoucher[Hệ thống kiểm tra & tính toán chiết khấu]
-    ApplyVoucher -- Không --> SelectGateway[Chọn cổng thanh toán VNPay / MoMo]
-    ValidateVoucher --> SelectGateway
+## AD01 — Giỏ hàng, đặt hàng và thanh toán
 
-    SelectGateway --> RedirectGateway[Chuyển hướng sang cổng thanh toán]
-    RedirectGateway --> ProcessPayment{Khách hàng xác thực thanh toán}
+Giỏ hàng tự áp giá sỉ bậc thang và phí đóng thùng lạnh. Voucher chỉ được trừ khi hợp lệ. Thanh toán qua 3 bước và chỉ tạo đơn khi đủ thông tin. Nếu thanh toán trực tuyến thất bại, khách được thử lại hoặc đổi phương thức (luồng A2 của UC05).
 
-    ProcessPayment -- Thất bại / Hủy --> TimeoutCheck{Hết 10 phút khóa slot?}
-    TimeoutCheck -- Chưa --> RetryPayment[Chọn lại phương thức thanh toán]
-    RetryPayment --> SelectGateway
-    TimeoutCheck -- Đã hết hạn --> ReleaseSlot[Hệ thống mở khóa slot & hủy đơn]
-    ReleaseSlot --> EndFail((○ Kết thúc thất bại))
+![AD01 - Giỏ hàng, đặt hàng và thanh toán](../../assignment2/diagrams/AD01_Checkout.png)
 
-    ProcessPayment -- Thành công --> RecordDB[Hệ thống ghi nhận đơn, cập nhật trạng thái 'Đã thanh toán']
-    RecordDB --> SendNoti[Gửi Email/SMS xác nhận kèm Booking ID]
-    SendNoti --> NotifyProvider[Bắn thông báo có lịch hẹn mới cho Provider]
-    NotifyProvider --> EndSuccess(((◉ Kết thúc thành công)))
-```
+## AD02 — Xử lý đơn và giao hàng chuỗi lạnh
+
+Đơn đi theo đúng thứ tự trạng thái của BR-08. Khách chỉ hủy được khi đơn còn "Chờ xác nhận" hoặc "Đã xác nhận". Kho lấy hàng theo lô hết hạn trước (FEFO). Đơn có hàng mát hoặc đông phải đánh dấu đủ 4 mục đóng thùng lạnh trước khi bàn giao. Trong lúc giao, nhiệt độ thùng trên 8 °C sẽ phát cảnh báo.
+
+![AD02 - Xử lý đơn và giao hàng chuỗi lạnh](../../assignment2/diagrams/AD02_OrderFulfilment.png)
+
+## AD03 — Đăng ký tài khoản và duyệt khách sỉ
+
+Mọi tài khoản mới đều phải xác thực OTP (6 số, hiệu lực 5 phút). Tài khoản lẻ dùng được ngay. Tài khoản sỉ ở trạng thái "Chờ duyệt" cho tới khi quản trị viên duyệt hồ sơ doanh nghiệp, sau đó mới được áp giá sỉ và điền sẵn hóa đơn VAT.
+
+![AD03 - Đăng ký tài khoản và duyệt khách sỉ](../../assignment2/diagrams/AD03_RegisterWholesale.png)

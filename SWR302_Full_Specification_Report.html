@@ -928,38 +928,36 @@ Warehouse --> UC_OrderMgt
 <!-- FILE: activity_diagrams.md -->
 
 # 🔄 SƠ ĐỒ HOẠT ĐỘNG (ACTIVITY DIAGRAMS)
-### Quy trình nghiệp vụ cốt lõi: Đặt lịch và Thanh toán
 
-\`\`\`mermaid
-flowchart TD
-    Start((● Bắt đầu)) --> Browse[Khách hàng tìm kiếm dịch vụ & chọn khung giờ]
-    Browse --> CheckSlot{Khung giờ còn trống?}
+> **Đề tài:** Topic 1 — Hệ thống mua sắm nguyên liệu và thiết bị làm bánh trực tuyến (Gia Hòa Phát Bakery Supply)
+> **Khớp với:** SRS_BakeCraft_v1.0 (luồng chính và luồng thay thế của use case, quy tắc BR-01–BR-09)
+> **Mã nguồn sơ đồ:** [\`assignment2/diagrams/AD*.puml\`](../../assignment2/diagrams) (PlantUML)
 
-    CheckSlot -- Không --> AlertSlot[Hiển thị cảnh báo slot đã kín & gợi ý giờ khác]
-    AlertSlot --> Browse
+Ba quy trình nghiệp vụ cốt lõi, mỗi sơ đồ chia làn (swimlane) theo người hoặc hệ thống thực hiện từng bước. Hình thoi là điểm rẽ nhánh hoặc gộp nhánh; vòng quay lại là bước được làm lại cho tới khi đạt điều kiện.
 
-    CheckSlot -- Có --> LockSlot[Hệ thống khóa tạm thời slot trong 10 phút]
-    LockSlot --> InputInfo[Khách hàng xác nhận thông tin & chọn thanh toán]
+| Mã | Quy trình | Use case | Quy tắc nghiệp vụ |
+| :---: | :--- | :--- | :--- |
+| AD01 | Giỏ hàng, đặt hàng và thanh toán | UC04, UC05 | BR-01, BR-02, BR-05 |
+| AD02 | Xử lý đơn và giao hàng chuỗi lạnh | UC10, UC06 | BR-01, BR-08, BR-09 |
+| AD03 | Đăng ký tài khoản và duyệt khách sỉ | UC01, UC14 | BR-03, BR-04 |
 
-    InputInfo --> ApplyVoucher{Có mã giảm giá?}
-    ApplyVoucher -- Có --> ValidateVoucher[Hệ thống kiểm tra & tính toán chiết khấu]
-    ApplyVoucher -- Không --> SelectGateway[Chọn cổng thanh toán VNPay / MoMo]
-    ValidateVoucher --> SelectGateway
+## AD01 — Giỏ hàng, đặt hàng và thanh toán
 
-    SelectGateway --> RedirectGateway[Chuyển hướng sang cổng thanh toán]
-    RedirectGateway --> ProcessPayment{Khách hàng xác thực thanh toán}
+Giỏ hàng tự áp giá sỉ bậc thang và phí đóng thùng lạnh. Voucher chỉ được trừ khi hợp lệ. Thanh toán qua 3 bước và chỉ tạo đơn khi đủ thông tin. Nếu thanh toán trực tuyến thất bại, khách được thử lại hoặc đổi phương thức (luồng A2 của UC05).
 
-    ProcessPayment -- Thất bại / Hủy --> TimeoutCheck{Hết 10 phút khóa slot?}
-    TimeoutCheck -- Chưa --> RetryPayment[Chọn lại phương thức thanh toán]
-    RetryPayment --> SelectGateway
-    TimeoutCheck -- Đã hết hạn --> ReleaseSlot[Hệ thống mở khóa slot & hủy đơn]
-    ReleaseSlot --> EndFail((○ Kết thúc thất bại))
+![AD01 - Giỏ hàng, đặt hàng và thanh toán](assignment2/diagrams/AD01_Checkout.png)
 
-    ProcessPayment -- Thành công --> RecordDB[Hệ thống ghi nhận đơn, cập nhật trạng thái 'Đã thanh toán']
-    RecordDB --> SendNoti[Gửi Email/SMS xác nhận kèm Booking ID]
-    SendNoti --> NotifyProvider[Bắn thông báo có lịch hẹn mới cho Provider]
-    NotifyProvider --> EndSuccess(((◉ Kết thúc thành công)))
-\`\`\`
+## AD02 — Xử lý đơn và giao hàng chuỗi lạnh
+
+Đơn đi theo đúng thứ tự trạng thái của BR-08. Khách chỉ hủy được khi đơn còn "Chờ xác nhận" hoặc "Đã xác nhận". Kho lấy hàng theo lô hết hạn trước (FEFO). Đơn có hàng mát hoặc đông phải đánh dấu đủ 4 mục đóng thùng lạnh trước khi bàn giao. Trong lúc giao, nhiệt độ thùng trên 8 °C sẽ phát cảnh báo.
+
+![AD02 - Xử lý đơn và giao hàng chuỗi lạnh](assignment2/diagrams/AD02_OrderFulfilment.png)
+
+## AD03 — Đăng ký tài khoản và duyệt khách sỉ
+
+Mọi tài khoản mới đều phải xác thực OTP (6 số, hiệu lực 5 phút). Tài khoản lẻ dùng được ngay. Tài khoản sỉ ở trạng thái "Chờ duyệt" cho tới khi quản trị viên duyệt hồ sơ doanh nghiệp, sau đó mới được áp giá sỉ và điền sẵn hóa đơn VAT.
+
+![AD03 - Đăng ký tài khoản và duyệt khách sỉ](assignment2/diagrams/AD03_RegisterWholesale.png)
 
 
 ---
@@ -967,134 +965,173 @@ flowchart TD
 <!-- FILE: sequence_diagrams.md -->
 
 # ⚡ SƠ ĐỒ TRÌNH TỰ (SEQUENCE DIAGRAMS)
-### Nghiệp vụ: Xác thực thanh toán trực tuyến qua Webhook
 
-\`\`\`mermaid
-sequenceDiagram
-    autonumber
-    actor User as Khách Hàng
-    participant UI as Giao Diện Web/App
-    participant API as Backend Server
-    participant DB as Cơ Sở Dữ Liệu
-    participant GW as Cổng Thanh Toán (VNPay)
+> **Đề tài:** Topic 1 — Hệ thống mua sắm nguyên liệu và thiết bị làm bánh trực tuyến (Gia Hòa Phát Bakery Supply)
+> **Khớp với:** SRS_BakeCraft_v1.0 (UC01–UC15, BR-01–BR-09), [sơ đồ lớp](domain_model.md) và màn hình SCR-xx của prototype
+> **Mã nguồn sơ đồ:** [\`assignment2/diagrams/SD*.puml\`](../../assignment2/diagrams) (PlantUML)
 
-    User->>UI: Bấm nút "Thanh toán ngay"
-    UI->>API: POST /api/bookings/{id}/checkout
-    activate API
-    API->>DB: Kiểm tra trạng thái đơn & Khóa slot (Lock)
-    DB-->>API: Trả về trạng thái hợp lệ
-    API->>GW: Gửi yêu cầu khởi tạo thanh toán (OrderID, Amount, Checksum)
-    activate GW
-    GW-->>API: Trả về Payment URL
-    deactivate GW
-    API-->>UI: Redirect URL sang trang thanh toán
-    deactivate API
+Mỗi use case có đúng một sơ đồ trình tự, tổng cộng 15 sơ đồ (SD01–SD15). Mỗi thành viên phụ trách 3 sơ đồ, không trùng nhau.
 
-    UI->>User: Hiển thị cổng thanh toán VNPay
-    User->>GW: Nhập OTP / Quét mã QR thanh toán
-    activate GW
-    GW->>GW: Xử lý trừ tiền tài khoản ngân hàng
-    GW-->>API: Gửi Webhook/IPN xác nhận giao dịch (Signature, Status: SUCCESS)
-    deactivate GW
+## Quy ước
 
-    activate API
-    API->>API: Xác thực chữ ký điện tử HMAC-SHA512
-    alt Chữ ký hợp lệ & Giao dịch thành công
-        API->>DB: Cập nhật Booking Status = 'CONFIRMED'
-        API->>DB: Lưu lịch sử giao dịch (Transaction Log)
-        API-->>GW: Phản hồi HTTP 200 OK (Đã nhận IPN)
-        API->>UI: Gửi thông báo WebSocket / Push Noti
-        UI-->>User: Hiển thị màn hình "Đặt lịch thành công!"
-    else Chữ ký không hợp lệ hoặc lỗi
-        API-->>GW: Phản hồi HTTP 400 Bad Request
-        API->>DB: Ghi log cảnh báo bảo mật
-    end
-    deactivate API
-\`\`\`
+- Đường đời theo mẫu Boundary – Control – Entity: «boundary» là màn hình của prototype (mã SCR-xx trong SRS), «control» là bộ điều khiển xử lý use case, «entity» là lớp trong [sơ đồ lớp](domain_model.md), «system» là hệ thống bên ngoài.
+- Thông điệp được đánh số. Mũi tên liền là lời gọi, mũi tên nét đứt là giá trị trả về, đầu mũi tên mở là thông điệp bất đồng bộ. \`create(...)\` tạo đối tượng mới (đường đời bắt đầu tại thông điệp đó).
+- Khối \`alt\` là các nhánh rẽ (A1, A2… đánh số theo luồng thay thế trong SRS), \`opt\` là phần không bắt buộc, \`loop\` là vòng lặp, \`group «include»\` là use case được bao hàm.
+
+## Danh sách sơ đồ
+
+| Mã | Use case | Kịch bản | Luồng thay thế | Phụ trách |
+| :---: | :--- | :--- | :--- | :---: |
+| SD01 | UC01 Đăng ký tài khoản | Khách đăng ký tài khoản lẻ, xác thực OTP | A1 sai dữ liệu, A2 sai hoặc hết hạn OTP, A3 đã đăng ký | Thành viên 1 |
+| SD02 | UC08 Đăng nhập | Đăng nhập, chuyển tới cửa hàng hoặc trang quản trị theo vai trò | A1 sai thông tin, tài khoản bị khóa sau 5 lần sai | Thành viên 1 |
+| SD03 | UC07 Quản lý tài khoản cá nhân | Thêm địa chỉ nhận hàng, đặt làm mặc định | A1 dữ liệu không hợp lệ | Thành viên 1 |
+| SD04 | UC02 Tìm kiếm và xem sản phẩm | Gợi ý tìm kiếm, lọc, sắp xếp, xem chi tiết sản phẩm | A1 không có kết quả | Thành viên 2 |
+| SD05 | UC03 Xem combo công thức | Bỏ nguyên liệu đã có, thêm phần còn lại vào giỏ | A1 chưa đăng nhập | Thành viên 2 |
+| SD06 | UC04 Quản lý giỏ hàng | Đổi số lượng (giá sỉ, phí đóng thùng lạnh), áp dụng voucher | A1 voucher không hợp lệ, A2 giỏ trống | Thành viên 2 |
+| SD07 | UC05 Đặt hàng và thanh toán | Thanh toán 3 bước, giao xe lạnh, trả bằng mã QR VNPay | A1 thiếu thông tin, A2 thanh toán thất bại | Thành viên 3 |
+| SD08 | UC06 Theo dõi đơn hàng | Khách tra cứu đơn bằng mã đơn và số điện thoại, xem hành trình, hủy đơn | A1 không tìm thấy, A2 không còn hủy được | Thành viên 3 |
+| SD09 | UC10 Xử lý đơn hàng | Lọc đơn, đánh dấu đủ các mục đóng thùng lạnh, chuyển trạng thái tới khi giao xong | Đơn bị hủy (A1) | Thành viên 3 |
+| SD10 | UC11 Quản lý sản phẩm và danh mục | Thêm sản phẩm mới kèm bảng giá sỉ | A1 thiếu tên hoặc SKU, trùng SKU | Thành viên 4 |
+| SD11 | UC12 Quản lý kho và hạn dùng | Tạo phiếu nhập kho, xem lô theo FEFO và cảnh báo hạn dùng | A1 số lượng hoặc hạn dùng sai | Thành viên 4 |
+| SD12 | UC13 Quản lý khuyến mãi | Lọc, tạo mới và tạm dừng voucher | A1 trùng mã hoặc giá trị sai | Thành viên 4 |
+| SD13 | UC09 Xem tổng quan và báo cáo | Xem bảng điều khiển, đổi kỳ thống kê, xuất báo cáo CSV | A1 không có dữ liệu | Thành viên 5 |
+| SD14 | UC14 Quản lý khách hàng | Duyệt hoặc từ chối tài khoản khách sỉ | A1 từ chối | Thành viên 5 |
+| SD15 | UC15 Quản lý nhân viên và cài đặt | Mời nhân viên, cập nhật quyền của vai trò | A1 e-mail sai hoặc đã dùng | Thành viên 5 |
+
+## SD01 — UC01 Đăng ký tài khoản
+
+![SD01](assignment2/diagrams/SD01_UC01_Register.png)
+
+## SD02 — UC08 Đăng nhập
+
+![SD02](assignment2/diagrams/SD02_UC08_Login.png)
+
+## SD03 — UC07 Quản lý tài khoản cá nhân: thêm địa chỉ
+
+![SD03](assignment2/diagrams/SD03_UC07_AddAddress.png)
+
+## SD04 — UC02 Tìm kiếm và xem sản phẩm
+
+![SD04](assignment2/diagrams/SD04_UC02_SearchProducts.png)
+
+## SD05 — UC03 Xem combo công thức và thêm nguyên liệu vào giỏ
+
+![SD05](assignment2/diagrams/SD05_UC03_RecipeCombo.png)
+
+## SD06 — UC04 Quản lý giỏ hàng
+
+![SD06](assignment2/diagrams/SD06_UC04_ManageCart.png)
+
+## SD07 — UC05 Đặt hàng và thanh toán
+
+Sơ đồ dài nên được chia làm hai phần: bước 1–2 và bước 3.
+
+![SD07 phần 1](assignment2/diagrams/SD07_UC05_PlaceOrder.png)
+
+![SD07 phần 2](assignment2/diagrams/SD07_UC05_PlaceOrder_001.png)
+
+## SD08 — UC06 Theo dõi và hủy đơn hàng
+
+![SD08](assignment2/diagrams/SD08_UC06_TrackOrder.png)
+
+## SD09 — UC10 Xử lý đơn hàng
+
+![SD09](assignment2/diagrams/SD09_UC10_ProcessOrder.png)
+
+## SD10 — UC11 Thêm sản phẩm kèm bảng giá sỉ
+
+![SD10](assignment2/diagrams/SD10_UC11_AddProduct.png)
+
+## SD11 — UC12 Nhập kho và cảnh báo hạn dùng
+
+![SD11](assignment2/diagrams/SD11_UC12_StockReceipt.png)
+
+## SD12 — UC13 Tạo và tạm dừng voucher
+
+![SD12](assignment2/diagrams/SD12_UC13_CreateVoucher.png)
+
+## SD13 — UC09 Xem tổng quan và báo cáo
+
+![SD13](assignment2/diagrams/SD13_UC09_Reports.png)
+
+## SD14 — UC14 Duyệt tài khoản khách sỉ
+
+![SD14](assignment2/diagrams/SD14_UC14_ApproveWholesale.png)
+
+## SD15 — UC15 Mời nhân viên và phân quyền
+
+![SD15](assignment2/diagrams/SD15_UC15_StaffPermissions.png)
 
 
 ---
 
 <!-- FILE: domain_model.md -->
 
-# 🏛️ MÔ HÌNH MIỀN (DOMAIN MODEL / CONCEPTUAL CLASS DIAGRAM)
+# 🏛️ MÔ HÌNH MIỀN (DOMAIN MODEL / CLASS DIAGRAM)
 
-> Mô hình lớp khái niệm thể hiện các thực thể cốt lõi trong bài toán và quan hệ giữa chúng.
+> **Đề tài:** Topic 1 — Hệ thống mua sắm nguyên liệu và thiết bị làm bánh trực tuyến (Gia Hòa Phát Bakery Supply)
+> **Khớp với:** SRS_BakeCraft_v1.0 (UC01–UC15, BR-01–BR-09) và kiểu dữ liệu của prototype (\`client/src/types\`, \`client/src/mocks\`)
+> **Mã nguồn sơ đồ:** [\`assignment2/diagrams/Class_Diagram.puml\`](../../assignment2/diagrams/Class_Diagram.puml) (PlantUML). Ba hình theo phân hệ được sinh tự động từ tệp này bằng \`assignment2/tools/build.py\`.
 
-\`\`\`mermaid
-classDiagram
-    class User {
-        +int id
-        +string email
-        +string passwordHash
-        +string fullName
-        +string phone
-        +string role
-        +string status
-        +login()
-        +updateProfile()
-    }
+Sơ đồ lớp mức phân tích: chỉ gồm các lớp thực thể (entity) của bài toán, thuộc tính, thao tác nghiệp vụ và quan hệ. Các lớp giao diện (boundary) và điều khiển (control) chỉ xuất hiện trong [sơ đồ trình tự](sequence_diagrams.md).
 
-    class Customer {
-        +string medicalHistory
-        +int loyaltyPoints
-        +string customerTier
-        +makeBooking()
-    }
+## 1. Sơ đồ lớp đầy đủ
 
-    class Provider {
-        +string specialty
-        +string bio
-        +int yearsOfExperience
-        +decimal consultationFee
-        +manageSlots()
-    }
+![Sơ đồ lớp đầy đủ](assignment2/diagrams/Class_Diagram.png)
 
-    class Service {
-        +int id
-        +string serviceName
-        +string description
-        +decimal basePrice
-        +int durationMinutes
-        +string category
-    }
+## 2. Sơ đồ theo phân hệ
 
-    class ScheduleSlot {
-        +int id
-        +date workDate
-        +time startTime
-        +time endTime
-        +string slotStatus
-    }
+Ba hình dưới đây vẽ lại các lớp trên ở cỡ lớn hơn. Lớp của phân hệ khác chỉ hiện tên để vẫn thấy được quan hệ giữa các phân hệ.
 
-    class Booking {
-        +int id
-        +string bookingCode
-        +datetime bookingDate
-        +decimal totalAmount
-        +string status
-        +cancelBooking()
-    }
+### 2.1 Tài khoản và phân quyền
 
-    class PaymentTransaction {
-        +int id
-        +string transactionNo
-        +string paymentMethod
-        +decimal amount
-        +string gatewayStatus
-        +datetime paidAt
-    }
+![Phân hệ tài khoản và phân quyền](assignment2/diagrams/Class_View_1_Accounts.png)
 
-    %% Relationships
-    User <|-- Customer : Kế thừa (Inheritance)
-    User <|-- Provider : Kế thừa (Inheritance)
-    Provider "1" -- "*" ScheduleSlot : Quản lý lịch
-    Provider "*" -- "*" Service : Cung cấp
-    Customer "1" -- "*" Booking : Đặt lịch
-    Booking "1" -- "1" ScheduleSlot : Chiếm giữ
-    Booking "1" -- "1" Service : Chọn dịch vụ
-    Booking "1" -- "1" PaymentTransaction : Có hóa đơn thanh toán
-\`\`\`
+### 2.2 Danh mục sản phẩm và kho
+
+![Phân hệ danh mục sản phẩm và kho](assignment2/diagrams/Class_View_2_Catalogue.png)
+
+### 2.3 Bán hàng, thanh toán và giao hàng
+
+![Phân hệ bán hàng, thanh toán và giao hàng](assignment2/diagrams/Class_View_3_Sales.png)
+
+## 3. Các lớp chính
+
+| Phân hệ | Lớp | Vai trò |
+| :--- | :--- | :--- |
+| Tài khoản | \`Account\` (trừu tượng) | Dữ liệu đăng nhập chung và quy tắc khóa tài khoản; lớp cha của \`Customer\` và \`StaffMember\` |
+| | \`Customer\`, \`Address\`, \`BusinessProfile\` | Khách lẻ hoặc khách sỉ; sổ địa chỉ; hồ sơ doanh nghiệp chờ duyệt |
+| | \`StaffMember\`, \`Role\`, \`Permission\`, \`StoreBranch\` | Nhân viên GHP, vai trò, ma trận phân quyền, cửa hàng làm việc |
+| | \`VerificationCode\` | Mã OTP 6 số khi đăng ký |
+| Danh mục và kho | \`Category\`, \`Product\`, \`WholesaleTier\` | Sản phẩm (nguyên liệu, thiết bị) theo danh mục, có bảng giá sỉ bậc thang |
+| | \`ProductBatch\`, \`StockTransaction\` | Lô hàng có hạn dùng (xuất theo FEFO) và phiếu nhập, xuất kho |
+| | \`RecipeBundle\`, \`Review\` | Combo công thức làm bánh; đánh giá sản phẩm |
+| Bán hàng và giao hàng | \`Cart\`, \`CartItem\`, \`Voucher\` | Giỏ hàng, dòng giỏ, mã giảm giá |
+| | \`Order\`, \`OrderItem\`, \`OrderStatusHistory\`, \`VatInvoiceRequest\` | Đơn hàng, dòng đơn (lưu lại giá lúc mua), lịch sử trạng thái, yêu cầu hóa đơn VAT |
+| | \`Payment\` | Lần thanh toán của đơn; một đơn có thể có nhiều lần nếu lần đầu thất bại |
+| | \`DeliveryTrip\`, \`TemperatureLog\` | Chuyến xe lạnh và nhật ký nhiệt độ thùng |
+| | \`SystemSetting\` | Phí vận chuyển, phí đóng thùng lạnh, ngưỡng miễn phí vận chuyển |
+
+**Kiểu liệt kê:** \`AccountStatus\`, \`CustomerType\`, \`StorageCondition\`, \`OrderStatus\`, \`ShippingMethod\`, \`PaymentMethod\`, \`PaymentStatus\`, \`VoucherType\`.
+
+## 4. Quy tắc nghiệp vụ trong mô hình
+
+| Quy tắc (SRS) | Thể hiện ở |
+| :--- | :--- |
+| BR-01 Chuỗi lạnh | \`Product.requiresColdChain()\`, \`Cart.recalculate()\` (phí đóng thùng lạnh), \`Order.coldPackagingFee\`, \`DeliveryTrip\` / \`TemperatureLog\` |
+| BR-02 Giá sỉ bậc thang | \`WholesaleTier\`, \`Product.getUnitPrice(qty)\` |
+| BR-03 OTP và khóa tài khoản | \`VerificationCode.verify()\`, \`Account.recordFailedLogin()\`, \`Account.lock()\` |
+| BR-04 Tài khoản sỉ | \`BusinessProfile\`, \`Customer.approveWholesale()\` / \`rejectWholesale()\` |
+| BR-05 Voucher | \`Voucher.isValid(orderValue)\`, \`Voucher.calculateDiscount()\` |
+| BR-06 Combo còn hàng | \`RecipeBundle.isAvailable()\` |
+| BR-08 Luồng trạng thái đơn | \`OrderStatus\`, \`Order.canCancel()\`, \`Order.updateStatus()\`, \`OrderStatusHistory\` |
+| BR-09 FEFO và cảnh báo hạn dùng | \`ProductBatch.getDaysRemaining()\`, \`ProductBatch.getExpiryStatus()\` |
+
+## 5. Quy ước
+
+- Thuộc tính để \`-\` (private), thao tác để \`+\` (public). Kiểu \`Money\` là số tiền VND (BR-07).
+- Các thao tác tìm kiếm trong sơ đồ trình tự (\`find…\`, \`search…\`, \`exists…\`, \`count…\`, \`sum…\`) là truy vấn cấp lớp, đọc đối tượng đã lưu, nên không lặp lại trong sơ đồ lớp.
+- Mọi thông điệp gửi tới lớp thực thể trong 15 sơ đồ trình tự đều là thao tác có trong sơ đồ này.
 
 
 ---

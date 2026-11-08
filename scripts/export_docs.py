@@ -182,6 +182,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 </html>
 """
 
+IMAGE_LINK = re.compile(r"(!\[[^\]]*\]\()([^)\s]+)(\))")
+
+
+def rebase_image_links(content: str, md_file: Path) -> str:
+    """Ảnh trong tệp .md dùng đường dẫn tương đối theo vị trí tệp đó (để hiện trên GitHub).
+    Báo cáo HTML nằm ở thư mục gốc, nên đổi các đường dẫn này thành đường dẫn tính từ thư mục gốc."""
+    def fix(m):
+        link = m.group(2)
+        if re.match(r"^([a-z]+:|/|#)", link):
+            return m.group(0)
+        target = (md_file.parent / link).resolve()
+        try:
+            return m.group(1) + target.relative_to(OUTPUT_FILE.parent.resolve()).as_posix() + m.group(3)
+        except ValueError:
+            return m.group(0)
+    return IMAGE_LINK.sub(fix, content)
+
+
 def main():
     print("🚀 Đang tổng hợp các tài liệu Markdown SWR302...")
     combined_md = []
@@ -189,7 +207,7 @@ def main():
     for file_path in FILES_IN_ORDER:
         if file_path.exists():
             print(f"  + Đọc: {file_path.relative_to(BASE_DIR)}")
-            content = file_path.read_text(encoding="utf-8")
+            content = rebase_image_links(file_path.read_text(encoding="utf-8"), file_path)
             combined_md.append(f"\n\n---\n\n<!-- FILE: {file_path.name} -->\n\n" + content)
         else:
             print(f"  ⚠️ Bỏ qua (không tìm thấy): {file_path.relative_to(BASE_DIR)}")

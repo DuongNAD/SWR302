@@ -1,0 +1,58 @@
+@startuml AD02_OrderFulfilment
+' Sơ đồ hoạt động cho docs/06_diagrams_models/activity_diagrams.md (UC10, UC06; BR-01, BR-08, BR-09)
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam ActivityBorderColor #333333
+skinparam SwimlaneTitleFontStyle bold
+skinparam ArrowColor #333333
+title AD02 - Quy trình xử lý đơn và giao hàng chuỗi lạnh (UC10, UC06)
+
+|Hệ thống|
+start
+:Nhận đơn mới, trạng thái "Chờ xác nhận";
+|Nhân viên (Admin)|
+:Xem chi tiết đơn, bấm "Xác nhận";
+|Hệ thống|
+:Trạng thái "Đã xác nhận", ghi lịch sử trạng thái;
+if (Khách đã hủy đơn?\n(BR-08: chỉ khi Chờ xác nhận / Đã xác nhận)) then (có)
+  :Trạng thái "Đã hủy";
+  stop
+else (không)
+endif
+|Nhân viên (Admin)|
+:Bấm "Đóng gói";
+|Hệ thống|
+:Trạng thái "Đang đóng gói";
+|Nhân viên (Admin)|
+:Lấy hàng theo lô hết hạn trước (FEFO, BR-09);
+if (Đơn có hàng mát hoặc đông? (BR-01)) then (có)
+  repeat
+    :Đánh dấu checklist: thùng xốp, đá gel,
+    cảm biến nhiệt, niêm phong;
+  repeat while (Đủ 4 mục?) is (chưa) not (đủ)
+else (không)
+endif
+:Bàn giao cho xe giao hàng;
+|Hệ thống|
+:Trạng thái "Đang giao", gắn đơn vào chuyến xe;
+if (Giao bằng xe lạnh?) then (có)
+  while (Chuyến xe chưa giao xong?) is (đang giao)
+    :Ghi nhiệt độ thùng lạnh;
+    if (Nhiệt độ > 8 °C? (BR-09)) then (có)
+      :Cảnh báo nhân viên vận hành;
+    else (không)
+    endif
+  endwhile (đã giao)
+else (không)
+endif
+|Khách hàng|
+:Nhận hàng, theo dõi hành trình trên trang đơn (UC06);
+|Nhân viên (Admin)|
+:Bấm "Hoàn tất";
+|Hệ thống|
+:Trạng thái "Đã giao";
+stop
+@enduml

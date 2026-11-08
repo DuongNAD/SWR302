@@ -1,0 +1,69 @@
+@startuml SD01_UC01_Register
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD01 - UC01 Register an account (retail customer)
+actor "User\n(Guest)" as U
+boundary ":RegisterPage\n(SCR-13)" as UI
+control ":AuthController" as C
+entity ":Customer" as CUS
+entity ":VerificationCode" as VC
+participant "E-mail / SMS\nService" as MAIL <<system>>
+
+U -> UI : open "Đăng ký", choose tab "Khách mua lẻ"
+activate UI
+U -> UI : enter full name, phone, e-mail, password
+U -> UI : click "Tiếp tục"
+UI -> UI : validateForm()
+alt A1: a required field is empty or invalid
+  UI --> U : show the error under the field (no OTP is sent)
+else form is valid
+  UI -> C : requestRegistration(form)
+  activate C
+  C -> CUS : findByPhoneOrEmail(phone, email)
+  CUS --> C : existing account or null
+  alt A3: phone or e-mail is already registered
+    C --> UI : error ACCOUNT_EXISTS
+    UI --> U : show message and a link to "Đăng nhập"
+  else new phone and e-mail
+    group <<include>> Verify OTP code
+      C -> VC ** : create(phone, REGISTER, expiresIn = 5 min)
+      C ->> MAIL : sendOtp(phone, code)
+      C --> UI : OTP sent
+      UI --> U : show the OTP step (6 digits)
+      U -> UI : enter the OTP code
+      UI -> C : verifyOtp(phone, code)
+      C -> VC : verify(code)
+      VC --> C : valid / invalid (BR-03)
+    end
+    alt A2: OTP is wrong or expired
+      C --> UI : error INVALID_OTP
+      UI --> U : show error and the button "Gửi lại mã"
+    else OTP is valid
+      C -> CUS : create(form, type = RETAIL, status = ACTIVE)
+      CUS --> C : new customer
+      C -> C : createSession(customer)
+      C --> UI : account created, session
+      UI --> U : sign the user in, open the home page
+    end
+  end
+  deactivate C
+end
+deactivate UI
+note over U, MAIL
+  Wholesale tab "Chủ tiệm bánh (Sỉ)": the form also asks for business name and tax code;
+  the account is created with status PENDING_APPROVAL until an Admin approves it (BR-04, UC14).
+end note
+@enduml

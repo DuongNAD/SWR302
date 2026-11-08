@@ -1,0 +1,46 @@
+@startuml AD03_RegisterWholesale
+' Sơ đồ hoạt động cho docs/06_diagrams_models/activity_diagrams.md (UC01, UC14; BR-03, BR-04)
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam ActivityBorderColor #333333
+skinparam SwimlaneTitleFontStyle bold
+skinparam ArrowColor #333333
+title AD03 - Quy trình đăng ký tài khoản và duyệt khách sỉ (UC01, UC14)
+
+|Khách|
+start
+:Mở "Đăng ký", chọn tab
+"Khách mua lẻ" hoặc "Chủ tiệm bánh (Sỉ)";
+repeat
+  :Nhập họ tên, số điện thoại, e-mail, mật khẩu
+  (khách sỉ nhập thêm tên doanh nghiệp, mã số thuế);
+  |Hệ thống|
+repeat while (Thiếu, sai, hoặc SĐT / e-mail đã đăng ký?) is (có: báo lỗi\nhoặc gợi ý đăng nhập) not (không)
+:Gửi mã OTP 6 số, hiệu lực 5 phút (BR-03);
+repeat
+  |Khách|
+  :Nhập mã OTP;
+  |Hệ thống|
+repeat while (OTP sai hoặc hết hạn?) is (có: nhập lại\nhoặc gửi lại mã) not (đúng)
+if (Loại tài khoản?) then (lẻ)
+  :Tạo tài khoản "Đang hoạt động", đăng nhập luôn;
+else (sỉ)
+  :Tạo tài khoản, hồ sơ doanh nghiệp "Chờ duyệt" (BR-04);
+  |Quản trị viên|
+  :Xem hồ sơ doanh nghiệp và giấy phép (UC14);
+  if (Hồ sơ đạt?) then (duyệt)
+    |Hệ thống|
+    :Chuyển thành khách sỉ: áp giá sỉ bậc thang,
+    điền sẵn thông tin hóa đơn VAT;
+  else (từ chối)
+    |Hệ thống|
+    :Giữ tài khoản lẻ, lưu lý do từ chối;
+  endif
+endif
+|Khách|
+:Mua hàng theo loại tài khoản hiện có;
+stop
+@enduml

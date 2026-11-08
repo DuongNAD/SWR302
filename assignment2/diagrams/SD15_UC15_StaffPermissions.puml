@@ -1,0 +1,76 @@
+@startuml SD15_UC15_StaffPermissions
+!theme plain
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 210
+skinparam sequence {
+  LifeLineBorderColor #777777
+  GroupBorderColor #333333
+  GroupHeaderFontStyle bold
+}
+hide footbox
+autonumber
+title SD15 - UC15 Manage staff and settings: invite staff, update role permissions
+actor "Admin" as A
+boundary ":StaffPage\n(SCR-A12)" as UI
+control ":StaffController" as C
+entity ":StaffMember" as SM
+entity ":Role" as R
+entity ":Permission" as PM
+
+A -> UI : open "Nhân viên và quyền"
+activate UI
+UI -> C : getStaff()
+activate C
+C -> SM : findAll()
+SM --> C : staff with role, store, status
+C --> UI : staff list
+deactivate C
+UI --> A : show the staff list
+A -> UI : click "Mời nhân viên", enter name, e-mail,\nrole "Kho", store
+UI -> C : inviteStaff(data)
+activate C
+C -> SM : existsByEmail(email)
+SM --> C : true / false
+alt A1: e-mail is invalid or already used
+  C --> UI : validation error
+  UI --> A : show the error on the form
+else data is valid
+  C -> R : findByName("Kho")
+  R --> C : role
+  C -> SM : create(data, role, status = INVITED)
+  SM --> C : staff member
+  C -> C : createInvitationLink(staff)
+  C --> UI : staff invited
+  UI --> A : show the new row with status "Đã mời"
+end
+deactivate C
+A -> UI : open tab "Ma trận phân quyền"
+UI -> C : getPermissionMatrix()
+activate C
+C -> R : findAll()
+R --> C : roles with their permissions
+C -> PM : findAll()
+PM --> C : permissions
+C --> UI : matrix
+deactivate C
+UI --> A : show roles x permissions
+A -> UI : tick "Kho" x "Quản lý tồn kho"
+UI -> C : updatePermission(roleId, permissionCode, granted = true)
+activate C
+C -> PM : findByCode(permissionCode)
+PM --> C : permission
+alt granted = true
+  C -> R : grant(permission)
+else granted = false
+  C -> R : revoke(permission)
+end
+C --> UI : saved
+deactivate C
+UI --> A : show "Đã cập nhật quyền"
+deactivate UI
+@enduml
